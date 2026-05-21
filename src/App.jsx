@@ -9,6 +9,8 @@ import KeywordPage from "./pages/KeywordPage";
 import ComparePage from "./pages/ComparePage";
 import TrendsPage from "./pages/TrendsPage";
 
+import LoadingPage from "./pages/LoadingPage";
+
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +28,8 @@ function App() {
             <Route path="/compare" element={<ComparePage />} />
 
             <Route path="/trends" element={<TrendsPage />} />
+
+            <Route path="/loading" element={<LoadingPage />} />
           </Routes>
         </main>
       </div>
