@@ -1,0 +1,113 @@
+.loading-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #0d2a4d 0%, #030812 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: "Pretendard", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 배경 그리드 디자인 */
+.tech-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(77, 252, 252, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 252, 252, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 0;
+}
+
+.loading-content {
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.loading-title {
+  font-size: 40px;
+  letter-spacing: 10px;
+  font-weight: 900;
+  color: #4dfcfc;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(77, 252, 252, 0.5);
+}
+
+.keyword-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  background: rgba(77, 252, 252, 0.1);
+  border: 1px solid #4dfcfc;
+  border-radius: 50px;
+  color: #4dfcfc;
+  margin-bottom: 40px;
+  font-size: 14px;
+}
+
+.loading-container-box {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.loading-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.status-msg {
+  font-size: 16px;
+  color: #ccc;
+}
+
+.percent-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: #4dfcfc;
+}
+
+/* 프로그레스 바 트랙 */
+.progress-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2e90f5, #4dfcfc);
+  border-radius: 5px;
+  position: relative;
+  transition: width 0.1s linear;
+}
+
+/* 바 끝의 빛나는 효과 */
+.fill-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  height: 100%;
+  background: #fff;
+  filter: blur(8px);
+  box-shadow: 0 0 15px #4dfcfc;
+}
+
+.loading-sub {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
+}
