@@ -6,6 +6,11 @@ import RelatedKeywords from './RelatedKeywords';
 
 import '../css/dashboard.css';
 
+const mockResult = {
+  status: '바이럴 의심',
+  score: 54.2,
+};
+
 function Dashboard({ keyword }) {
   return (
     <section className="dashboard">
@@ -32,7 +37,7 @@ function Dashboard({ keyword }) {
           </div>
         </div>
 
-        <AIAnalysis />
+        <AIAnalysis result={mockResult}/>
       </div>
     </section>
   );
