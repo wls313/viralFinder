@@ -3,14 +3,19 @@ import sys
 import urllib.request
 import json
 import pandas as pd
+from datetime import datetime, timedelta, timezone
 
 def search_keyword(keyword):
     client_id = "Or44GhFkSQ6ld3by3_tx"
     client_secret = "5fgc908_KF"
 
-    start_date = "2026-01-01"
-    end_date = "2026-05-11"
+    kor_time = timezone(timedelta(hours=9))
+    now_time = datetime.now(kor_time)
+    measurement_time = now_time - timedelta(days=90)
+    start_date = measurement_time.strftime('%Y-%m-%d')
+    end_date = now_time.strftime('%Y-%m-%d')
     time_unit = "date"
+
     url = "https://openapi.naver.com/v1/datalab/search"
 
     body = {
