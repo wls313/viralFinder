@@ -5,9 +5,11 @@ import json
 import pandas as pd
 from datetime import datetime, timedelta, timezone
 
+from key_setting import naver_client_id, naver_client_secret, naver_openapi_url
+
 def search_keyword(keyword):
-    client_id = "Or44GhFkSQ6ld3by3_tx"
-    client_secret = "5fgc908_KF"
+    client_id = naver_client_id
+    client_secret = naver_client_secret
 
     kor_time = timezone(timedelta(hours=9))
     now_time = datetime.now(kor_time)
@@ -16,7 +18,7 @@ def search_keyword(keyword):
     end_date = now_time.strftime('%Y-%m-%d')
     time_unit = "date"
 
-    url = "https://openapi.naver.com/v1/datalab/search"
+    url = naver_openapi_url
 
     body = {
         "startDate": start_date,
