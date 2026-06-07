@@ -2,10 +2,10 @@
 youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'
 
 # MySQL
-host_ip = 
-user_value = 
-password_value = 
-database_name = 
+host_ip =
+user_value =
+password_value =
+database_name =
 
 #gemini
 gemini_api_key = 'AQ.Ab8RN6JYXWKnUfRV_EwiS4TtvgQgeDN3fTM5vOZTg06QVxOP6A'

@@ -20,6 +20,7 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 MAX_VIDEOS = 300
 MAX_COMMENTS = 100
 YESTERDAY = 1
+DEFAULT_KEYWORD = "차지티"
 
 # 시간
 now_time = datetime.datetime.now(datetime.timezone.utc)
@@ -266,8 +267,7 @@ def data_upload_to_csv(filename, data_list):
     return current_update
 
 # main
-def main():
-    keyword = input("키워드를 입력하세요: ")
+def run_search(keyword):
     record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -313,6 +313,9 @@ def main():
     if current_updated >= 7:
         print(f"해당 키워드의 데이터가 {current_updated}번 업데이트 되었습니다. 충분한 데이터를 얻었기에 바이럴 판독을 시작합니다.")
         xgboost_interpretation.viral_interpretation(keyword)
+        return {"status": "success", "message": "분석 완료"}
+
+    return {"status": "success", "message": f"데이터 수집 완료(업데이트 횟수: {current_updated})"}
 
 if __name__ == "__main__":
-    main()
+    run_search(DEFAULT_KEYWORD)
