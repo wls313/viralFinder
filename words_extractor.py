@@ -1,3 +1,5 @@
+import time
+import json
 import re
 from google import genai
 from google.genai import types
@@ -16,43 +18,76 @@ commercial_pattern = [
 ]
 
 # 연관성 체크
-def AD_search(text, keyword):
-    text = str(text).strip()
-    keyword = str(keyword).strip()
-    if not text:
-        return 0
+def AD_search(comments_list, keyword):
+    if not comments_list:
+        return []
 
-    # 1단계. 키워드 검사
-    if any(word in text for word in commercial_keyword):
-        return 1
-    if any(pattern.search(text) for pattern  in commercial_pattern):
-        return 1
+    pre_filtered_results = []
+    ask_comments = []
+    gemini_indices = []
+
+    for i, text in enumerate(comments_list):
+        is_ovbious_ad = False
+
+        if any(kw in text for kw in commercial_keyword):
+            is_ovbious_ad = True
+
+        if not is_ovbious_ad:
+            for pattern in commercial_pattern:
+                if pattern.search(text):
+                    is_ovbious_ad = True
+                    break
+
+        if is_ovbious_ad:
+            pre_filtered_results.append(1)
+        else:
+            pre_filtered_results.append(0)
+            ask_comments.append(text)
+            gemini_indices.append(i)
+
+    if not ask_comments:
+        return pre_filtered_results
 
     instruction = f"""
-            너는 유튜브 스팸 및 광고, 연관성 없는 댓글을 필터링해야 해. 아래 두 가지 중 조건에 맞는 하나로 대답해.
+            너는 {len(ask_comments)}개의 댓글 중 유튜브 스팸 및 광고, 연관성 없는 댓글을 필터링해야 해. 아래 두 가지 중 조건에 맞는 하나로 대답해.
 
             1. 1: 문맥상 '{keyword}'와 무관하거나, 광고/스팸으로 추정되는 댓글인 경우
             2. 0: 문맥상 '{keyword}'와 관련있는 자연스러운 반응 혹은 일상적인 댓글인 경우
             오직 "1" 또는 "0" 중 하나의 단어로만 대답해. 다른 말을 절대로 덧붙이지 마!
         """
 
-    try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=text,
-            config=types.GenerateContentConfig(
-                system_instruction=instruction,
-                temperature=0.1 # 대답에 대한 창의성
+    for i, text in enumerate(comments_list):
+        instruction += f"[{i+1}] {text}\n"
+
+    instruction += """
+        출력 형식은 반드시 0과 1로만 구성된 JSON 배열 리스트 형태의 텍스트만 출력해(예: [0, 1, 0, 0, 1])
+        설명이나 마크다운 백틱(```)은 절대 넣지마. 배열만 출력시켜.
+    """
+
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=instruction
             )
-        )
-        result = response.text.strip()
+            res_text = response.text.strip()
 
-        if result == '1':
-            return 1
-        else:
-            return 0
+            res_text = re.sub(r'```json|```', '', res_text).strip()
 
-    except Exception as e:
-        print(f"오류-gemini API로 댓글을 판독하는 중 에러 발생 : {e}")
-        return 0;
+            ad_results = json.loads(res_text)
 
+            if len(ad_results) != len(ask_comments):
+                print(f"경고-반환된 결과 개수가 달라 다시 시도합니다...")
+                raise ValueError("오류-길이 불일치!")
+
+            for idx, gemini_result in zip(gemini_indices, ad_results):
+                pre_filtered_results[idx] = gemini_result
+
+            return pre_filtered_results
+
+        except Exception as e:
+            print(f"gemini API 지연 발생! 5초 대기 후 재시도합니다... : ({attempt+1}/{max_retries})")
+            time.sleep(5)
+
+    return pre_filtered_results

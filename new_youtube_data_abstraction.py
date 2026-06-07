@@ -7,6 +7,7 @@ import pymysql
 
 from key_setting import youtube_api_key, host_ip, user_value, password_value, database_name
 import words_extractor
+import xgboost_interpretation
 
 # 테스트용 옵션
 pd.set_option('display.width', None)
@@ -171,7 +172,7 @@ def video_stats(video_ids, record_date):
     return videos_data_list
 
 # 각 영상의 댓글
-def search_comment(video_id, record_date, comments_blacklist=None, max_result = MAX_COMMENTS):
+def search_comment(video_id, record_date, keyword, comments_blacklist=None, max_result = MAX_COMMENTS):
    if comments_blacklist is None:
        comments_blacklist = set()
 
@@ -194,46 +195,28 @@ def search_comment(video_id, record_date, comments_blacklist=None, max_result = 
            if not items:
                break
 
-           is_too_old = False
-
            for item in items:
                comment = item['snippet']['topLevelComment']['snippet']
-               comment_author = comment.get('authorDisplayName', '').strip()
                published_at = comment.get('publishedAt', '')
-               comment_text = comment.get('textDisplay', '')
 
                comment_date = datetime.datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=datetime.timezone.utc)
 
                if comment_date < measurement_time:
-                   is_too_old = True
                    break
-
-               # 가중치 추가
-               if comment_author in comments_blacklist:
-                   is_ad = 1
-               else:
-                   try:
-                       is_ad = words_extractor.AD_search(comment_text, keyword)
-                   except Exception as e:
-                       print(f"오류-댓글 광고 판별 중 오류가 발생했습니다! : {e}")
-                       is_ad = 0
 
                comments_data.append({
                    '측정기간': record_date,
                    '영상id': video_id,
                    '댓글 번호': item['id'],
-                   '캡션명': comment_author,
-                   '댓글 내용': comment_text,
+                   '캡션명': comment.get('authorDisplayName', '').strip(),
+                   '댓글 내용': comment.get('textDisplay', ''),
                    '좋아요': int(comment.get('likeCount', 0)),
                    '작성 날짜': published_at,
-                   '광고여부':is_ad
+                   '광고여부': 0
                })
 
                if len(comments_data) >= max_result:
                    break
-
-           if is_too_old or len(comments_data) >= MAX_COMMENTS:
-               break
 
            next_page_token = comments_response.get('nextPageToken')
            if not next_page_token:
@@ -243,6 +226,21 @@ def search_comment(video_id, record_date, comments_blacklist=None, max_result = 
            print(f"오류-댓글을 가져오는 중 에러 발생! 댓글을 달 수 없는 영상이거나 권한이 없습니다. : {e}")
            break
 
+   if not comments_data:
+       return []
+
+   comments_text_list = [c['댓글 내용'] for c in comments_data]
+   print(f"댓글{len(comments_text_list)}개 판독 시작...")
+
+   batch_results = words_extractor.AD_search(comments_text_list, keyword)
+   time.sleep(4)
+
+   for i in range(len(comments_data)):
+       if comments_data[i]['캡션명'] in comments_blacklist:
+           comments_data[i]['광고여부'] = 1
+       else:
+           comments_data[i]['광고여부'] = batch_results[i]
+
    return comments_data
 
 # csv에 업데이트
@@ -251,8 +249,21 @@ def data_upload_to_csv(filename, data_list):
         return
     df = pd.DataFrame(data_list)
     file_exists = os.path.exists(filename)
-    df.to_csv(filename, mode='a', header=not file_exists, index=False, encoding='utf-8-sig')
+    last_updated = 0
 
+    if file_exists:
+        try:
+            df_before = pd.read_csv(filename)
+            if '업데이트 횟수' in df_before.columns:
+                last_updated = df_before['업데이트 횟수'].max()
+        except pd.errors.EmptyDataError:
+            pass
+
+    current_update = last_updated + 1
+    df.insert(0, '업데이트 횟수', current_update)
+
+    df.to_csv(filename, mode='a', header=not file_exists, index=False, encoding='utf-8-sig')
+    return current_update
 
 # main
 def main():
@@ -273,11 +284,11 @@ def main():
 
     if not target_ids:
         print("수집할 영상이 없어 종료됩니다.")
-        return
+        return 0
 
     print("영상 데이터를 수집 및 csv에 업데이트 하는 중...")
     videos_data = video_stats(target_ids, record_date)
-    data_upload_to_csv(video_csv, videos_data)
+    current_updated = data_upload_to_csv(video_csv, videos_data)
 
     # 댓글 데이터 수집
     comments_data = []
@@ -288,6 +299,7 @@ def main():
         single_video_comments = search_comment(
             video_id = video_id,
             record_date = record_date,
+            keyword = keyword,
             comments_blacklist = comments_blacklist,
             max_result = MAX_COMMENTS
         )
@@ -297,6 +309,10 @@ def main():
     data_upload_to_csv(comments_csv, comments_data)
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
+
+    if current_updated >= 7:
+        print(f"해당 키워드의 데이터가 {current_updated}번 업데이트 되었습니다. 충분한 데이터를 얻었기에 바이럴 판독을 시작합니다.")
+        xgboost_interpretation.viral_interpretation(keyword)
 
 if __name__ == "__main__":
     main()
