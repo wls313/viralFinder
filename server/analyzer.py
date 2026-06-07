@@ -90,21 +90,27 @@ def ask_gemini_evaluation(df_result_text, keyword_name):
         ai_report = response.text
         metadata = response.candidates[0].grounding_metadata if response.candidates else None
 
-        actual_sources = []
+        source_list = []
         if metadata and metadata.grounding_chunks:
-            actual_sources.append("\n🔗 [시스템 검증 - 실시간 구글 검색 원본 출처 리스트]")
+            seen_urls = set()
             for chunk in metadata.grounding_chunks:
+                if len(source_list) >= 5:  # 딱 5개만 제한
+                    break
                 if chunk.web and chunk.web.uri:
-                    title = chunk.web.title if chunk.web.title else "관련 뉴스/페이지"
                     uri = chunk.web.uri
-                    actual_sources.append(f"- {title}: {uri}")
+                    # 중복 제거 및 주요 도메인 필터링
+                    if uri not in seen_urls and ("news" in uri or "naver" in uri or "co.kr" in uri):
+                        source_list.append({
+                            "title": chunk.web.title if chunk.web.title else "관련 보도 자료",
+                            "url": uri
+                        })
+                        seen_urls.add(uri)
 
-        if len(actual_sources) > 0:
-            final_report = ai_report + "\n" + "\n".join(actual_sources)
-        else:
-            final_report = ai_report + "\n\n🔗 [시스템 검증] 당일 특이 미디어 노출 링크가 구글 검색에 잡히지 않았습니다. 검색 쿼리를 더 구체화해 보세요."
-
-        return final_report
+        # 🎁 텍스트 문자열 대신 프론트 맞춤형 딕셔너리로 최종 리턴
+        return {
+            "summary": ai_report,
+            "verification_sources": source_list
+        }
 
     except Exception as e:
         return f"❌ 제미나이 연동 에러 발생: {e}"
