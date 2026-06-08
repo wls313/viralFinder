@@ -19,8 +19,8 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 # 설정값
 MAX_VIDEOS = 300
 MAX_COMMENTS = 100
-YESTERDAY = 1
-DEFAULT_KEYWORD = "차지티"
+YESTERDAY = 7
+DEFAULT_KEYWORD = "단소살인마"
 
 # 시간
 now_time = datetime.datetime.now(datetime.timezone.utc)
@@ -52,7 +52,7 @@ def count_videos(keyword):
 
     try:
         response = youtube.search().list(
-            q=keyword,
+            q=f'"{keyword}"',
             part='id',
             type='video',
             publishedAfter=measurement_time_iso,
@@ -95,6 +95,9 @@ def comment_count(video_ids):
 def search_videos(keyword, exclude_ids=None, max_result = 150):
     print(f"오늘 업로드 된 {keyword}와 관련된 영상을 탐색합니다...")
 
+    if exclude_ids is None:
+        exclude_ids = set()
+
     video_ids = []
     file_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_file = os.path.join(file_dir, f'youtube_{keyword}.csv')
@@ -108,11 +111,13 @@ def search_videos(keyword, exclude_ids=None, max_result = 150):
     new_video_ids = []
     next_page_token = None
 
+    keyword_clean = keyword.replace(' ', '').lower()
+
     while len(video_ids) + len(new_video_ids) < max_result:
         try:
             request = youtube.search().list(
-                part="id",
-                q=keyword,
+                part="id,snippet",
+                q=f'"{keyword}"',
                 type="video",
                 publishedAfter=measurement_time_iso,
                 maxResults=50,
@@ -122,7 +127,15 @@ def search_videos(keyword, exclude_ids=None, max_result = 150):
 
             for item in response.get('items', []):
                 video = item['id'].get('videoId')
-                if video and video not in exclude_ids and video not in video_ids and video not in new_video_ids:
+
+                if not video or video in exclude_ids or video in video_ids or video in new_video_ids:
+                    continue
+
+                snippet = item.get('snippet')
+                title_clean = snippet.get('title', '').replace(" ", "").lower()
+                description_clean = snippet.get('description', '').replace(" ", "").lower()
+
+                if keyword_clean in title_clean or keyword_clean in description_clean:
                     new_video_ids.append(video)
 
             next_page_token = response.get('nextPageToken')

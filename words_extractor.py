@@ -9,7 +9,7 @@ from key_setting import gemini_api_key
 client = genai.Client(api_key=gemini_api_key)
 
 # 광고 검사 설정
-commercial_keyword = ["유료광고포함", "파트너스", "협찬", "AD", "commercial"]
+commercial_keyword = ["유료광고포함", "파트너스", "협찬", "AD", "commercial", '공산당']
 commercial_pattern = [
     re.compile(r'(소정의|일정액의)\s*(원고료|수수료|대가).*(받|제공|지급)'),
     re.compile(r'(제품|기기|서비스).*(무상|무료|협찬).*(제공|지원|대여)'),
@@ -49,10 +49,10 @@ def AD_search(comments_list, keyword):
         return pre_filtered_results
 
     instruction = f"""
-            너는 {len(ask_comments)}개의 댓글 중 유튜브 스팸 및 광고, 연관성 없는 댓글을 필터링해야 해. 아래 두 가지 중 조건에 맞는 하나로 대답해.
+            너는 {len(ask_comments)}개의 댓글 건에 맞는 하나로 대답해.
 
-            1. 1: 문맥상 '{keyword}'와 무관하거나, 광고/스팸으로 추정되는 댓글인 경우
-            2. 0: 문맥상 '{keyword}'와 관련있는 자연스러운 반응 혹은 일상적인 댓글인 경우
+            1. 1: 도박, 불법 사이트 링크 유도, 의미 없는 문자열 반복, 어뷰징, '{keyword}'와 전혀 무관한 뜬금없는 홍보성 댓글
+            2. 0: 문맥상 '{keyword}'와 관련있는 반응 혹은 {keyword}와 관련된 일반적인 댓글인 경우
             오직 "1" 또는 "0" 중 하나의 단어로만 대답해. 다른 말을 절대로 덧붙이지 마!
         """
 
