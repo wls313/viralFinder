@@ -1,39 +1,40 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from 'react';
 
-import "./css/app.css";
+import './css/app.css';
 
-import Sidebar from "./jsx/Sidebar";
-
-import DashboardPage from "./pages/DashboardPage";
-import KeywordPage from "./pages/KeywordPage";
-import ComparePage from "./pages/ComparePage";
-import TrendsPage from "./pages/TrendsPage";
-
-import LoadingPage from "./pages/LoadingPage";
+import Sidebar from './jsx/Sidebar';
+import Header from './jsx/Header';
+import EmptyState from './jsx/EmptyState';
+import Dashboard from './jsx/Dashboard';
 
 function App() {
+  const [keyword, setKeyword] = useState('');
+  const [searchedKeyword, setSearchedKeyword] = useState('');
+
+  const handleSearch = () => {
+    if (!keyword.trim()) return;
+
+    setSearchedKeyword(keyword);
+  };
+
   return (
-    <BrowserRouter>
-      <div className="app">
-        <Sidebar />
+    <div className="app">
+      <Sidebar />
 
-        <main className="main">
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" />} />
+      <main className="main">
+        <Header
+          keyword={keyword}
+          setKeyword={setKeyword}
+          handleSearch={handleSearch}
+        />
 
-            <Route path="/dashboard" element={<DashboardPage />} />
-
-            <Route path="/keyword" element={<KeywordPage />} />
-
-            <Route path="/compare" element={<ComparePage />} />
-
-            <Route path="/trends" element={<TrendsPage />} />
-
-            <Route path="/loading" element={<LoadingPage />} />
-          </Routes>
-        </main>
-      </div>
-    </BrowserRouter>
+        {!searchedKeyword ? (
+          <EmptyState setKeyword={setKeyword} />
+        ) : (
+          <Dashboard keyword={searchedKeyword} />
+        )}
+      </main>
+    </div>
   );
 }
 
