@@ -7,7 +7,8 @@ import pymysql
 
 from key_setting import youtube_api_key, host_ip, user_value, password_value, database_name
 import words_extractor
-import xgboost_interpretation
+#import xgboost_interpretation
+import random_forest_interpretation
 
 # 테스트용 옵션
 pd.set_option('display.width', None)
@@ -17,14 +18,14 @@ pd.set_option('display.max_colwidth', None)
 youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 
 # 설정값
-MAX_VIDEOS = 300
+MAX_VIDEOS = 100
 MAX_COMMENTS = 100
-YESTERDAY = 7
-DEFAULT_KEYWORD = "단소살인마"
+WEAK = 7
+DEFAULT_KEYWORD = "제헌절"
 
 # 시간
 now_time = datetime.datetime.now(datetime.timezone.utc)
-measurement_time = (now_time - datetime.timedelta(days=YESTERDAY))
+measurement_time = (now_time - datetime.timedelta(days=WEAK))
 measurement_time_iso = measurement_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 # 블랙리스트 데이터 가져오기
@@ -321,14 +322,25 @@ def run_search(keyword):
     print("댓글 데이터를 수집 및 csv에 업데이트 하는 중...")
     data_upload_to_csv(comments_csv, comments_data)
 
+    result_json = {
+        "status": "success",
+        "keyword": keyword,
+        "update_count": current_updated,
+        "analysis": None
+    }
+
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
 
     if current_updated >= 7:
         print(f"해당 키워드의 데이터가 {current_updated}번 업데이트 되었습니다. 충분한 데이터를 얻었기에 바이럴 판독을 시작합니다.")
-        xgboost_interpretation.viral_interpretation(keyword)
-        return {"status": "success", "message": "분석 완료"}
+        #xgboost_interpretation.viral_interpretation(keyword)
+        results = random_forest_interpretation.viral_interpretation(keyword)
+        result_json['analysis'] = results
+    else:
+        result_json['analysis'] = f"데이터 수집(업데이트 횟수: {current_updated})"
 
-    return {"status": "success", "message": f"데이터 수집 완료(업데이트 횟수: {current_updated})"}
+    print(json.dumps(result_json, ensure_ascii=False, indent=4))
+    return result_json
 
 if __name__ == "__main__":
     run_search(DEFAULT_KEYWORD)
