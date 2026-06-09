@@ -1,6 +1,6 @@
 from google.genai import types
 from google import genai
-from config import GEMINI_API_KEY
+from config.config import GEMINI_API_KEY
 import numpy as np
 import pandas as pd
 
@@ -71,7 +71,7 @@ def ask_gemini_evaluation(df_result_text, keyword_name):
     {df_result_text}
     
     🚨 [요구사항 - 핵심 뉴스 5개 엄선]
-    1. 구글 검색 툴을 사용하여 2026년 4월 30일 전후로 발생한 '{keyword_name}' 관련 연예인 초청 행사, 포토콜, 또는 대중 매체 노출 사건을 검증해줘.
+    1. 제공된 데이터에서 트렌드 지수(`z_interest`)가 가장 높은 날짜(`period`)를 파악해줘.    
     2. 무분별한 링크를 다 가져오지 말고, 검색 결과 중 가장 신뢰도 높은 언론사(예: 네이버 뉴스, 대형 신문사 및 방송사)의 핵심 기사 딱 5개만 엄선해줘.
     3. 엄선한 5개의 기사만 리포트 하단에 아래 양식으로 '진짜 URL 주소'를 절대 변형하지 말고 그대로 출력해줘.
     - [기사 제목] (언론사명) : 실제 URL 주소
@@ -83,7 +83,7 @@ def ask_gemini_evaluation(df_result_text, keyword_name):
             contents=prompt,
             config=genai.types.GenerateContentConfig(
                 tools=[{"google_search": {}}],
-                temperature=0.0  # 창의성 차단 (출처 데이터 확보 최적화)
+                temperature=0.0
             )
         )
 
@@ -106,7 +106,6 @@ def ask_gemini_evaluation(df_result_text, keyword_name):
                         })
                         seen_urls.add(uri)
 
-        # 🎁 텍스트 문자열 대신 프론트 맞춤형 딕셔너리로 최종 리턴
         return {
             "summary": ai_report,
             "verification_sources": source_list

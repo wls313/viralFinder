@@ -1,6 +1,6 @@
 import pymysql
 import pandas as pd
-from config import DB_CONFIG
+from .config import DB_CONFIG
 
 def get_keyword_id(conn, keyword_name):
     """사용자가 입력한 텍스트(예: 차지티)로 keyword_id를 찾아오는 함수"""

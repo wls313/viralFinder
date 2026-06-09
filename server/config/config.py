@@ -1,7 +1,7 @@
 import os
 import warnings
 
-ENV_FILE_PATH = os.path.join(os.path.dirname(__file__), ".env")
+ENV_FILE_PATH = os.path.join(os.path.dirname(__file__), "../.env")
 
 if os.path.exists(ENV_FILE_PATH):
     with open(ENV_FILE_PATH, "r", encoding="utf-8") as f:
@@ -24,3 +24,17 @@ DB_CONFIG = {
     "database": "viralFinder",
     "charset": "utf8mb4",
 }
+
+host_ip = DB_CONFIG["host"]
+user_value = DB_CONFIG["user"]
+password_value = DB_CONFIG["password"]
+database_name = DB_CONFIG["database"]
+
+# 유튜브 api 키
+youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'
+
+#네이버 테이터 랩
+# Naver Datalab
+naver_client_id = 'Or44GhFkSQ6ld3by3_tx'
+naver_client_secret = '5fgc908_KF'
+naver_openapi_url = "https://openapi.naver.com/v1/datalab/search"
