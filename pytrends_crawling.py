@@ -1,15 +1,18 @@
 import pandas as pd
 from pytrends.request import TrendReq
 import time
+from datetime import datetime, timedelta, timezone
 
 def search_keyword(keyword, max_retries=3):
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     pytrends = TrendReq(hl='ko-KR', tz=540, requests_args={'headers':{'User-Agent':user_agent}})
 
-    start_date = "2026-01-01"
-    end_date = "2026-05-11"
-    time_unit = "auto"
-    # auto || date || weak
+    kor_time = timezone(timedelta(hours=9))
+    now_time = datetime.now(kor_time)
+    measurement_time = now_time - timedelta(days=90)
+    start_date = measurement_time.strftime('%Y-%m-%d')
+    end_date = now_time.strftime('%Y-%m-%d')
+    time_unit = "date"
 
     for attempt in range(1, max_retries + 1):
         try:
