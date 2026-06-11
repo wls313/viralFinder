@@ -1,6 +1,31 @@
 import '../css/card.css';
 
 function AIAnalysis({ result }) {
+
+  if (!result) {
+    return (
+      <aside className="ai-panel">
+        <div className="card">
+          <h3>AI 분석 결과</h3>
+
+          <div className="ai-result">
+            <h2>분석 대기중</h2>
+
+            <p>
+              키워드를 분석하면 결과가 표시됩니다.
+            </p>
+
+            <div className="score-box">
+              <span>바이럴 점수</span>
+
+              <strong>-</strong>
+            </div>
+          </div>
+        </div>
+      </aside>
+    );
+  }
+
   const getResultInfo = () => {
     switch (result.status) {
       case '바이럴 의심':
