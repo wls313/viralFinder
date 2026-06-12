@@ -301,7 +301,7 @@ def video_upload_to_db(data_list, keyword_id):
         conn.close()
 
 # comment 데이터를 db에 업데이트
-def comment_upload_to_db(data_list, update_count):
+def comment_upload_to_db(data_list, update_count,keyword_id):
     if not data_list:
         return
 
@@ -309,8 +309,8 @@ def comment_upload_to_db(data_list, update_count):
     try:
         with conn.cursor() as cursor:
             sql = """
-                  INSERT INTO youtube_comments (video_id, update_count, caption_name, content, is_ad, like_count, record_date)
-                  VALUES (%s, %s, %s, %s, %s, %s, %s)
+                  INSERT INTO youtube_comments (video_id, update_count, keyword_id, caption_name, content, is_ad, like_count, record_date)
+                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                   """
 
             insert_tuples = []
@@ -318,6 +318,7 @@ def comment_upload_to_db(data_list, update_count):
                 insert_tuples.append((
                     data['video_id'],
                     update_count,
+                    keyword_id,
                     data['caption_name'],
                     data['content'],
                     data['is_ad'],
