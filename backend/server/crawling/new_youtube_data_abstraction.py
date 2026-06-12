@@ -1,14 +1,13 @@
+import sys
 import datetime
-import os
 import time
 import json
 from googleapiclient.discovery import build
 import pandas as pd
 import pymysql
 
-from key_setting import youtube_api_key, host_ip, user_value, password_value, database_name
-import words_extractor
-import random_forest_interpretation
+from config.config import youtube_api_key, host_ip, user_value, password_value, database_name
+from analyzer import random_forest_interpretation, words_extractor
 
 # 테스트용 옵션
 pd.set_option('display.width', None)
@@ -21,7 +20,6 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 MAX_VIDEOS = 100
 MAX_COMMENTS = 100
 WEAK = 7
-DEFAULT_KEYWORD = "단소살인마"
 
 # 시간
 now_time = datetime.datetime.now(datetime.timezone.utc)
@@ -37,12 +35,12 @@ def get_keyword_id(keyword):
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT keyword_id FROM analysis_keyword WHERE target_keyword=%s", (keyword,))
+            cursor.execute("SELECT keyword_id FROM keyword WHERE target_keyword=%s", (keyword,))
             keyword_result = cursor.fetchone()
             if keyword_result:
                 return keyword_result[0]
 
-            cursor.execute("INSERT INTO analysis_keyword (target_keyword) VALUES (%s)", (keyword,))
+            cursor.execute("INSERT INTO keyword (target_keyword) VALUES (%s)", (keyword,))
             conn.commit()
             return cursor.lastrowid
     finally:
@@ -55,10 +53,9 @@ def get_blacklist():
     try:
         conn = get_db_connection()
         with conn.cursor() as cursor:
-            cursor.execute('select type, identify_num from blacklist')
+            cursor.execute('select caption_name from blacklist')
             for row in cursor.fetchall():
-                if row[0] == 'comment':
-                    comments_blacklist.add(row[1])
+                comments_blacklist.add(row[0])
     except Exception as e:
         print(f"오류-블랙리스트를 가져오는데 실패했습니다 : {e}")
     finally:
@@ -101,7 +98,7 @@ def search_videos(keyword, keyword_id, exclude_ids=None, max_result = 150):
 
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT DISTINCT video_id FROM youtube_video WHERE keyword_id=%s", (keyword_id,))
+            cursor.execute("SELECT DISTINCT video_id FROM youtube WHERE keyword_id=%s", (keyword_id,))
             existing_ids = [row[0] for row in cursor.fetchall()]
             video_ids.extend(existing_ids)
             print(f"기존에 추적 중인 영상 {len(video_ids)}개를 불러옵니다...")
@@ -173,9 +170,10 @@ def video_stats(video_ids, record_date, keyword_id):
                 video_id = item['id']
                 stats = item.get('statistics', {})
                 videos_data_list.append({
-                    'record_date' : record_date,
                     'video_id' : video_id,
+                    'update_count' : 1,
                     'keyword_id' : keyword_id,
+                    'record_date' : record_date,
                     'daily_view_count': int(stats.get('viewCount', 0)),
                     'daily_like_count': int(stats.get('likeCount', 0)),
                     'daily_comment_count': int(stats.get('commentCount', 0))
@@ -256,11 +254,11 @@ def search_comment(video_id, record_date, keyword, comments_blacklist=None, max_
                is_blacklist = True
                break
 
-   if is_blacklist:
-       comments_data[i]['is_ad'] = 1
-       print(f"{caption}을 블랙리스트에 저장했습니다...")
-   else:
-       comments_data[i]['is_ad'] = batch_results[i]
+       if is_blacklist:
+           comments_data[i]['is_ad'] = 1
+           print(f"{caption}을 블랙리스트에 저장했습니다...")
+       else:
+           comments_data[i]['is_ad'] = batch_results[i]
 
    return comments_data
 
@@ -272,17 +270,28 @@ def video_upload_to_db(data_list, keyword_id):
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-           cursor.execute("SELECT MAX(update_count) FROM youtube_video WHERE keyword_id=%s", (keyword_id,))
-           results = cursor.fetchone()[0]
-           current_update = (results if results else 0) + 1
+            cursor.execute("SELECT MAX(update_count) FROM youtube WHERE keyword_id=%s", (keyword_id,))
+            results = cursor.fetchone()[0]
+            current_update = (results if results else 0) + 1
 
-           for data in data_list:
-               data['update_count'] = current_update
+            sql = """
+                 INSERT INTO youtube (video_id, update_count, keyword_id, record_date, daily_view_count, daily_like_count, daily_comment_count)
+                 VALUES (%s, %s, %s, %s, %s, %s, %s) \
+            """
 
-           keys = ",".join(data_list[0].keys())
-           vals = ",".join(["%s"] * len(data_list[0]))
-           sql = f"INSERT INTO youtube_video ({keys}) VALUES ({vals})"
-           cursor.executemany(sql, [tuple(data.values()) for data in data_list])
+            insert_tuples = []
+            for data in data_list:
+                insert_tuples.append((
+                    data['video_id'],
+                    current_update,
+                    data['keyword_id'],
+                    data['record_date'],
+                    data['daily_view_count'],
+                    data['daily_like_count'],
+                    data['daily_comment_count']
+                ))
+
+            cursor.executemany(sql, insert_tuples)
         conn.commit()
         return current_update
     except Exception as e:
@@ -292,20 +301,31 @@ def video_upload_to_db(data_list, keyword_id):
         conn.close()
 
 # comment 데이터를 db에 업데이트
-def comment_upload_to_db(data_list, update_count):
+def comment_upload_to_db(data_list, update_count,keyword_id):
     if not data_list:
         return
 
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-            for data in data_list:
-                data['update_count'] = update_count;
+            sql = """
+                  INSERT INTO youtube_comments (video_id, update_count, keyword_id, caption_name, content, is_ad, like_count, record_date)
+                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                  """
 
-            keys = ",".join(data_list[0].keys())
-            vals = ",".join(["%s"] * len(data_list[0]))
-            sql = f"INSERT INTO video_comment_analysis ({keys}) VALUES ({vals})"
-            cursor.executemany(sql, [tuple(data.values()) for data in data_list])
+            insert_tuples = []
+            for data in data_list:
+                insert_tuples.append((
+                    data['video_id'],
+                    update_count,
+                    keyword_id,
+                    data['caption_name'],
+                    data['content'],
+                    data['is_ad'],
+                    data['like_count'],
+                    data['record_date']
+                ))
+            cursor.executemany(sql, insert_tuples)
         conn.commit()
     except Exception as e:
         print(f"오류-댓글을 DB에 저장하는 중 에러가 발생했습니다 : {e}")
@@ -313,13 +333,12 @@ def comment_upload_to_db(data_list, update_count):
         conn.close()
 
 # main
-def run_search(keyword):
+def run_search(keyword,keyword_id):
     record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     today_video_count = count_videos(keyword)
     print(f"측정 완료! {keyword}에 대해 오늘 하루동안 올라온 영상은 {today_video_count}개 입니다.")
 
-    keyword_id = get_keyword_id(keyword)
     print(f"'{keyword}(keyword_id: {keyword_id})' 데이터를 수집합니다...")
 
     # 블랙 리스트 확인
@@ -330,7 +349,7 @@ def run_search(keyword):
         print("수집할 영상이 없어 종료됩니다.")
         return {"status": "ERROR", "message": "수집할 영상이 없습니다."}
 
-    print("영상 데이터를 수집 및 csv에 업데이트 하는 중...")
+    print("영상 데이터를 수집 및 db에 업데이트 하는 중...")
     videos_data = video_stats(target_ids, record_date, keyword_id)
     current_updated = video_upload_to_db(videos_data, keyword_id)
 
@@ -350,7 +369,7 @@ def run_search(keyword):
         comments_data.extend(single_video_comments)
 
     print("댓글 데이터를 수집 및 csv에 업데이트 하는 중...")
-    comment_upload_to_db(comments_data, current_updated)
+    comment_upload_to_db(comments_data, current_updated, keyword_id)
 
     result_json = {
         "status": "success",
@@ -372,5 +391,12 @@ def run_search(keyword):
     print(json.dumps(result_json, ensure_ascii=False, indent=4))
     return result_json
 
-if __name__ == "__main__":
-    run_search(DEFAULT_KEYWORD)
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        keyword = sys.argv[1]
+        keyword_id = int(sys.argv[2]) if len(sys.argv) > 2 else get_keyword_id(keyword)
+    else:
+        keyword = input("키워드를 입력하세요: ").strip()
+        keyword_id = get_keyword_id(keyword)
+
+    run_search(keyword, keyword_id)

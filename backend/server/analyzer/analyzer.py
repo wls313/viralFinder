@@ -23,8 +23,8 @@ def analyze_viral_traffic(trend_df, video_df):
 
     for _, video in video_df.iterrows():
         upload_date = video["uploaded_date"]
-        matched_trend = trend_df[trend_df["period"] == pd.to_datetime(upload_date)]
-
+        upload_date_str = pd.to_datetime(video["uploaded_date"]).strftime('%Y-%m-%d')
+        matched_trend = trend_df[trend_df["period"].astype(str) == upload_date_str]
         z_interest = matched_trend["interest_z"].values[0] if not matched_trend.empty else 0.0
 
         # 검색량 Z-Score를 시그모이드로 가공 (0 ~ 1 사이 안전벨트)

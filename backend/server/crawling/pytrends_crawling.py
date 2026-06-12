@@ -1,6 +1,8 @@
-import pandas as pd
+import sys
 from pytrends.request import TrendReq
 import time
+from sqlalchemy import create_engine, text
+from key_setting import DB_CONFIG
 from datetime import datetime, timedelta, timezone
 
 def search_keyword(keyword, max_retries=3):
@@ -9,7 +11,7 @@ def search_keyword(keyword, max_retries=3):
 
     kor_time = timezone(timedelta(hours=9))
     now_time = datetime.now(kor_time)
-    measurement_time = now_time - timedelta(days=90)
+    measurement_time = now_time - timedelta(days=7)
     start_date = measurement_time.strftime('%Y-%m-%d')
     end_date = now_time.strftime('%Y-%m-%d')
     time_unit = "date"
@@ -31,23 +33,25 @@ def search_keyword(keyword, max_retries=3):
 
             df = df.reset_index()
 
-            df = df.rename(columns={'date':'측정 기간', keyword: '상대적 비율'})
+            engine = create_engine(f"mysql+pymysql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}"
+                                   f"?charset={DB_CONFIG['charset']}")
 
-            df.insert(0, '키워드', keyword)
+            with engine.begin() as conn:
+                conn.execute(text("INSERT IGNORE INTO keyword (target_keyword) VALUES (:kw)"), {"kw": keyword})
+                keyword_id = conn.execute(text("SELECT keyword_id FROM keyword WHERE target_keyword = :kw"), {"kw": keyword}).fetchone()[0]
 
-            print("\n" + "-" * 20)
-            print(f"'{keyword}' 검색량 변화 추이")
-            print("-" * 20)
-            print(df.head(20))
+            df = df.rename(columns={'date': 'period', keyword: 'relative_ratio'})
+            df['keyword_id'] = keyword_id
 
-            filename = f"{keyword}_google_trends.csv"
-            with open(filename, 'w', encoding='utf-8-sig', newline='') as f:
-                f.write(f"{start_date},{end_date},{time_unit}\n")
-                df.to_csv(f, index=False)
+            df[['keyword_id', 'period', 'relative_ratio']].to_sql(
+                name='google',
+                con=engine,
+                if_exists='append',
+                index=False
+            )
 
-            print(f"{filename} 저장 완료!")
+            print(f"{keyword} 저장 완료!")
             break
-
         except Exception as e:
             err_msg = str(e)
 
@@ -65,5 +69,9 @@ def search_keyword(keyword, max_retries=3):
 
 
 if __name__ == '__main__':
-    keyword = input("키워드를 입력하세요: ")
+    if len(sys.argv) > 1:
+        keyword = sys.argv[1]
+    else:
+        keyword = input("키워드를 입력하세요: ").strip()
+
     search_keyword(keyword)
