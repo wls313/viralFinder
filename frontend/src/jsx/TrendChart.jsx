@@ -12,8 +12,14 @@ import {
 
 import '../css/chart.css';
 
-function TrendChart() {
+function TrendChart({result}) {
   const [platform, setPlatform] = useState('all');
+
+  const naverData = 
+    result?.naver_trend?.map((item) => ({
+      date: item.period.slice(5),
+      count: item.ratio,
+    })) || [];
 
   const chartData = {
     all: [
@@ -46,15 +52,7 @@ function TrendChart() {
       { date: '05/07', count: 650 },
     ],
 
-    naver: [
-      { date: '05/01', count: 10 },
-      { date: '05/02', count: 20 },
-      { date: '05/03', count: 35 },
-      { date: '05/04', count: 90 },
-      { date: '05/05', count: 320 },
-      { date: '05/06', count: 540 },
-      { date: '05/07', count: 410 },
-    ],
+    naver: naverData,
   };
 
   return (

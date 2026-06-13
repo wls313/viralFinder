@@ -1,28 +1,33 @@
 import { useEffect, useState } from "react";
 import "../css/LoadingPage.css";
+import { getProgress } from "../api/progressApi";
+
 
 function LoadingPage() {
 
   const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("분석 준비 중");
   const [dots, setDots] = useState("");
 
   // 로딩 퍼센트 증가
   useEffect(() => {
 
-    const timer = setInterval(() => {
+    const timer = setInterval(async () => {
 
-      setProgress((prev) => {
+      try {
 
-        if (prev >= 100) {
-          clearInterval(timer);
-          return 100;
-        }
+        const data = await getProgress();
 
-        return prev + 1;
+        setProgress(data.percent);
+        setMessage(data.message);
 
-      });
+      } catch (err) {
 
-    }, 50);
+        console.error(err);
+
+      }
+
+    }, 500);
 
     return () => clearInterval(timer);
 
@@ -48,18 +53,16 @@ function LoadingPage() {
 
   }, []);
 
-  // 상황별 문구
-  const getLoadingMessage = () => {
 
-    if (progress <= 30) {
-      return "데이터 수집 중";
-    }
 
-    if (progress <= 70) {
-      return "패턴 분석 중";
-    }
+  const getStep = () => {
 
-    return "결과 생성 중";
+    if (progress <= 20) return "1 / 5";
+    if (progress <= 40) return "2 / 5";
+    if (progress <= 60) return "3 / 5";
+    if (progress <= 85) return "4 / 5";
+
+    return "5 / 5";
   };
 
   return (
@@ -85,9 +88,13 @@ function LoadingPage() {
         {progress}%
       </p>
 
+      <p className="step">
+        {getStep()} 단계
+      </p>
+
       {/* 문구 */}
       <p className="loading-text">
-        {getLoadingMessage()}{dots}
+        {message}{dots}
       </p>
 
     </div>

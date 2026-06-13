@@ -5,8 +5,8 @@ import pandas as pd
 from datetime import datetime, timedelta, timezone
 from sqlalchemy import create_engine, text
 
-from config.config import host_ip, user_value, password_value, database_name
-from key_setting import naver_client_id, naver_client_secret, naver_openapi_url
+from server.config.config import host_ip, user_value, password_value, database_name
+from server.key_setting import naver_client_id, naver_client_secret, naver_openapi_url
 
 def search_keyword(keyword):
     client_id = naver_client_id

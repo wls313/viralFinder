@@ -21,11 +21,11 @@ function Dashboard({ keyword, result }) {
         </button>
       </div>
 
-      <StatsCards />
+      <StatsCards result={result}/>
 
       <div className="dashboard-grid">
         <div className="left-content">
-          <TrendChart />
+          <TrendChart result={result}/>
 
           <div className="bottom-grid">
             <Timeline />

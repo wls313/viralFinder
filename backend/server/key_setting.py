@@ -1,4 +1,4 @@
-from config.config import *
+from server.config.config import *
 
 # Youtube Data API KEY
 youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'

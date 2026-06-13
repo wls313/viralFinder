@@ -17,7 +17,6 @@ function AIAnalysis({ result }) {
 
             <div className="score-box">
               <span>바이럴 점수</span>
-
               <strong>-</strong>
             </div>
           </div>
@@ -26,36 +25,60 @@ function AIAnalysis({ result }) {
     );
   }
 
+  // 업데이트 횟수가 부족한 경우
+  if (typeof result.analysis === 'string') {
+    return (
+      <aside className="ai-panel">
+        <div className="card">
+          <h3>AI 분석 결과</h3>
+
+          <div className="ai-result">
+            <h2>데이터 수집중</h2>
+
+            <p>{result.analysis}</p>
+
+            <div className="score-box">
+              <span>바이럴 점수</span>
+              <strong>-</strong>
+            </div>
+          </div>
+        </div>
+      </aside>
+    );
+  }
+
+  const analysis = result.analysis;
+
   const getResultInfo = () => {
-    switch (result.status) {
-      case '바이럴 의심':
+
+    switch (analysis.conclusion) {
+
+      case '인위적 바이럴 의심':
         return {
-          title: '바이럴 의심',
-
-          description:
-            '비정상적인 확산 패턴이 감지되었습니다.',
-
-          color: '#ef4444',
+          title: '인위적 바이럴 의심',
+          description: '광고성 확산 가능성이 높습니다.',
+          color: '#ef4444'
         };
 
-      case '바이럴 주의':
+      case '상승중인 트렌드':
         return {
-          title: '바이럴 주의',
+          title: '상승중인 트렌드',
+          description: '관심도가 빠르게 증가하고 있습니다.',
+          color: '#f59e0b'
+        };
 
-          description:
-            '일부 마케팅성 확산 가능성이 있습니다.',
-
-          color: '#f59e0b',
+      case '자연스러운 핫트렌드':
+        return {
+          title: '자연스러운 핫트렌드',
+          description: '자연스럽게 인기를 얻고 있는 키워드입니다.',
+          color: '#22c55e'
         };
 
       default:
         return {
-          title: '정상',
-
-          description:
-            '자연스러운 사용자 반응 기반 확산입니다.',
-
-          color: '#22c55e',
+          title: '소강상태',
+          description: '현재 큰 확산은 감지되지 않습니다.',
+          color: '#64748b'
         };
     }
   };
@@ -65,23 +88,53 @@ function AIAnalysis({ result }) {
   return (
     <aside className="ai-panel">
       <div className="card">
+
         <h3>AI 분석 결과</h3>
 
         <div className="ai-result">
+
           <h2 style={{ color: info.color }}>
             {info.title}
           </h2>
 
-          <p>{info.description}</p>
+          <p>
+            {info.description}
+          </p>
 
           <div className="score-box">
-            <span>바이럴 점수</span>
+            <span>바이럴 확률</span>
 
             <strong>
-              {result.score}
+              {analysis.viral_probability_percentage}
             </strong>
           </div>
+
+          <div className="score-box">
+            <span>AI 점수</span>
+
+            <strong>
+              {analysis.keyword_viral_score.toFixed(2)}
+            </strong>
+          </div>
+
+          <div className="score-box">
+            <span>조회수 증가량</span>
+
+            <strong>
+              {analysis.total_data_gradient.toLocaleString()}
+            </strong>
+          </div>
+
+          <div className="score-box">
+            <span>광고 의심 댓글</span>
+
+            <strong>
+              {analysis.total_suspect_ad}
+            </strong>
+          </div>
+
         </div>
+
       </div>
     </aside>
   );

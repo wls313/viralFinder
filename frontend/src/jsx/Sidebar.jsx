@@ -5,8 +5,8 @@ function Sidebar() {
     <aside className="sidebar">
       <div>
         <div className="logo">
-          <h1>ViralCheck</h1>
-          <p>바이럴 분석 플랫폼</p>
+          <h1>ViralFinder</h1>
+          <p>바이럴 탐색기</p>
         </div>
 
         <nav className="menu">

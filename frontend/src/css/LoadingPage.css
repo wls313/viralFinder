@@ -86,3 +86,9 @@ body,
 
   letter-spacing: 1px;
 }
+
+.step {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #888;
+}

@@ -2,7 +2,7 @@ import sys
 from pytrends.request import TrendReq
 import time
 from sqlalchemy import create_engine, text
-from key_setting import DB_CONFIG
+from server.key_setting import DB_CONFIG
 from datetime import datetime, timedelta, timezone
 
 def search_keyword(keyword, max_retries=3):

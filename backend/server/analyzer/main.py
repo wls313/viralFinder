@@ -9,7 +9,7 @@ SERVER_ROOT = os.path.dirname(CURRENT_DIR)
 if SERVER_ROOT not in sys.path:
     sys.path.append(SERVER_ROOT)
 
-from config.database import fetch_data
+from server.config.database import fetch_data
 from server.analyzer.analyzer import analyze_viral_traffic, ask_gemini_evaluation
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")

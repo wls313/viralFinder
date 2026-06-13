@@ -9,6 +9,7 @@ export const searchKeyword = async (keyword) => {
       keyword,
     }
   );
+  console.log(response.data);
 
   return response.data;
 };

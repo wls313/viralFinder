@@ -6,8 +6,10 @@ from googleapiclient.discovery import build
 import pandas as pd
 import pymysql
 
-from config.config import youtube_api_key, host_ip, user_value, password_value, database_name
-from analyzer import random_forest_interpretation, words_extractor
+from server.config.config import youtube_api_key, host_ip, user_value, password_value, database_name
+from server.analyzer import random_forest_interpretation, words_extractor
+from server.crawling.naver_data_lab_crawling import search_keyword
+from server.progress_state import progress
 
 # 테스트용 옵션
 pd.set_option('display.width', None)
@@ -336,6 +338,19 @@ def comment_upload_to_db(data_list, update_count,keyword_id):
 def run_search(keyword,keyword_id):
     record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+    progress["percent"] = 0
+    progress["message"] = "분석 준비 중"
+
+    print("네이버 데이터랩에서 검색량 추이를 가져옵니다...")
+    progress["percent"] = 10
+    progress["message"] = "네이버 트렌드 수집 중"
+    search_keyword(keyword)
+    print("네이버 데이터랩 검색량 추이 저장 완료!")
+    record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    progress["percent"] = 35
+    progress["message"] = "유튜브 영상 검색 중"
+
     today_video_count = count_videos(keyword)
     print(f"측정 완료! {keyword}에 대해 오늘 하루동안 올라온 영상은 {today_video_count}개 입니다.")
 
@@ -350,10 +365,17 @@ def run_search(keyword,keyword_id):
         return {"status": "ERROR", "message": "수집할 영상이 없습니다."}
 
     print("영상 데이터를 수집 및 db에 업데이트 하는 중...")
+
+    progress["percent"] = 50
+    progress["message"] = "영상 데이터 수집 중"
+
     videos_data = video_stats(target_ids, record_date, keyword_id)
     current_updated = video_upload_to_db(videos_data, keyword_id)
 
     # 댓글 데이터 수집
+    progress["percent"] = 60
+    progress["message"] = "댓글 데이터 분석 중"
+
     comments_data = []
 
     for idx, video_id in enumerate(target_ids):
@@ -375,7 +397,8 @@ def run_search(keyword,keyword_id):
         "status": "success",
         "keyword": keyword,
         "update_count": current_updated,
-        "analysis": None
+        "analysis": None,
+        "naver_trend": []
     }
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
@@ -383,13 +406,46 @@ def run_search(keyword,keyword_id):
     if current_updated >= 7:
         print(f"해당 키워드의 데이터가 {current_updated}번 업데이트 되었습니다. 충분한 데이터를 얻었기에 바이럴 판독을 시작합니다.")
         #xgboost_interpretation.viral_interpretation(keyword)
+        progress["percent"] = 95
+        progress["message"] = "AI 바이럴 판독 중"
         results = random_forest_interpretation.viral_interpretation(keyword)
         result_json['analysis'] = results
     else:
         result_json['analysis'] = f"데이터 수집(업데이트 횟수: {current_updated})"
+    
+    result_json["naver_trend"] = get_naver_trend(keyword_id)
 
     print(json.dumps(result_json, ensure_ascii=False, indent=4))
+    progress["percent"] = 100
+    progress["message"] = "결과 생성 완료"
     return result_json
+
+def get_naver_trend(keyword_id):
+
+    conn = get_db_connection()
+
+    try:
+        with conn.cursor() as cursor:
+
+            cursor.execute("""
+                SELECT period, relative_ratio
+                FROM naver
+                WHERE keyword_id=%s
+                ORDER BY period
+            """, (keyword_id,))
+
+            rows = cursor.fetchall()
+
+            return [
+                {
+                    "period": str(row[0]),
+                    "ratio": float(row[1])
+                }
+                for row in rows
+            ]
+
+    finally:
+        conn.close()
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -400,3 +456,5 @@ if __name__ == '__main__':
         keyword_id = get_keyword_id(keyword)
 
     run_search(keyword, keyword_id)
+
+

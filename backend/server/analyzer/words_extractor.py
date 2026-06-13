@@ -6,7 +6,7 @@ import concurrent.futures
 
 from google import genai
 import google.genai
-from key_setting import gemini_api_key
+from server.key_setting import gemini_api_key
 
 client = genai.Client(api_key=gemini_api_key)
 

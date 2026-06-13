@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from google import genai
 from google.genai import types
-from config.config import GEMINI_API_KEY
+from server.config.config import GEMINI_API_KEY
 
 def analyze_viral_traffic(trend_df, video_df):
     # 네이버 65% + 구글 35% 가중치 결합 (기존 유지)
