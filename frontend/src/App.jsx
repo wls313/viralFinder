@@ -8,12 +8,14 @@ import EmptyState from './jsx/EmptyState';
 import Dashboard from './jsx/Dashboard';
 import { searchKeyword } from "./api/searchApi";
 import LoadingPage from './pages/LoadingPage';
+import TrendsPage from './pages/TrendsPage';
 
 function App() {
   const [keyword, setKeyword] = useState('');
   const [searchedKeyword, setSearchedKeyword] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState("dashboard");
 
   const handleSearch = async () => {
     if (!keyword.trim()) return;
@@ -25,6 +27,7 @@ function App() {
 
       setResult(data);
       setSearchedKeyword(keyword);
+      setCurrentPage("analysis");
 
     } catch (error) {
       console.error("API 호출 실패:", error);
@@ -35,7 +38,10 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar />
+      <Sidebar
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
 
       <main className="main">
         <Header
@@ -44,15 +50,17 @@ function App() {
           handleSearch={handleSearch}
         />
 
-        {loading ? (
+        {currentPage === "trends" ? (
+          <TrendsPage />
+        ) : loading ? (
           <LoadingPage />
-        ) : !searchedKeyword ? (
-          <EmptyState setKeyword={setKeyword} />
-        ) : (
+        ) : currentPage === "analysis" ? (
           <Dashboard
             keyword={searchedKeyword}
             result={result}
           />
+        ) : (
+          <EmptyState setKeyword={setKeyword} />
         )}
       </main>
     </div>

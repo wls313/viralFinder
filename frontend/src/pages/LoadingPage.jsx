@@ -4,7 +4,7 @@ import { getProgress } from "../api/progressApi";
 
 
 function LoadingPage() {
-
+  console.log("LoadingPage 렌더링");
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("분석 준비 중");
   const [dots, setDots] = useState("");
@@ -17,7 +17,7 @@ function LoadingPage() {
       try {
 
         const data = await getProgress();
-
+        console.log(data);
         setProgress(data.percent);
         setMessage(data.message);
 

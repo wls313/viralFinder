@@ -8,7 +8,8 @@ import pymysql
 
 from server.config.config import youtube_api_key, host_ip, user_value, password_value, database_name
 from server.analyzer import random_forest_interpretation, words_extractor
-from server.crawling.naver_data_lab_crawling import search_keyword
+from server.crawling.naver_data_lab_crawling import search_keyword as search_naver_trend
+from server.crawling.pytrends_crawling import search_keyword as search_google_trend
 from server.progress_state import progress
 
 # 테스트용 옵션
@@ -344,8 +345,15 @@ def run_search(keyword,keyword_id):
     print("네이버 데이터랩에서 검색량 추이를 가져옵니다...")
     progress["percent"] = 10
     progress["message"] = "네이버 트렌드 수집 중"
-    search_keyword(keyword)
+    search_naver_trend(keyword)
     print("네이버 데이터랩 검색량 추이 저장 완료!")
+
+    print("구글 트렌드에서 검색량 추이를 가져옵니다...")
+    progress["percent"] = 20
+    progress["message"] = "구글 트렌드 수집 중"
+    search_google_trend(keyword)
+    print("구글 트렌드 저장 완료!")
+
     record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     progress["percent"] = 35
@@ -378,16 +386,29 @@ def run_search(keyword,keyword_id):
 
     comments_data = []
 
+    total_videos = len(target_ids)
+
     for idx, video_id in enumerate(target_ids):
+
+        progress["percent"] = 60 + int(
+            (idx / total_videos) * 30
+        )
+
+        progress["message"] = (
+            f"댓글 분석 중 ({idx+1}/{total_videos})"
+        )
+
         if idx > 0 and idx % 50 == 0:
             print(f"영상 {idx}개 처리 완료!")
+
         single_video_comments = search_comment(
-            video_id = video_id,
-            record_date = record_date,
-            keyword = keyword,
-            comments_blacklist = comments_blacklist,
-            max_result = MAX_COMMENTS
+            video_id=video_id,
+            record_date=record_date,
+            keyword=keyword,
+            comments_blacklist=comments_blacklist,
+            max_result=MAX_COMMENTS
         )
+
         comments_data.extend(single_video_comments)
 
     print("댓글 데이터를 수집 및 csv에 업데이트 하는 중...")
@@ -398,7 +419,8 @@ def run_search(keyword,keyword_id):
         "keyword": keyword,
         "update_count": current_updated,
         "analysis": None,
-        "naver_trend": []
+        "naver_trend": [],
+        "google_trend": []
     }
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
@@ -414,6 +436,7 @@ def run_search(keyword,keyword_id):
         result_json['analysis'] = f"데이터 수집(업데이트 횟수: {current_updated})"
     
     result_json["naver_trend"] = get_naver_trend(keyword_id)
+    result_json["google_trend"] = get_google_trend(keyword_id)
 
     print(json.dumps(result_json, ensure_ascii=False, indent=4))
     progress["percent"] = 100
@@ -439,6 +462,35 @@ def get_naver_trend(keyword_id):
             return [
                 {
                     "period": str(row[0]),
+                    "ratio": float(row[1])
+                }
+                for row in rows
+            ]
+
+    finally:
+        conn.close()
+
+def get_google_trend(keyword_id):
+
+    conn = get_db_connection()
+
+    try:
+        with conn.cursor() as cursor:
+
+            cursor.execute("""
+                SELECT
+                    period,
+                    relative_ratio
+                FROM google
+                WHERE keyword_id=%s
+                ORDER BY period
+            """, (keyword_id,))
+
+            rows = cursor.fetchall()
+
+            return [
+                {
+                    "period": row[0].strftime("%Y-%m-%d"),
                     "ratio": float(row[1])
                 }
                 for row in rows

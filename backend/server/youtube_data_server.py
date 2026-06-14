@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from server.progress_state import progress
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from fastapi.concurrency import run_in_threadpool
 
 from server.crawling.new_youtube_data_abstraction import (
     run_search,
@@ -25,7 +26,8 @@ async def search(req: KeywordRequest):
 
     keyword_id = get_keyword_id(req.keyword)
 
-    result = run_search(
+    result = await run_in_threadpool(
+        run_search,
         req.keyword,
         keyword_id
     )

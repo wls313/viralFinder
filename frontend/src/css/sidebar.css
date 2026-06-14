@@ -1,5 +1,12 @@
 .sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
   width: 260px;
+  height: 100vh;
+
   background: #111827;
   color: white;
   padding: 24px;
@@ -9,13 +16,35 @@
   justify-content: space-between;
 }
 
+.logo {
+  margin-bottom: 12px;
+}
+
 .logo h1 {
-  font-size: 28px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0;
+
+  background: linear-gradient(
+    90deg,
+    #818cf8,
+    #4f46e5
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .logo p {
-  margin-top: 6px;
+  margin-top: 8px;
+
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+
   color: #9ca3af;
+  text-transform: uppercase;
 }
 
 .menu {

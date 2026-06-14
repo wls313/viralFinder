@@ -1,6 +1,6 @@
 import '../css/sidebar.css';
 
-function Sidebar() {
+function Sidebar({ currentPage, setCurrentPage }) {
   return (
     <aside className="sidebar">
       <div>
@@ -10,19 +10,42 @@ function Sidebar() {
         </div>
 
         <nav className="menu">
-          <button className="menu-item active">
+          <button
+            className={`menu-item ${
+              currentPage === "dashboard"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setCurrentPage("dashboard")
+            }
+          >
             대시보드
           </button>
 
-          <button className="menu-item">
+          <button
+            className={`menu-item ${
+              currentPage === "analysis"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setCurrentPage("analysis")
+            }
+          >
             키워드 분석
           </button>
 
-          <button className="menu-item">
-            비교 분석
-          </button>
-
-          <button className="menu-item">
+          <button
+            className={`menu-item ${
+              currentPage === "trends"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setCurrentPage("trends")
+            }
+          >
             트렌드
           </button>
         </nav>

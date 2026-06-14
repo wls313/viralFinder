@@ -16,5 +16,7 @@ body {
 
 .main {
   flex: 1;
-  padding: 30px;
+  padding: 24px;
+
+  margin-left: 260px;
 }

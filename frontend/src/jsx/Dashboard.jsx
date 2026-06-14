@@ -16,9 +16,6 @@ function Dashboard({ keyword, result }) {
           <p>실시간 분석 결과</p>
         </div>
 
-        <button className="compare-btn">
-          키워드 비교
-        </button>
       </div>
 
       <StatsCards result={result}/>
