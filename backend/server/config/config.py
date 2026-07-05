@@ -19,9 +19,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 # 데이터베이스 설정
 DB_CONFIG = {
     "host": "localhost",
-    "user": "root",
-    "password": "1234",
-    "database": "viralFinder",
+    "user":
+    "password":
+    "database":
     "charset": "utf8mb4",
 }
 
@@ -31,7 +31,7 @@ password_value = DB_CONFIG["password"]
 database_name = DB_CONFIG["database"]
 
 # 유튜브 api 키
-youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'
+youtube_api_key = 'AIzaSyCx-AlOUq3HNhSQkF0y33RX-5uDQcerEvM'
 
 #네이버 테이터 랩
 # Naver Datalab

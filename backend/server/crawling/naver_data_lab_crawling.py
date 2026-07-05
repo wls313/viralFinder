@@ -1,12 +1,18 @@
-import sys
+import os, sys
 import urllib.request
 import json
 import pandas as pd
 from datetime import datetime, timedelta, timezone
 from sqlalchemy import create_engine, text
 
-from server.config.config import host_ip, user_value, password_value, database_name
-from server.key_setting import naver_client_id, naver_client_secret, naver_openapi_url
+# 상위(server) 폴더 경로
+current_dir = os.path.dirname(os.path.realpath(__file__))
+top_level_dir = os.path.dirname(current_dir)
+if top_level_dir not in sys.path:
+    sys.path.append(top_level_dir)
+
+from config.config import host_ip, user_value, password_value, database_name
+from key_setting import naver_client_id, naver_client_secret, naver_openapi_url
 
 def search_keyword(keyword):
     client_id = naver_client_id

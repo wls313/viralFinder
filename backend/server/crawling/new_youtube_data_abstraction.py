@@ -1,16 +1,19 @@
-import sys
 import datetime
+import os, sys
 import time
 import json
 from googleapiclient.discovery import build
 import pandas as pd
 import pymysql
 
-from server.config.config import youtube_api_key, host_ip, user_value, password_value, database_name
-from server.analyzer import random_forest_interpretation, words_extractor
-from server.crawling.naver_data_lab_crawling import search_keyword as search_naver_trend
-from server.crawling.pytrends_crawling import search_keyword as search_google_trend
-from server.progress_state import progress
+# 상위(server) 폴더 경로
+current_dir = os.path.dirname(os.path.realpath(__file__))
+top_level_dir = os.path.dirname(current_dir)
+if top_level_dir not in sys.path:
+    sys.path.append(top_level_dir)
+
+from key_setting import youtube_api_key, host_ip, user_value, password_value, database_name
+from analyzer import words_extractor, random_forest_interpretation
 
 # 테스트용 옵션
 pd.set_option('display.width', None)
@@ -23,6 +26,7 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 MAX_VIDEOS = 100
 MAX_COMMENTS = 100
 WEAK = 7
+DEFAULT_KEYWORD = "단소살인마"
 
 # 시간
 now_time = datetime.datetime.now(datetime.timezone.utc)
@@ -173,10 +177,9 @@ def video_stats(video_ids, record_date, keyword_id):
                 video_id = item['id']
                 stats = item.get('statistics', {})
                 videos_data_list.append({
-                    'video_id' : video_id,
-                    'update_count' : 1,
-                    'keyword_id' : keyword_id,
                     'record_date' : record_date,
+                    'video_id' : video_id,
+                    'keyword_id' : keyword_id,
                     'daily_view_count': int(stats.get('viewCount', 0)),
                     'daily_like_count': int(stats.get('likeCount', 0)),
                     'daily_comment_count': int(stats.get('commentCount', 0))
@@ -187,7 +190,7 @@ def video_stats(video_ids, record_date, keyword_id):
     return videos_data_list
 
 # 각 영상의 댓글
-def search_comment(video_id, record_date, keyword, comments_blacklist=None, max_result = MAX_COMMENTS):
+def search_comment(video_id, record_date, keyword, keyword_id, comments_blacklist=None, max_result = MAX_COMMENTS):
    if comments_blacklist is None:
        comments_blacklist = set()
 
@@ -220,8 +223,9 @@ def search_comment(video_id, record_date, keyword, comments_blacklist=None, max_
                    break
 
                comments_data.append({
-                   'record_date': record_date,
                    'video_id': video_id,
+                   'record_date': record_date,
+                   'keyword_id': keyword_id,
                    'caption_name': comment.get('authorDisplayName', '').strip(),
                    'content': comment.get('textDisplay', ''),
                    'like_count': int(comment.get('likeCount', 0)),
@@ -273,28 +277,17 @@ def video_upload_to_db(data_list, keyword_id):
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT MAX(update_count) FROM youtube WHERE keyword_id=%s", (keyword_id,))
-            results = cursor.fetchone()[0]
-            current_update = (results if results else 0) + 1
+           cursor.execute("SELECT MAX(update_count) FROM youtube WHERE keyword_id=%s", (keyword_id,))
+           results = cursor.fetchone()[0]
+           current_update = (results if results else 0) + 1
 
-            sql = """
-                 INSERT INTO youtube (video_id, update_count, keyword_id, record_date, daily_view_count, daily_like_count, daily_comment_count)
-                 VALUES (%s, %s, %s, %s, %s, %s, %s) \
-            """
+           for data in data_list:
+               data['update_count'] = current_update
 
-            insert_tuples = []
-            for data in data_list:
-                insert_tuples.append((
-                    data['video_id'],
-                    current_update,
-                    data['keyword_id'],
-                    data['record_date'],
-                    data['daily_view_count'],
-                    data['daily_like_count'],
-                    data['daily_comment_count']
-                ))
-
-            cursor.executemany(sql, insert_tuples)
+           keys = ",".join(data_list[0].keys())
+           vals = ",".join(["%s"] * len(data_list[0]))
+           sql = f"INSERT INTO youtube ({keys}) VALUES ({vals})"
+           cursor.executemany(sql, [tuple(data.values()) for data in data_list])
         conn.commit()
         return current_update
     except Exception as e:
@@ -304,31 +297,21 @@ def video_upload_to_db(data_list, keyword_id):
         conn.close()
 
 # comment 데이터를 db에 업데이트
-def comment_upload_to_db(data_list, update_count,keyword_id):
+def comment_upload_to_db(data_list, update_count, keyword_id):
     if not data_list:
         return
 
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-            sql = """
-                  INSERT INTO youtube_comments (video_id, update_count, keyword_id, caption_name, content, is_ad, like_count, record_date)
-                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                  """
-
-            insert_tuples = []
             for data in data_list:
-                insert_tuples.append((
-                    data['video_id'],
-                    update_count,
-                    keyword_id,
-                    data['caption_name'],
-                    data['content'],
-                    data['is_ad'],
-                    data['like_count'],
-                    data['record_date']
-                ))
-            cursor.executemany(sql, insert_tuples)
+                data['update_count'] = update_count;
+                data['keyword_id'] = keyword_id
+
+            keys = ",".join(data_list[0].keys())
+            vals = ",".join(["%s"] * len(data_list[0]))
+            sql = f"INSERT INTO youtube_comments ({keys}) VALUES ({vals})"
+            cursor.executemany(sql, [tuple(data.values()) for data in data_list])
         conn.commit()
     except Exception as e:
         print(f"오류-댓글을 DB에 저장하는 중 에러가 발생했습니다 : {e}")
@@ -336,32 +319,13 @@ def comment_upload_to_db(data_list, update_count,keyword_id):
         conn.close()
 
 # main
-def run_search(keyword,keyword_id):
+def run_search(keyword):
     record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-    progress["percent"] = 0
-    progress["message"] = "분석 준비 중"
-
-    print("네이버 데이터랩에서 검색량 추이를 가져옵니다...")
-    progress["percent"] = 10
-    progress["message"] = "네이버 트렌드 수집 중"
-    search_naver_trend(keyword)
-    print("네이버 데이터랩 검색량 추이 저장 완료!")
-
-    print("구글 트렌드에서 검색량 추이를 가져옵니다...")
-    progress["percent"] = 20
-    progress["message"] = "구글 트렌드 수집 중"
-    search_google_trend(keyword)
-    print("구글 트렌드 저장 완료!")
-
-    record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-    progress["percent"] = 35
-    progress["message"] = "유튜브 영상 검색 중"
 
     today_video_count = count_videos(keyword)
     print(f"측정 완료! {keyword}에 대해 오늘 하루동안 올라온 영상은 {today_video_count}개 입니다.")
 
+    keyword_id = get_keyword_id(keyword)
     print(f"'{keyword}(keyword_id: {keyword_id})' 데이터를 수집합니다...")
 
     # 블랙 리스트 확인
@@ -372,43 +336,24 @@ def run_search(keyword,keyword_id):
         print("수집할 영상이 없어 종료됩니다.")
         return {"status": "ERROR", "message": "수집할 영상이 없습니다."}
 
-    print("영상 데이터를 수집 및 db에 업데이트 하는 중...")
-
-    progress["percent"] = 50
-    progress["message"] = "영상 데이터 수집 중"
-
+    print("영상 데이터를 수집 및 csv에 업데이트 하는 중...")
     videos_data = video_stats(target_ids, record_date, keyword_id)
     current_updated = video_upload_to_db(videos_data, keyword_id)
 
     # 댓글 데이터 수집
-    progress["percent"] = 60
-    progress["message"] = "댓글 데이터 분석 중"
-
     comments_data = []
 
-    total_videos = len(target_ids)
-
     for idx, video_id in enumerate(target_ids):
-
-        progress["percent"] = 60 + int(
-            (idx / total_videos) * 30
-        )
-
-        progress["message"] = (
-            f"댓글 분석 중 ({idx+1}/{total_videos})"
-        )
-
         if idx > 0 and idx % 50 == 0:
             print(f"영상 {idx}개 처리 완료!")
-
         single_video_comments = search_comment(
-            video_id=video_id,
-            record_date=record_date,
-            keyword=keyword,
-            comments_blacklist=comments_blacklist,
-            max_result=MAX_COMMENTS
+            video_id = video_id,
+            record_date = record_date,
+            keyword = keyword,
+            keyword_id = keyword_id,
+            comments_blacklist = comments_blacklist,
+            max_result = MAX_COMMENTS
         )
-
         comments_data.extend(single_video_comments)
 
     print("댓글 데이터를 수집 및 csv에 업데이트 하는 중...")
@@ -418,9 +363,7 @@ def run_search(keyword,keyword_id):
         "status": "success",
         "keyword": keyword,
         "update_count": current_updated,
-        "analysis": None,
-        "naver_trend": [],
-        "google_trend": []
+        "analysis": None
     }
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
@@ -428,85 +371,13 @@ def run_search(keyword,keyword_id):
     if current_updated >= 7:
         print(f"해당 키워드의 데이터가 {current_updated}번 업데이트 되었습니다. 충분한 데이터를 얻었기에 바이럴 판독을 시작합니다.")
         #xgboost_interpretation.viral_interpretation(keyword)
-        progress["percent"] = 95
-        progress["message"] = "AI 바이럴 판독 중"
         results = random_forest_interpretation.viral_interpretation(keyword)
         result_json['analysis'] = results
     else:
         result_json['analysis'] = f"데이터 수집(업데이트 횟수: {current_updated})"
-    
-    result_json["naver_trend"] = get_naver_trend(keyword_id)
-    result_json["google_trend"] = get_google_trend(keyword_id)
 
     print(json.dumps(result_json, ensure_ascii=False, indent=4))
-    progress["percent"] = 100
-    progress["message"] = "결과 생성 완료"
     return result_json
 
-def get_naver_trend(keyword_id):
-
-    conn = get_db_connection()
-
-    try:
-        with conn.cursor() as cursor:
-
-            cursor.execute("""
-                SELECT period, relative_ratio
-                FROM naver
-                WHERE keyword_id=%s
-                ORDER BY period
-            """, (keyword_id,))
-
-            rows = cursor.fetchall()
-
-            return [
-                {
-                    "period": str(row[0]),
-                    "ratio": float(row[1])
-                }
-                for row in rows
-            ]
-
-    finally:
-        conn.close()
-
-def get_google_trend(keyword_id):
-
-    conn = get_db_connection()
-
-    try:
-        with conn.cursor() as cursor:
-
-            cursor.execute("""
-                SELECT
-                    period,
-                    relative_ratio
-                FROM google
-                WHERE keyword_id=%s
-                ORDER BY period
-            """, (keyword_id,))
-
-            rows = cursor.fetchall()
-
-            return [
-                {
-                    "period": row[0].strftime("%Y-%m-%d"),
-                    "ratio": float(row[1])
-                }
-                for row in rows
-            ]
-
-    finally:
-        conn.close()
-
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        keyword = sys.argv[1]
-        keyword_id = int(sys.argv[2]) if len(sys.argv) > 2 else get_keyword_id(keyword)
-    else:
-        keyword = input("키워드를 입력하세요: ").strip()
-        keyword_id = get_keyword_id(keyword)
-
-    run_search(keyword, keyword_id)
-
-
+if __name__ == "__main__":
+    run_search(DEFAULT_KEYWORD)

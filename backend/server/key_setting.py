@@ -1,13 +1,13 @@
-from server.config.config import *
+from config.config import *
 
 # Youtube Data API KEY
 youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'
 
 DB_CONFIG = {
     "host": "localhost",
-    "user": "root",
-    "password": "1234",
-    "database": "viralFinder",
+    "user":
+    "password":
+    "database":
     "charset": "utf8mb4",
 }
 

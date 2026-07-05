@@ -2,9 +2,9 @@ import pandas as pd
 import joblib
 import pymysql
 
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
-from server.config.config import (
+from config.config import (
     host_ip,
     user_value,
     password_value,

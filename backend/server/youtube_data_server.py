@@ -1,14 +1,22 @@
+import os
+import sys
+
 from fastapi import FastAPI
-from server.progress_state import progress
+from progress_state import progress
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from fastapi.concurrency import run_in_threadpool
 
-from server.crawling.new_youtube_data_abstraction import (
+# 상위(server) 폴더 경로
+current_dir = os.path.dirname(os.path.realpath(__file__))
+top_level_dir = os.path.dirname(current_dir)
+if top_level_dir not in sys.path:
+    sys.path.append(top_level_dir)
+
+from crawling.new_youtube_data_abstraction import (
     run_search,
     get_keyword_id
 )
-
 app = FastAPI()
 
 app.add_middleware(
@@ -28,9 +36,10 @@ async def search(req: KeywordRequest):
 
     result = await run_in_threadpool(
         run_search,
-        req.keyword,
-        keyword_id
+        req.keyword
     )
+
+    print(f"DEBUG: 프론트로 보내는 응답 데이터: {result}")
 
     return result
 

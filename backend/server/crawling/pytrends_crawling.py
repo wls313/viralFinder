@@ -1,9 +1,18 @@
+import os
 import sys
 from pytrends.request import TrendReq
 import time
 from sqlalchemy import create_engine, text
-from server.key_setting import DB_CONFIG
 from datetime import datetime, timedelta, timezone
+
+# 상위(server) 폴더 경로
+current_dir = os.path.dirname(os.path.realpath(__file__))
+top_level_dir = os.path.dirname(current_dir)
+if top_level_dir not in sys.path:
+    sys.path.append(top_level_dir)
+
+from key_setting import DB_CONFIG
+
 
 def search_keyword(keyword, max_retries=3):
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
