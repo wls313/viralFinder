@@ -23,7 +23,8 @@ pd.set_option('display.max_colwidth', None)
 youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 
 # 설정값
-MAX_VIDEOS = 150
+MAX_VIDEOS = 100
+MAX_COMMENTS = 100
 WEAK = 7
 DEFAULT_KEYWORD = "단소살인마"
 
@@ -53,12 +54,28 @@ def get_keyword_id(keyword):
         conn.close()
 
 
+# 블랙리스트 데이터 가져오기
+def get_blacklist():
+    comments_blacklist = set()
+    try:
+        conn = get_db_connection()
+        with conn.cursor() as cursor:
+            cursor.execute('select caption_name from blacklist')
+            for row in cursor.fetchall():
+                comments_blacklist.add(row[0])
+    except Exception as e:
+        print(f"오류-블랙리스트를 가져오는데 실패했습니다 : {e}")
+    finally:
+        if 'conn' in locals() and conn.open:
+            conn.close()
+
+    return comments_blacklist
+
 # 오늘 올라온 영상 갯수
 def count_videos(keyword):
     print("오늘 업로드된 총 영상 수를 집계합니다...")
 
     try:
-        # youtube data api는 검색 시 기본적으로 제목 설명 태그를 모두 포함함
         response = youtube.search().list(
             q=f'"{keyword}"',
             part='id',
@@ -77,18 +94,21 @@ def count_videos(keyword):
     return total
 
 # 영상 탐색
-def search_videos(keyword, keyword_id, exclude_ids=None):
+def search_videos(keyword, keyword_id, exclude_ids=None, max_result = 150):
     print(f"오늘 업로드 된 {keyword}와 관련된 영상을 탐색합니다...")
 
-    set_exclude_ids = set(exclude_ids) if exclude_ids else set()
+    if exclude_ids is None:
+        exclude_ids = set()
+
+    video_ids = []
     conn = get_db_connection()
 
     try:
         with conn.cursor() as cursor:
             cursor.execute("SELECT DISTINCT video_id FROM youtube WHERE keyword_id=%s", (keyword_id,))
             existing_ids = [row[0] for row in cursor.fetchall()]
-            set_exclude_ids.update(existing_ids)
-            print(f"기존에 추적 중인 영상 {len(existing_ids)}개를 불러옵니다...")
+            video_ids.extend(existing_ids)
+            print(f"기존에 추적 중인 영상 {len(video_ids)}개를 불러옵니다...")
     except Exception as e:
         print(f"DB 조회 오류: {e}")
     finally:
@@ -99,30 +119,30 @@ def search_videos(keyword, keyword_id, exclude_ids=None):
 
     keyword_clean = keyword.replace(' ', '').lower()
 
-    while len(existing_ids) + len(new_video_ids) < MAX_VIDEOS:
+    while len(video_ids) + len(new_video_ids) < max_result:
         try:
             request = youtube.search().list(
                 part="id,snippet",
                 q=f'"{keyword}"',
                 type="video",
                 publishedAfter=measurement_time_iso,
-                maxResults=min(MAX_VIDEOS, 50),
+                maxResults=50,
                 pageToken=next_page_token
             )
             response = request.execute()
 
             for item in response.get('items', []):
                 video = item['id'].get('videoId')
-                if not video or video in set_exclude_ids or video in new_video_ids:
+
+                if not video or video in exclude_ids or video in video_ids or video in new_video_ids:
                     continue
 
-                snippet = item.get('snippet', {})
-                keyword_check = (snippet.get('title', '') + snippet.get('description', '')).replace(' ', '').lower()
+                snippet = item.get('snippet')
+                title_clean = snippet.get('title', '').replace(" ", "").lower()
+                description_clean = snippet.get('description', '').replace(" ", "").lower()
 
-                if keyword_clean in keyword_check:
+                if keyword_clean in title_clean or keyword_clean in description_clean:
                     new_video_ids.append(video)
-                    if len(new_video_ids) + len(set_exclude_ids) >= MAX_VIDEOS:
-                        break
 
             next_page_token = response.get('nextPageToken')
 
@@ -133,10 +153,12 @@ def search_videos(keyword, keyword_id, exclude_ids=None):
             print(f"오류-유튜브 API에 검색 중 에러가 발생했습니다 : {e}")
             break
 
-    final_videos = list(new_video_ids) + set_exclude_ids
+    print(f"총 {len(video_ids)}개의 영상을 찾았습니다...")
+
+    final_videos = (video_ids + new_video_ids)[:MAX_VIDEOS]
     print(f'총 {len(final_videos)}개의 영상을 확정했습니다!')
 
-    return final_videos[:MAX_VIDEOS]
+    return final_videos
 
 
 def video_stats(video_ids, record_date, keyword_id):
@@ -148,13 +170,11 @@ def video_stats(video_ids, record_date, keyword_id):
         try:
             video_response = youtube.videos().list(
                 id=','.join(chunk_ids),
-                part='statistics'
+                part='statistics',
             ).execute()
 
-            searching_ids = set()
             for item in video_response.get('items', []):
                 video_id = item['id']
-                searching_ids.add(video_id)
                 stats = item.get('statistics', {})
                 videos_data_list.append({
                     'record_date' : record_date,
@@ -164,14 +184,90 @@ def video_stats(video_ids, record_date, keyword_id):
                     'daily_like_count': int(stats.get('likeCount', 0)),
                     'daily_comment_count': int(stats.get('commentCount', 0))
                 })
-
-            if len(searching_ids) < len(chunk_ids):
-                print(f"삭제나 비공개 등에 의해 {len(chunk_ids) - len(searching_ids)}개의 영상의 정보를 가져올 수 없었습니다.")
-
         except Exception as e:
             print(f"오류-영상 데이터를 저장하는 도중 에러가 발생했습니다 : {e}")
 
     return videos_data_list
+
+# 각 영상의 댓글
+def search_comment(video_id, record_date, keyword, keyword_id, comments_blacklist=None, max_result = MAX_COMMENTS):
+   if comments_blacklist is None:
+       comments_blacklist = set()
+
+   print(f"영상 ID {video_id}의 댓글 수집 중")
+   comments_data = []
+   next_page_token = None
+
+   while len(comments_data) < max_result:
+       try:
+           comments_response = youtube.commentThreads().list(
+               videoId = video_id,
+               part = 'snippet',
+               maxResults = 50,
+               textFormat = 'plainText',
+               pageToken = next_page_token,
+               order='time'
+           ).execute()
+
+           items = comments_response.get('items', [])
+           if not items:
+               break
+
+           for item in items:
+               comment = item['snippet']['topLevelComment']['snippet']
+               published_at = comment.get('publishedAt', '')
+
+               comment_date = datetime.datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=datetime.timezone.utc)
+
+               if comment_date < measurement_time:
+                   break
+
+               comments_data.append({
+                   'video_id': video_id,
+                   'record_date': record_date,
+                   'keyword_id': keyword_id,
+                   'caption_name': comment.get('authorDisplayName', '').strip(),
+                   'content': comment.get('textDisplay', ''),
+                   'like_count': int(comment.get('likeCount', 0)),
+                   'is_ad': 0
+               })
+
+               if len(comments_data) >= max_result:
+                   break
+
+           next_page_token = comments_response.get('nextPageToken')
+           if not next_page_token:
+               break
+
+       except Exception as e:
+           print(f"오류-댓글을 가져오는 중 에러 발생! 댓글을 달 수 없는 영상이거나 권한이 없습니다. : {e}")
+           break
+
+   if not comments_data:
+       return []
+
+   comments_text_list = [c['content'] for c in comments_data]
+   print(f"댓글{len(comments_text_list)}개 판독 시작...")
+
+   batch_results = words_extractor.AD_search(comments_text_list, keyword)
+   time.sleep(4)
+
+   for i in range(len(comments_data)):
+       caption = comments_data[i]['caption_name']
+       is_blacklist = False
+
+       for black_user in comments_blacklist:
+           if black_user in caption:
+               is_blacklist = True
+               break
+
+       if is_blacklist:
+           comments_data[i]['is_ad'] = 1
+           print(f"{caption}을 블랙리스트에 저장했습니다...")
+       else:
+           comments_data[i]['is_ad'] = batch_results[i]
+
+   return comments_data
 
 # video 데이터를 db에 업데이트
 def video_upload_to_db(data_list, keyword_id):
@@ -200,6 +296,27 @@ def video_upload_to_db(data_list, keyword_id):
     finally:
         conn.close()
 
+# comment 데이터를 db에 업데이트
+def comment_upload_to_db(data_list, update_count, keyword_id):
+    if not data_list:
+        return
+
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            for data in data_list:
+                data['update_count'] = update_count;
+                data['keyword_id'] = keyword_id
+
+            keys = ",".join(data_list[0].keys())
+            vals = ",".join(["%s"] * len(data_list[0]))
+            sql = f"INSERT INTO youtube_comments ({keys}) VALUES ({vals})"
+            cursor.executemany(sql, [tuple(data.values()) for data in data_list])
+        conn.commit()
+    except Exception as e:
+        print(f"오류-댓글을 DB에 저장하는 중 에러가 발생했습니다 : {e}")
+    finally:
+        conn.close()
 
 # main
 def run_search(keyword):
@@ -212,7 +329,8 @@ def run_search(keyword):
     print(f"'{keyword}(keyword_id: {keyword_id})' 데이터를 수집합니다...")
 
     # 블랙 리스트 확인
-    target_ids = search_videos(keyword, keyword_id, exclude_ids=None)
+    comments_blacklist = get_blacklist()
+    target_ids = search_videos(keyword, keyword_id, exclude_ids=None, max_result=MAX_VIDEOS)
 
     if not target_ids:
         print("수집할 영상이 없어 종료됩니다.")
@@ -221,6 +339,25 @@ def run_search(keyword):
     print("영상 데이터를 수집 및 csv에 업데이트 하는 중...")
     videos_data = video_stats(target_ids, record_date, keyword_id)
     current_updated = video_upload_to_db(videos_data, keyword_id)
+
+    # 댓글 데이터 수집
+    comments_data = []
+
+    for idx, video_id in enumerate(target_ids):
+        if idx > 0 and idx % 50 == 0:
+            print(f"영상 {idx}개 처리 완료!")
+        single_video_comments = search_comment(
+            video_id = video_id,
+            record_date = record_date,
+            keyword = keyword,
+            keyword_id = keyword_id,
+            comments_blacklist = comments_blacklist,
+            max_result = MAX_COMMENTS
+        )
+        comments_data.extend(single_video_comments)
+
+    print("댓글 데이터를 수집 및 csv에 업데이트 하는 중...")
+    comment_upload_to_db(comments_data, current_updated, keyword_id)
 
     result_json = {
         "status": "success",
@@ -233,6 +370,7 @@ def run_search(keyword):
 
     if current_updated >= 7:
         print(f"해당 키워드의 데이터가 {current_updated}번 업데이트 되었습니다. 충분한 데이터를 얻었기에 바이럴 판독을 시작합니다.")
+        #xgboost_interpretation.viral_interpretation(keyword)
         results = random_forest_interpretation.viral_interpretation(keyword)
         result_json['analysis'] = results
     else:
