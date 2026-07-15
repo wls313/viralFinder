@@ -1,18 +1,7 @@
-import os
-import sys
+import pandas as pd
 from pytrends.request import TrendReq
 import time
-from sqlalchemy import create_engine, text
 from datetime import datetime, timedelta, timezone
-
-# 상위(server) 폴더 경로
-current_dir = os.path.dirname(os.path.realpath(__file__))
-top_level_dir = os.path.dirname(current_dir)
-if top_level_dir not in sys.path:
-    sys.path.append(top_level_dir)
-
-from key_setting import DB_CONFIG
-
 
 def search_keyword(keyword, max_retries=3):
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
@@ -20,7 +9,7 @@ def search_keyword(keyword, max_retries=3):
 
     kor_time = timezone(timedelta(hours=9))
     now_time = datetime.now(kor_time)
-    measurement_time = now_time - timedelta(days=7)
+    measurement_time = now_time - timedelta(days=90)
     start_date = measurement_time.strftime('%Y-%m-%d')
     end_date = now_time.strftime('%Y-%m-%d')
     time_unit = "date"
@@ -42,25 +31,23 @@ def search_keyword(keyword, max_retries=3):
 
             df = df.reset_index()
 
-            engine = create_engine(f"mysql+pymysql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}"
-                                   f"?charset={DB_CONFIG['charset']}")
+            df = df.rename(columns={'date':'측정 기간', keyword: '상대적 비율'})
 
-            with engine.begin() as conn:
-                conn.execute(text("INSERT IGNORE INTO keyword (target_keyword) VALUES (:kw)"), {"kw": keyword})
-                keyword_id = conn.execute(text("SELECT keyword_id FROM keyword WHERE target_keyword = :kw"), {"kw": keyword}).fetchone()[0]
+            df.insert(0, '키워드', keyword)
 
-            df = df.rename(columns={'date': 'period', keyword: 'relative_ratio'})
-            df['keyword_id'] = keyword_id
+            print("\n" + "-" * 20)
+            print(f"'{keyword}' 검색량 변화 추이")
+            print("-" * 20)
+            print(df.head(20))
 
-            df[['keyword_id', 'period', 'relative_ratio']].to_sql(
-                name='google',
-                con=engine,
-                if_exists='append',
-                index=False
-            )
+            filename = f"{keyword}_google_trends.csv"
+            with open(filename, 'w', encoding='utf-8-sig', newline='') as f:
+                f.write(f"{start_date},{end_date},{time_unit}\n")
+                df.to_csv(f, index=False)
 
-            print(f"{keyword} 저장 완료!")
+            print(f"{filename} 저장 완료!")
             break
+
         except Exception as e:
             err_msg = str(e)
 
@@ -78,9 +65,5 @@ def search_keyword(keyword, max_retries=3):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        keyword = sys.argv[1]
-    else:
-        keyword = input("키워드를 입력하세요: ").strip()
-
+    keyword = input("키워드를 입력하세요: ")
     search_keyword(keyword)

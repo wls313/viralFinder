@@ -1,4 +1,3 @@
-import os, sys
 import time
 import json
 import random
@@ -6,13 +5,7 @@ import re
 import concurrent.futures
 
 from google import genai
-
-# 상위(server) 폴더 경로
-current_dir = os.path.dirname(os.path.realpath(__file__))
-top_level_dir = os.path.dirname(current_dir)
-if top_level_dir not in sys.path:
-    sys.path.append(top_level_dir)
-
+from google.genai import types
 from key_setting import gemini_api_key
 
 client = genai.Client(api_key=gemini_api_key)
