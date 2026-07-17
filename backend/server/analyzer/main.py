@@ -1,20 +1,21 @@
-from datetime import datetime, timedelta, date
-import json
-import logging
 import os
-import subprocess
 import sys
-from fastapi import FastAPI, HTTPException
-import numpy as np
-import pandas as pd
-import redis
-import pymysql
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SERVER_ROOT = os.path.dirname(CURRENT_DIR)
+BACKEND_ROOT = os.path.dirname(SERVER_ROOT)
 
-if SERVER_ROOT not in sys.path:
-    sys.path.append(SERVER_ROOT)
+if BACKEND_ROOT not in sys.path:
+    sys.path.append(BACKEND_ROOT)
+
+from datetime import datetime, timedelta
+import json
+import logging
+import subprocess
+from fastapi import FastAPI, HTTPException
+import pandas as pd
+import redis
+import pymysql
 
 from server.config.database import fetch_data
 from server.config.config import DB_CONFIG

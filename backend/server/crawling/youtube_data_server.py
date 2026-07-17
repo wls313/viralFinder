@@ -1,8 +1,7 @@
+from crawling.new_youtube_data_abstraction import run_search
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
-from crawling.new_youtube_data_abstraction import run_search
 
 app = FastAPI()
 

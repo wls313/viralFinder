@@ -1,9 +1,9 @@
 import datetime
 import os
-import sys
-from googleapiclient.discovery import build
+
 import pandas as pd
 import pymysql
+from googleapiclient.discovery import build
 from youtubesearchpython import VideosSearch
 
 # 테스트용 옵션

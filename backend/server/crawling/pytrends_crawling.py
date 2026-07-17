@@ -1,7 +1,11 @@
-import pandas as pd
 from pytrends.request import TrendReq
 import time
 from datetime import datetime, timedelta, timezone
+import time
+from datetime import datetime, timedelta, timezone
+
+from pytrends.request import TrendReq
+
 
 def search_keyword(keyword, max_retries=3):
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"

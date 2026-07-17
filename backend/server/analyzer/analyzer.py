@@ -1,8 +1,8 @@
-from google.genai import types
-from google import genai
 # from config import GEMINI_API_KEY
-import numpy as np
 import pandas as pd
+from google import genai
+from google.genai import types
+
 
 def analyze_viral_traffic(trend_df, video_df):
     # 1. 네이버와 구글 검색량 가중치 반영

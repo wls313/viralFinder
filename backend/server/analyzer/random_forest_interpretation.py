@@ -1,12 +1,10 @@
-import pandas as pd
 import joblib
+import pandas as pd
 import pymysql
 from Scripts.new_youtube_data_abstraction import DEFAULT_KEYWORD
-
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.model_selection import train_test_split
 from key_setting import host_ip, user_value, password_value, database_name
-
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
 
 
 def get_db_connection():

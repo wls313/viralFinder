@@ -1,4 +1,6 @@
-import os, sys
+import os
+import sys
+
 from apify_client import ApifyClient
 from key_setting import apify_api_key
 

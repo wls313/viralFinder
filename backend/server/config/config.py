@@ -1,6 +1,5 @@
 import os
 import warnings
-from logging import root
 
 ENV_FILE_PATH = os.path.join(os.path.dirname(__file__), "../.env")
 

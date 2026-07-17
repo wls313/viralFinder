@@ -1,10 +1,11 @@
 import datetime
-import os, sys
-import time
 import json
-from googleapiclient.discovery import build
+import os
+import sys
+
 import pandas as pd
 import pymysql
+from googleapiclient.discovery import build
 
 # 상위(server) 폴더 경로
 current_dir = os.path.dirname(os.path.realpath(__file__))

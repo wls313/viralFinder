@@ -1,6 +1,8 @@
-import pymysql
 import pandas as pd
+import pymysql
+
 from .config import DB_CONFIG
+
 
 def get_or_create_keyword_id(conn, keyword_name):
     with conn.cursor() as cursor:

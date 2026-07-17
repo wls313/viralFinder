@@ -1,11 +1,11 @@
-import os
-import sys
 import urllib.request
 import json
-import pandas as pd
+import urllib.request
 from datetime import datetime, timedelta, timezone
 
+import pandas as pd
 from key_setting import naver_client_id, naver_client_secret, naver_openapi_url
+
 
 def search_keyword(keyword):
     client_id = naver_client_id
