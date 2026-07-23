@@ -1,17 +1,18 @@
 import os
 import sys
+
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))  # analyzer
+SERVER_ROOT = os.path.dirname(CURRENT_DIR)                # server
+BACKEND_ROOT = os.path.dirname(SERVER_ROOT)              # backend
+
+for p in [BACKEND_ROOT, SERVER_ROOT]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
 import json
 import time
 import logging
 from datetime import datetime, timedelta
-
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-SERVER_ROOT = os.path.dirname(CURRENT_DIR)
-BACKEND_ROOT = os.path.dirname(SERVER_ROOT)
-
-if BACKEND_ROOT not in sys.path:
-    sys.path.append(BACKEND_ROOT)
-
 from fastapi import FastAPI, HTTPException
 import pandas as pd
 import redis
@@ -20,7 +21,7 @@ import pymysql
 from server.config.database import fetch_data
 from server.config.config import DB_CONFIG
 from server.analyzer.analyzer import analyze_viral_traffic
-from server.services.crawler_service import run_sequential_crawling
+from server.analyzer.crawler_service import run_sequential_crawling
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
@@ -102,7 +103,7 @@ async def get_trend_analysis(keyword: str):
 
     logging.info(f"[Cache Miss] '{keyword}' 신규 크롤링 진행")
 
-    # 동시 요청 방지를 위한 분산 락
+    # 분산 락
     ac_lock = rd.set(lock_key, "locked", nx=True, ex=LOCK_TIMEOUT)
 
     if not ac_lock:

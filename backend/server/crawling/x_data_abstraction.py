@@ -50,13 +50,17 @@ def get_X_data(keyword, max_items):
 
 search_keyword = input("검색할 키워드를 입력하세요: ")
 
-result = get_X_data(search_keyword, max_items=5)
-
-for data in result:
-    print(f"[id]: {data['id']}")
-    print(f"[title]: {data['title']}")
-    print(f"[content]: {data['content']}")
-    print(f"[likes]: {data['likes']}")
-    print(f"[retweets]: {data['retweets']}")
-    print(f"[views]: {data['views']}")
-    print("\n\n")
+if __name__ == "__main__":
+    search_keyword = "테스트"
+    try:
+        res = get_X_data(search_keyword, max_items=5)
+        for data in res:
+            print(f"[id]: {data['id']}")
+            print(f"[title]: {data['title']}")
+            print(f"[content]: {data['content']}")
+            print(f"[likes]: {data['likes']}")
+            print(f"[retweets]: {data['retweets']}")
+            print(f"[views]: {data['views']}")
+            print("\n\n")
+    except Exception as e:
+        print(f"테스트 실행 에러: {e}")
