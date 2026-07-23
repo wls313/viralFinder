@@ -5,7 +5,7 @@ DB_CONFIG = {
     "host": "localhost",
     "user": "root",
     "password": "1234",
-    "database": "viralFinder",
+    "database": "tt",
     "charset": "utf8mb4",
 }
 

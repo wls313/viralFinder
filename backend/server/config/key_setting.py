@@ -5,7 +5,7 @@ youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'
 host_ip = "3360"
 user_value = "1234"
 password_value = "1234"
-database_name = "viralFinder"
+database_name = "tt"
 
 #gemini
 gemini_api_key = 'AQ.Ab8RN6JYXWKnUfRV_EwiS4TtvgQgeDN3fTM5vOZTg06QVxOP6A'
