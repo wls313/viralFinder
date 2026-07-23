@@ -133,7 +133,7 @@ def search_videos(keyword, keyword_id, exclude_ids=None):
             print(f"오류-유튜브 API에 검색 중 에러가 발생했습니다 : {e}")
             break
 
-    final_videos = list(new_video_ids) + set_exclude_ids
+    final_videos = list(new_video_ids) + list(set_exclude_ids)
     print(f'총 {len(final_videos)}개의 영상을 확정했습니다!')
 
     return final_videos[:MAX_VIDEOS]
