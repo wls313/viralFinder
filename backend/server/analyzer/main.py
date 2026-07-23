@@ -45,7 +45,6 @@ def ensure_keyword_id(keyword_name: str):
     finally:
         conn.close()
 
-
 def save_tweets(keyword_id: int, tweets: list):
     if not tweets or not keyword_id:
         return
@@ -165,14 +164,12 @@ async def get_trend_analysis(keyword: str):
         raise HTTPException(status_code=500, detail=f"서버 에러: {e}")
 
     finally:
-        # 작업 완료 후 락 해제
+        # 락 해제
         rd.delete(lock_key)
-
 
 def main(keyword):
     import asyncio
     return asyncio.run(get_trend_analysis(keyword))
-
 
 if __name__ == "__main__":
     user_input = input("분석할 키워드를 입력하세요: ").strip()
