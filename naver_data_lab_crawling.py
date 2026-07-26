@@ -109,8 +109,8 @@ def search_keyword(keyword, search_range):
         }, ensure_ascii=False))
 
 if __name__ == '__main__':
-    keyword = sys.argv[1] if len(sys.argv) > 1 else "무중력"
-    search_range = int(sys.argv[2]) if len(sys.argv) > 2 else 30
+    keyword = sys.argv[1] if len(sys.argv) > 1 else ""
+    search_range = int(sys.argv[2]) if len(sys.argv) > 2 else 90
 
     if keyword:
         search_keyword(keyword, search_range)
