@@ -1,8 +1,13 @@
 import '../css/sidebar.css';
 
-function Sidebar({ currentPage, setCurrentPage }) {
+function Sidebar({
+  currentPage,
+  setCurrentPage,
+  sidebarOpen,
+  setSidebarOpen
+}) {  
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
       <div>
         <div className="logo">
           <h1>ViralFinder</h1>
@@ -16,9 +21,9 @@ function Sidebar({ currentPage, setCurrentPage }) {
                 ? "active"
                 : ""
             }`}
-            onClick={() =>
-              setCurrentPage("dashboard")
-            }
+            onClick={() => {
+              setCurrentPage("dashboard");
+            }}
           >
             대시보드
           </button>
@@ -29,9 +34,9 @@ function Sidebar({ currentPage, setCurrentPage }) {
                 ? "active"
                 : ""
             }`}
-            onClick={() =>
-              setCurrentPage("analysis")
-            }
+            onClick={() => {
+              setCurrentPage("analysis");
+            }}
           >
             키워드 분석
           </button>
@@ -42,15 +47,16 @@ function Sidebar({ currentPage, setCurrentPage }) {
                 ? "active"
                 : ""
             }`}
-            onClick={() =>
-              setCurrentPage("trends")
-            }
+            onClick={() => {
+              setCurrentPage("trends");
+            }}
           >
             트렌드
           </button>
         </nav>
       </div>
 
+      {/*
       <div className="extension-box">
         <h3>Chrome 확장프로그램</h3>
 
@@ -63,6 +69,7 @@ function Sidebar({ currentPage, setCurrentPage }) {
           다운로드
         </button>
       </div>
+      */}
     </aside>
   );
 }

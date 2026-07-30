@@ -1,12 +1,21 @@
 import '../css/header.css';
 
 function Header({
-  keyword,
-  setKeyword,
-  handleSearch,
+    keyword,
+    setKeyword,
+    handleSearch,
+    sidebarOpen,
+    setSidebarOpen
 }) {
   return (
     <header className="header">
+      <button
+        className="hamburger"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        ☰
+      </button>
+      
       <input
         type="text"
         placeholder="키워드를 입력하세요"

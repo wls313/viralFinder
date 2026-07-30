@@ -71,8 +71,8 @@ function TrendChart({result}) {
 
       <div className="chart-wrapper">
         <ResponsiveContainer
-          width="100%"
-          height={400}
+            width="100%"
+            height={320}
         >
           <LineChart
             data={mergeData}

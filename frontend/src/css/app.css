@@ -11,12 +11,20 @@ body {
 
 .app {
   display: flex;
-  min-height: 100vh;
+  width: 100%;
 }
 
 .main {
   flex: 1;
-  padding: 24px;
 
+  padding: 24px 32px;
+
+  background: #f5f7fb;
+
+  min-height: 100vh;
+}
+
+.app.sidebar-open .main {
   margin-left: 260px;
+  width: calc(100% - 260px);
 }

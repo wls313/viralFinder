@@ -1,8 +1,7 @@
 .card {
   background: white;
-
-  padding: 24px;
-  border-radius: 24px;
+  padding: 20px;
+  border-radius: 20px;
 
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
@@ -11,55 +10,54 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
-  gap: 16px;
+  gap: 12px;
 
   margin-bottom: 24px;
 }
 
 .card h3 {
-  margin-top: 10px;
-  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 18px;
+
+  font-size: 28px;
 }
 
 .ai-panel {
-  width: 340px;
+    width: 280px;
+    flex-shrink: 0;
 }
 
 .ai-result {
-  margin-top: 20px;
+  margin-top: 16px;
 
   background: #ecfdf5;
 
-  border-radius: 20px;
+  border-radius: 16px;
 
-  padding: 24px;
+  padding: 18px;
 
   text-align: center;
 }
 
 .ai-result h2 {
-  color: #16a34a;
-  font-size: 40px;
-
+  font-size: 34px;
   margin-bottom: 10px;
 }
 
 .score-box {
-  margin-top: 24px;
+  margin-top: 12px;
 
-  padding: 16px;
+  padding: 14px;
 
-  border-radius: 16px;
+  border-radius: 14px;
 
   background: #f3f4f6;
 
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
 }
 
 .score-box strong {
-  font-size: 22px;
+  font-size: 20px;
 }

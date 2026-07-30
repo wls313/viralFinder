@@ -11,6 +11,7 @@ import LoadingPage from './pages/LoadingPage';
 import TrendsPage from './pages/TrendsPage';
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [searchedKeyword, setSearchedKeyword] = useState('');
   const [result, setResult] = useState(null);
@@ -37,18 +38,22 @@ function App() {
   };
 
   return (
-    <div className="app">
+      <div className={`app ${sidebarOpen ? "sidebar-open" : ""}`}>
       <Sidebar
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
       />
 
       <main className="main">
         <Header
-          keyword={keyword}
-          setKeyword={setKeyword}
-          handleSearch={handleSearch}
-        />
+        keyword={keyword}
+        setKeyword={setKeyword}
+        handleSearch={handleSearch}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
 
         {currentPage === "trends" ? (
           <TrendsPage />
