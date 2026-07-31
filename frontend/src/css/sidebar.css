@@ -1,0 +1,119 @@
+.sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 260px;
+  height: 100vh;
+
+  background: #111827;
+  color: white;
+  padding: 24px 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: width 0.2s ease, padding 0.2s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 76px;
+  padding: 24px 14px;
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hamburger-btn {
+  flex-shrink: 0;
+
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.hamburger-btn:hover {
+  background: #1f2937;
+  color: white;
+}
+
+.logo {
+  margin-bottom: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.logo h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0;
+
+  background: linear-gradient(
+    90deg,
+    #818cf8,
+    #4f46e5
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo p {
+  margin-top: 8px;
+
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.menu {
+  margin-top: 40px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: transparent;
+  color: white;
+  border: none;
+
+  padding: 14px;
+  border-radius: 12px;
+
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.menu-item.active {
+  background: #4f46e5;
+}
+
+.menu-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
