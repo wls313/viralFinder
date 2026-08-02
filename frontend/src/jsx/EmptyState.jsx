@@ -1,6 +1,15 @@
 import '../css/dashboard.css';
 
-function EmptyState({ setKeyword }) {
+const FALLBACK_KEYWORDS = ['버터쿠키', '두바이초콜릿', '마라탕'];
+
+// topKeywords: 실시간 트렌드 1~3위 (App.jsx에서 trendsApi 기반으로 전달됨).
+// 아직 안 불러와졌거나 비어있으면 기본 키워드로 대체.
+function EmptyState({ setKeyword, topKeywords }) {
+  const keywords =
+    topKeywords && topKeywords.length > 0
+      ? topKeywords
+      : FALLBACK_KEYWORDS;
+
   return (
     <section className="empty-state">
       <div className="empty-box">
@@ -15,17 +24,11 @@ function EmptyState({ setKeyword }) {
         </p>
 
         <div className="keyword-list">
-          <button onClick={() => setKeyword('버터쿠키')}>
-            버터쿠키
-          </button>
-
-          <button onClick={() => setKeyword('두바이초콜릿')}>
-            두바이초콜릿
-          </button>
-
-          <button onClick={() => setKeyword('마라탕')}>
-            마라탕
-          </button>
+          {keywords.map((word) => (
+            <button key={word} onClick={() => setKeyword(word)}>
+              {word}
+            </button>
+          ))}
         </div>
       </div>
     </section>

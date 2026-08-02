@@ -31,6 +31,10 @@
   gap: 8px;
 }
 
+.sidebar.collapsed .sidebar-top {
+  justify-content: center;
+}
+
 .hamburger-btn {
   flex-shrink: 0;
 

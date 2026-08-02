@@ -11,10 +11,12 @@ function Sidebar({ currentPage, setCurrentPage, collapsed, setCollapsed }) {
     <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <div>
         <div className="sidebar-top">
-          <div className="logo">
-            <h1>{collapsed ? "TT" : "Trend Tracker"}</h1>
-            {!collapsed && <p>TT</p>}
-          </div>
+          {!collapsed && (
+            <div className="logo">
+              <h1>Trend Tracker</h1>
+              <p>TT</p>
+            </div>
+          )}
 
           <button
             className="hamburger-btn"

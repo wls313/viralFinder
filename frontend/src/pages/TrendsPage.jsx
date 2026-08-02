@@ -46,32 +46,34 @@ function TrendsPage() {
             <button className={rankType === "growth" ? "active" : ""} onClick={() => setRankType("growth")}>급상승 순위</button>
             <button className={rankType === "count" ? "active" : ""} onClick={() => setRankType("count")}>언급량 순위</button>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th style={{ width: "80px" }}>순위</th>
-                <th style={{ width: "auto" }}>키워드</th>
-                <th style={{ width: "150px" }}>상승률</th>
-                <th style={{ width: "150px" }}>언급량</th>
-                <th style={{ width: "90px" }}>관심</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item) => (
-                <tr key={item.keyword}>
-                  <td><span className="rank-badge">{item.rank}</span></td>
-                  <td className="keyword-cell">{item.keyword}</td>
-                  <td className="up">▲ {item.growth}</td>
-                  <td>{item.count}</td>
-                  <td>
-                    <button className="favorite-btn" onClick={() => toggleFavorite(item.keyword)}>
-                      <span className={favorites.includes(item.keyword) ? "favorite-active" : "favorite-inactive"}>♥</span>
-                    </button>
-                  </td>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th style={{ width: "80px" }}>순위</th>
+                  <th style={{ width: "auto" }}>키워드</th>
+                  <th style={{ width: "150px" }}>상승률</th>
+                  <th style={{ width: "150px" }}>언급량</th>
+                  <th style={{ width: "90px" }}>관심</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data.map((item) => (
+                  <tr key={item.keyword}>
+                    <td><span className="rank-badge">{item.rank}</span></td>
+                    <td className="keyword-cell">{item.keyword}</td>
+                    <td className="up">▲ {item.growth}</td>
+                    <td>{item.count}</td>
+                    <td>
+                      <button className="favorite-btn" onClick={() => toggleFavorite(item.keyword)}>
+                        <span className={favorites.includes(item.keyword) ? "favorite-active" : "favorite-inactive"}>♥</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className="side-panel">
           <h3>관심 키워드</h3>

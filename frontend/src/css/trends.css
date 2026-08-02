@@ -136,8 +136,14 @@ body {
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
+  min-width: 560px;
   border-collapse: collapse;
 }
 
@@ -176,6 +182,7 @@ tbody tr:hover {
 .keyword-cell {
   font-weight: 600;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .up {
