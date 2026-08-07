@@ -26,6 +26,7 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 MAX_VIDEOS = 150
 WEAK = 7
 DEFAULT_KEYWORD = "단소살인마"
+SEARCHING_RECOMMEND_VIDEO_COUNTS = 10
 
 # 시간
 now_time = datetime.datetime.now(datetime.timezone.utc)
@@ -140,7 +141,7 @@ def search_videos(keyword, keyword_id, exclude_ids=None):
 
 
 def video_stats(video_ids, record_date, keyword_id):
-    print("수집된 영상의 조회수/좋아요 수 수집하는 중...")
+    print("수집된 영상의 데이터를 수집하는 중...")
     videos_data_list = []
 
     for i in range(0, len(video_ids), 50):
@@ -148,7 +149,7 @@ def video_stats(video_ids, record_date, keyword_id):
         try:
             video_response = youtube.videos().list(
                 id=','.join(chunk_ids),
-                part='statistics'
+                part='snippet, statistics'
             ).execute()
 
             searching_ids = set()
@@ -156,13 +157,16 @@ def video_stats(video_ids, record_date, keyword_id):
                 video_id = item['id']
                 searching_ids.add(video_id)
                 stats = item.get('statistics', {})
+                snippet = item.get('snippet', {})
                 videos_data_list.append({
                     'record_date' : record_date,
                     'video_id' : video_id,
                     'keyword_id' : keyword_id,
+                    'title' : snippet.get('title', ''),
                     'daily_view_count': int(stats.get('viewCount', 0)),
                     'daily_like_count': int(stats.get('likeCount', 0)),
-                    'daily_comment_count': int(stats.get('commentCount', 0))
+                    'daily_comment_count': int(stats.get('commentCount', 0)),
+                    'url': f'https://www.youtube.com/watch?v={video_id}'
                 })
 
             if len(searching_ids) < len(chunk_ids):
@@ -240,6 +244,77 @@ def run_search(keyword):
 
     print(json.dumps(result_json, ensure_ascii=False, indent=4))
     return result_json
+
+def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
+    try:
+        request = youtube.videos().list(
+            part='snippet',
+            chart="mostPopular",
+            regionCode="KR",
+            maxResults=video_count
+        )
+        response = request.execute()
+    except Exception as e:
+        print(f"추천 영상을 탐색하던 중 에러 발생: {e}")
+        return []
+
+    items = response.get('items', [])
+    if not items:
+        print("수집된 추천 영상이 없습니다.")
+        return []
+
+    results = []
+    conn = get_db_connection()
+
+    try:
+        with conn.cursor() as cursor:
+            sql_query = """
+                insert into recommend (type, url, content, published_date) values (%s, %s, %s, %s)
+                    on duplicate key update content = VALUES(content)
+            """
+
+            for item in items:
+                video_id = item.get('id')
+                snippet = item.get('snippet', {})
+
+                video_url = f"https://www.youtube.com/watch?v={video_id}"
+                title = snippet.get('title', '')
+
+                raw_time = snippet.get('publishedAt')
+                if raw_time:
+                    try:
+                        created_at = datetime.datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
+                        created_at_str = created_at.strftime('%Y-%m-%d %H:%M:%S')
+                    except Exception as e:
+                        created_at_str = None
+                else:
+                    created_at_str = None
+
+                values = (
+                    "youtube",
+                    video_url,
+                    title,
+                    created_at_str
+                )
+                cursor.execute(sql_query, values)
+
+                results.append({
+                    "type": "youtube",
+                    "url": video_url,
+                    "full_text": title,
+                    "created_at": created_at_str
+                })
+            conn.commit()
+            print(f"추천 영상을 DB에 저장했습니다")
+
+    except Exception as e:
+        print(f"API로 추천 영상을 서칭하는 중 오류가 발생했습니다: {e}")
+        conn.rollback()
+    finally:
+        conn.close()
+
+    return results
+
 
 if __name__ == "__main__":
     run_search(DEFAULT_KEYWORD)
