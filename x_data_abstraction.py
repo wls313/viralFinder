@@ -2,7 +2,7 @@ import os, sys
 import pymysql
 
 from apify_client import ApifyClient
-from datetime import datetime
+from datetime import datetime, timedelta
 from config.database import get_keyword_id
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -14,8 +14,8 @@ from key_setting import apify_api_key, host_ip, user_value, password_value, data
 
 client = ApifyClient(apify_api_key)
 TWITS_NUM = 5
-START_DATE = None # 현재 시간
-END_DATE = None # 2주 전
+START_DATE = (datetime.now() - timedelta(weeks=2)).strftime("%Y-%m-%d")
+END_DATE = datetime.now().strftime("%Y-%m-%d")
 SEARCHING_TWEETS_COUNTS = 10
 
 def get_db_connection():
@@ -62,10 +62,8 @@ def search_x(keyword, keyword_id):
     }
 
     try:
-        run_handle = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
-        run = client.run(run_handle["id"]).wait(timeout_secs=180)
-
-        items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
+        run = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
+        items = list(client.dataset(run.default_dataset_id).iterate_items())
 
         conn = get_db_connection()
         try:
@@ -77,27 +75,27 @@ def search_x(keyword, keyword_id):
                 """
 
                 for item in items:
-                    raw_time = item.get("created_at")
+                    raw_time = item.get("createdAt")
                     created_at = datetime.strptime(raw_time, "%a %b %d %H:%M:%S +0000 %Y") if raw_time else None
 
-                    user = item.get("user", {})
+                    user = item.get("author", {})
 
-                    screen_name = user.get("screen_name")
-                    tweet_id = item.get("id_str")
+                    screen_name = user.get("userName")
+                    tweet_id = item.get("id")
                     tweet_url = item.get("url") or f"https://x.com/{screen_name}/status/{tweet_id}"
 
                     values = (
-                        item.get("id_str"),
+                        tweet_id,
                         keyword_id,
-                        item.get("full_text"),
+                        item.get("full_text") or item.get("text"),
                         created_at,
-                        user.get("screen_name"),
-                        int(user.get("id_str", 0)),
-                        item.get("favorite_count", 0),
-                        item.get("retweet_count", 0),
-                        item.get("reply_count", 0),
-                        item.get("quote_count", 0),
-                        item.get("view_count", 0),
+                        user.get("userName"),
+                        int(user.get("id", 0)),
+                        item.get("likeCount", 0),
+                        item.get("retweetCount", 0),
+                        item.get("replyCount", 0),
+                        item.get("quoteCount", 0),
+                        item.get("viewCount", 0),
                         tweet_url
                     )
                     cursor.execute(sql_query, values)
@@ -133,10 +131,9 @@ def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
     results=[]
 
     try:
-        run_handle = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
-        run = client.run(run_handle["id"]).wait(timeout_secs=180)
+        run = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
+        items = list(client.dataset(run.default_dataset_id).iterate_items())
 
-        items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
         conn = get_db_connection()
         try:
             with conn.cursor() as cursor:
@@ -146,15 +143,15 @@ def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
                 """
 
                 for item in items:
-                    raw_time = item.get("created_at")
+                    raw_time = item.get("createdAt")
                     created_at = datetime.strptime(raw_time, "%a %b %d %H:%M:%S +0000 %Y") if raw_time else None
 
-                    user = item.get("user", {})
-                    screen_name = user.get("screen_name")
-                    tweet_id = item.get("id_str")
+                    user = item.get("author", {})
+                    screen_name = user.get("userName")
+                    tweet_id = item.get("id")
 
                     tweet_url = item.get("url") or f"https://x.com/{screen_name}/status/{tweet_id}"
-                    full_text = item.get("full_text")
+                    full_text = item.get("fullText") or item.get("text")
 
                     values = (
                         "tweet",
