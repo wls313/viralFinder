@@ -8,7 +8,7 @@ SERVER_ROOT = os.path.dirname(CURRENT_DIR)
 
 # X 크롤링 모듈 로드
 try:
-    from server.crawling.x_data_abstraction import get_X_data
+    from crawling.x_data_abstraction import get_X_data
 except ImportError:
     sys.path.append(os.path.join(SERVER_ROOT, "crawling"))
     from x_data_abstraction import get_X_data

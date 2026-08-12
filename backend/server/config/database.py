@@ -1,21 +1,9 @@
-import pandas as pd
 import pymysql
-
+import pandas as pd
 from .config import DB_CONFIG
 
-
-def get_or_create_keyword_id(conn, keyword_name):
+def get_keyword_id(conn, keyword_name):
     with conn.cursor() as cursor:
-        sql = "SELECT keyword_id FROM keyword WHERE target_keyword = %s;"
-        cursor.execute(sql, (keyword_name,))
-        result = cursor.fetchone()
-        if result:
-            return result[0]
-
-        sql = "INSERT IGNORE INTO keyword (target_keyword) VALUES (%s);"
-        cursor.execute(sql, (keyword_name,))
-        conn.commit()
-
         sql = "SELECT keyword_id FROM keyword WHERE target_keyword = %s;"
         cursor.execute(sql, (keyword_name,))
         result = cursor.fetchone()
@@ -27,7 +15,7 @@ def fetch_data(keyword_name_or_id):
         if str(keyword_name_or_id).isdigit():
             keyword_id = int(keyword_name_or_id)
         else:
-            keyword_id = get_or_create_keyword_id(conn, keyword_name_or_id)
+            keyword_id = get_db_keyword_id = get_keyword_id(conn, keyword_name_or_id)
 
         if not keyword_id:
             return pd.DataFrame(), pd.DataFrame(), None
@@ -36,13 +24,10 @@ def fetch_data(keyword_name_or_id):
                       SELECT
                           n.period,
                           n.relative_ratio AS weight_naver,
-                          IFNULL(g.relative_ratio, 0) AS weight_google,
-                          IFNULL(t.relative_ratio, 0) AS weight_twitter
+                          g.relative_ratio AS weight_google
                       FROM naver n
-                               LEFT JOIN google g ON n.keyword_id = g.keyword_id AND n.period = g.period
-                               LEFT JOIN twitter t ON n.keyword_id = t.keyword_id AND n.period = t.period
-                      WHERE n.keyword_id = %s
-                      ORDER BY n.period ASC;
+                               JOIN google g ON n.keyword_id = g.keyword_id AND n.period = g.period
+                      WHERE n.keyword_id = %s;
                       """
 
         video_query = """

@@ -2,11 +2,10 @@ import os
 import sys
 
 from fastapi import FastAPI
-from fastapi.concurrency import run_in_threadpool
+from progress_state import progress
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
-from progress_state import progress
+from fastapi.concurrency import run_in_threadpool
 
 # 상위(server) 폴더 경로
 current_dir = os.path.dirname(os.path.realpath(__file__))

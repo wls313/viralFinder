@@ -18,10 +18,10 @@ import pandas as pd
 import redis
 import pymysql
 
-from server.config.database import fetch_data
-from server.config.config import DB_CONFIG
-from server.analyzer.analyzer import analyze_viral_traffic
-from server.analyzer.crawler_service import run_sequential_crawling
+from config.database import fetch_data
+from config.config import DB_CONFIG
+from analyzer.analyzer import analyze_viral_traffic
+from analyzer.crawler_service import run_sequential_crawling
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
@@ -55,7 +55,7 @@ def save_tweets(keyword_id: int, tweets: list):
             query = """
                     INSERT IGNORE INTO x_tweet 
                 (tweet_id, keyword_id, full_text, screen_name, user_id, favorite_count, retweet_count, view_count, created_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s); \
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
                     """
             for tweet in tweets:
                 raw_views = tweet.get("views", 0)

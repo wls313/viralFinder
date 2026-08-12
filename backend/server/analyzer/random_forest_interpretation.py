@@ -1,10 +1,15 @@
-import joblib
 import pandas as pd
+import joblib
 import pymysql
-from Scripts.new_youtube_data_abstraction import DEFAULT_KEYWORD
-from key_setting import host_ip, user_value, password_value, database_name
+
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+from config.config import (
+    host_ip,
+    user_value,
+    password_value,
+    database_name
+)
 
 
 def get_db_connection():
@@ -16,16 +21,14 @@ def viral_interpretation(keyword):
 
     try:
         with conn.cursor() as cursor:
-            cursor.execute("select keyword_id from analysis_keyword where target_keyword=%s",(keyword,))
+            cursor.execute("select keyword_id from keyword where target_keyword=%s",(keyword,))
             results = cursor.fetchone()
             if not results:
                 print(f"오류-DB에 {keyword} 데이터가 존재하지 않습니다.")
                 return {"conclusion": "데이터 없음"}
             keyword_id = results[0]
 
-            cursor.execute("select MAX(update_coun"
-                           ""
-                           "t) from youtube_video where keyword_id=%s",(keyword_id,))
+            cursor.execute("select MAX(update_count) from youtube where keyword_id=%s",(keyword_id,))
             max_update_results = cursor.fetchone()
             data_gradient = max_update_results[0] if max_update_results[0] else 0
 
@@ -33,13 +36,13 @@ def viral_interpretation(keyword):
                 print(f"오류-데이터가 부족합니다.")
                 return {"conclusion": "데이터 부족"}
 
-        query_latest = f"SELECT video_id, daily_view_count, daily_like_count, daily_comment_count FROM youtube_video WHERE keyword_id={keyword_id} AND update_count={data_gradient}"
+        query_latest = f"SELECT video_id, daily_view_count, daily_like_count, daily_comment_count FROM youtube WHERE keyword_id={keyword_id} AND update_count={data_gradient}"
         df_latest = pd.read_sql(query_latest, conn)
 
-        query_first = f"SELECT video_id, daily_view_count FROM youtube_video WHERE keyword_id={keyword_id} AND update_count=1"
+        query_first = f"SELECT video_id, daily_view_count FROM youtube WHERE keyword_id={keyword_id} AND update_count=1"
         df_first = pd.read_sql(query_first, conn)
 
-        query_comments = f"SELECT video_id, analysis_id, like_count, is_ad FROM video_comment_analysis WHERE update_count={data_gradient}"
+        query_comments = f"SELECT video_id, analysis_id, like_count, is_ad FROM youtube_comments WHERE keyword_id={keyword_id} AND update_count={data_gradient}"
         df_comments = pd.read_sql(query_comments, conn)
 
     except Exception as e:
@@ -116,6 +119,3 @@ def viral_interpretation(keyword):
         results["conclusion"] = "소강상태"
 
     return results
-
-if __name__ == '__main__':
-    viral_interpretation(DEFAULT_KEYWORD)
