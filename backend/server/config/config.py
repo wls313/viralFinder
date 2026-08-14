@@ -18,10 +18,10 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 # 데이터베이스 설정
 DB_CONFIG = {
-    "host": "localhost",
-    "user":
-    "password":
-    "database":
+    "host": ,
+    "user": ,
+    "password": ,
+    "database": ,
     "charset": "utf8mb4",
 }
 
