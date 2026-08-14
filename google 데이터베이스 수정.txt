@@ -1,0 +1,15 @@
+create table google
+(
+    trend_id       bigint auto_increment
+        primary key,
+    keyword_id     int                                not null,
+    period date not null comment '측정 날짜',
+    relative_ratio decimal(5, 2)                      not null comment '상대적 비율 (0~100)',
+    created_at     datetime default CURRENT_TIMESTAMP null,
+    search_range   int                                not null comment '검색 기간',
+    constraint uq_google
+        unique (keyword_id, period),
+    constraint google_ibfk_1
+        foreign key (keyword_id) references keyword (keyword_id)
+            on delete cascade
+);
