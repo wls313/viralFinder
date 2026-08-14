@@ -8,17 +8,14 @@ SERVER_ROOT = os.path.dirname(CURRENT_DIR)
 
 # X 크롤링 모듈 로드
 try:
-    from server.crawling.x_data_abstraction import get_X_data
+    from server.crawling.x_data_abstraction import search_x
 except ImportError:
     sys.path.append(os.path.join(SERVER_ROOT, "crawling"))
-    from x_data_abstraction import get_X_data
+    from x_data_abstraction import search_x
 
 
 def run_sequential_crawling(keyword: str) -> list:
-    """
-    네이버 -> 구글 -> X(Twitter) 순서로 크롤링을 진행합니다.
-    하나가 실패해도 다음 크롤러가 정상 작동하도록 개별 예외처리를 적용했습니다.
-    """
+
     # 1. 네이버 데이터랩 크롤링
     logging.info(f"[1/3] 네이버 수집 시작: {keyword}")
     try:
@@ -40,6 +37,7 @@ def run_sequential_crawling(keyword: str) -> list:
         google_script = os.path.join(SERVER_ROOT, "crawling", "pytrends_crawling.py")
         subprocess.run(
             [sys.executable, google_script, keyword],
+
             text=True,
             encoding='utf-8',
             cwd=SERVER_ROOT,
@@ -53,7 +51,9 @@ def run_sequential_crawling(keyword: str) -> list:
     logging.info(f"[3/3] X(Twitter) 수집 시작: {keyword}")
     x_tweets = []
     try:
-        x_tweets = get_X_data(keyword, max_items=5)
+        x_tweets = search_x(keyword)
+        if x_tweets is None:
+            x_tweets = []
         logging.info(f"[3/3] X(Twitter) 수집 완료 ({len(x_tweets)}건)")
     except Exception as e:
         logging.error(f"[3/3] X(Twitter) 수집 실패: {e}")
