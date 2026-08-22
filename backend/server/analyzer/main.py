@@ -110,7 +110,7 @@ def wait_for_cache(keyword: str):
 
 
 @app.get("/api/analysis/{keyword}")
-async def get_trend(keyword: str):
+def get_trend(keyword: str):
     keyword = keyword.strip()
     if not keyword:
         raise HTTPException(status_code=400, detail="키워드를 입력해주세요.")
