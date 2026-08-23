@@ -1,9 +1,9 @@
 import os
 import sys
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))  # analyzer
-SERVER_ROOT = os.path.dirname(CURRENT_DIR)                # server
-BACKEND_ROOT = os.path.dirname(SERVER_ROOT)              # backend
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+SERVER_ROOT = os.path.dirname(CURRENT_DIR)
+BACKEND_ROOT = os.path.dirname(SERVER_ROOT)
 
 for p in [BACKEND_ROOT, SERVER_ROOT]:
     if p not in sys.path:
@@ -24,16 +24,19 @@ from server.analyzer.analyzer import analyze_viral_traffic
 from server.analyzer.crawler_service import run_sequential_crawling
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger(__name__)
 
-app = FastAPI()
+app = FastAPI(title="Trend Tracker Python Crawler Service")
 
-# Redis 연결 세팅
 rd = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
 
 CACHE_EXPIRE_HOURS = 6
 LOCK_TIMEOUT = 180
+LOCK_WAIT_LIMIT = 120
+LOCK_WAIT_INTERVAL = 2
 
-def ensure_keyword_id(keyword_name: str):
+
+def get_keyword_id(keyword_name: str):
     conn = pymysql.connect(**DB_CONFIG)
     try:
         with conn.cursor() as cursor:
@@ -42,6 +45,37 @@ def ensure_keyword_id(keyword_name: str):
             cursor.execute("SELECT keyword_id FROM keyword WHERE target_keyword = %s;", (keyword_name,))
             row = cursor.fetchone()
             return row[0] if row else None
+    finally:
+        conn.close()
+
+# 추가-구글/네이버 데이터 가져오기
+def get_trend_char(table: str, keyword_id: int):
+    msmt_ago = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
+    conn = pymysql.connect(**DB_CONFIG)
+    try:
+        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
+            if table == 'naver':
+                query = """
+                    select period, relative_ratio as ratio from naver where keyword_id = %s
+                    and search_range = 90
+                    and period >= %s
+                    and created_at = (select max(created_at) from naver where keyword_id = %s and search_range = 90)
+                    order by period asc;
+                """
+                cursor.execute(query, (keyword_id, msmt_ago, keyword_id))
+
+            elif table == 'google':
+                query = """
+                    select period, relative_ratio as ratio from google where keyword_id = %s
+                    and period >= %s and created_at = (select max(created_at) from google where keyword_id = %s and search_range = 90)
+                    order by period asc;
+                """
+                cursor.execute(query, (keyword_id, msmt_ago, keyword_id))
+            return cursor.fetchall()
+
+    except Exception as e:
+        logger.error(f"{table} 트렌드 조회 실패: {e}")
+        return []
     finally:
         conn.close()
 
@@ -73,61 +107,58 @@ def save_tweets(keyword_id: int, tweets: list):
                     datetime.now()
                 ))
             conn.commit()
-            logging.info(f"x_tweet DB 저장 완료: {len(tweets)}건")
+            logger.info(f"x_tweet 저장 {len(tweets)}건")
     except Exception as e:
-        logging.error(f"x_tweet DB 저장 실패: {e}")
+        logger.error(f"x_tweet 저장 실패: {e}")
     finally:
         conn.close()
 
 
+def get_cached(keyword: str):
+    cached = rd.get(keyword)
+    if not cached:
+        return None
+
+    data = json.loads(cached)
+    updated_at = datetime.strptime(data["updated_at"], "%Y-%m-%d %H:%M:%S")
+    now = datetime.now()
+
+    if now.date() == updated_at.date() and (now - updated_at) <= timedelta(hours=CACHE_EXPIRE_HOURS):
+        return data
+    return None
+
+
+def wait_for_cache(keyword: str):
+    elapsed = 0
+    while elapsed < LOCK_WAIT_LIMIT:
+        time.sleep(LOCK_WAIT_INTERVAL)
+        elapsed += LOCK_WAIT_INTERVAL
+        cached = rd.get(keyword)
+        if cached:
+            return json.loads(cached)
+    raise HTTPException(status_code=530, detail="수집 작업 대기 시간이 초과되었습니다.")
+
+
 @app.get("/api/analysis/{keyword}")
-async def get_trend_analysis(keyword: str):
+def get_trend(keyword: str):
     keyword = keyword.strip()
     if not keyword:
         raise HTTPException(status_code=400, detail="키워드를 입력해주세요.")
 
-    now = datetime.now()
-    lock_key = f"lock:analysis:{keyword}"
-
-    # 캐시 체크
-    cached = rd.get(keyword)
+    cached = get_cached(keyword)
     if cached:
-        cached_data = json.loads(cached)
-        updated_at = datetime.strptime(cached_data["updated_at"], "%Y-%m-%d %H:%M:%S")
+        return cached
 
-        # 날짜가 같고 6시간 이내라면 캐시 반환
-        if now.date() == updated_at.date() and (now - updated_at) <= timedelta(hours=CACHE_EXPIRE_HOURS):
-            logging.info(f"[Cache Hit] '{keyword}' 데이터 반환")
-            return cached_data
+    lock_key = f"lock:analysis:{keyword}"
+    acquired = rd.set(lock_key, "locked", nx=True, ex=LOCK_TIMEOUT)
 
-    logging.info(f"[Cache Miss] '{keyword}' 신규 크롤링 진행")
+    if not acquired:
+        logger.info(f"'{keyword}' 선행 작업 대기")
+        return wait_for_cache(keyword)
 
-    # 분산 락
-    ac_lock = rd.set(lock_key, "locked", nx=True, ex=LOCK_TIMEOUT)
-
-    if not ac_lock:
-        logging.info(f"'{keyword}' 선행 작업 진행 중. 캐시 생성 대기...")
-        wait_limit = 120
-        interval = 2
-        elapsed = 0
-
-        while elapsed < wait_limit:
-            time.sleep(interval)
-            elapsed += interval
-
-            cached = rd.get(keyword)
-            if cached:
-                logging.info(f"[Wait Success] '{keyword}' 캐시 생성 완료 확인")
-                return json.loads(cached)
-
-        raise HTTPException(status_code=530, detail="수집 작업 대기 시간이 초과되었습니다.")
-
-    # 크롤링 및 데이터 분석 수행
     try:
-        keyword_id = ensure_keyword_id(keyword)
-
+        keyword_id = get_keyword_id(keyword)
         x_tweets = run_sequential_crawling(keyword)
-
         save_tweets(keyword_id, x_tweets)
 
         fetch_result = fetch_data(keyword)
@@ -135,44 +166,36 @@ async def get_trend_analysis(keyword: str):
         db_keyword_id = fetch_result[2] if isinstance(fetch_result, tuple) and len(fetch_result) > 2 else keyword_id
 
         if trend_df is None or (isinstance(trend_df, pd.DataFrame) and trend_df.empty):
-            logging.warning(f"'{keyword}' 트렌드 데이터 수집 실패")
             raise HTTPException(status_code=404, detail="트렌드 데이터를 찾을 수 없습니다.")
 
         trend_summary = analyze_viral_traffic(trend_df)
 
-        # API 응답
+        naver_data_list = get_trend_char("naver", keyword_id)
+        google_data_list = get_trend_char("google", keyword_id)
+
         response_data = {
             "status": "success",
             "keyword_id": db_keyword_id,
             "keyword_name": keyword,
-            "updated_at": now.strftime("%Y-%m-%d %H:%M:%S"),
+            "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "trends": trend_summary,
-            "twitter_trends": x_tweets
+            "twitter_trends": x_tweets,
+            "naver_trend": naver_data_list,
+            "google_trend": google_data_list
         }
 
-        # 4. Redis 캐시 저장 (TTL: 6시간)
-        serialized = json.dumps(response_data, ensure_ascii=False)
-        rd.setex(name=keyword, time=timedelta(hours=CACHE_EXPIRE_HOURS), value=serialized)
-        logging.info(f"[Cache Saved] '{keyword}' 캐시 저장 완료")
-
+        rd.setex(keyword, timedelta(hours=CACHE_EXPIRE_HOURS), json.dumps(response_data, ensure_ascii=False))
         return response_data
 
-    except HTTPException as he:
-        raise he
+    except HTTPException:
+        raise
     except Exception as e:
-        logging.error(f"분석 파이프라인 오류: {e}")
+        logger.error(f"분석 파이프라인 오류: {e}")
         raise HTTPException(status_code=500, detail=f"서버 에러: {e}")
-
     finally:
-        # 락 해제
         rd.delete(lock_key)
 
-def main(keyword):
-    import asyncio
-    return asyncio.run(get_trend_analysis(keyword))
 
 if __name__ == "__main__":
-    user_input = input("분석할 키워드를 입력하세요: ").strip()
-    if user_input:
-        res = main(user_input)
-        print(json.dumps(res, indent=4, ensure_ascii=False))
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

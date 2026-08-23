@@ -122,4 +122,8 @@ if __name__ == '__main__':
     keyword = sys.argv[1] if len(sys.argv) > 1 else ""
     search_range = int(sys.argv[2]) if len(sys.argv) > 2 else 90
 
-    search_keyword(keyword, search_range)
+    if keyword:
+        search_keyword(keyword, search_range)
+    else:
+        # search_keyword("두바이초콜릿", 90)
+        print(json.dumps({"status": "error", "message": "google 에러: 키워드를 전달받지 못했습니다."}))

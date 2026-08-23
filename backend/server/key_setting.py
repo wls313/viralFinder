@@ -5,9 +5,9 @@ youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'
 
 DB_CONFIG = {
     "host": "127.0.0.1",
-    "user": ,
-    "password": ,
-    "database": ,
+    "user": "root",
+    "password": "laplace1234",
+    "database": "viral_finder",
     "charset": "utf8mb4",
 }
 

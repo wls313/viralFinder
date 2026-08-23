@@ -86,12 +86,15 @@ def search_keyword(keyword, search_range):
             except Exception as db_e:
                 db_message = f"데이터베이스 저장 실패 혹은 중복 데이터가 발생했습니다. : {str(db_e)}"
 
+            result_data = df[['period', 'relative_ratio']].to_dict(orient='records')
+
             print(json.dumps({
                "status": "success",
                 "keyword": keyword,
                 "current_date": end_date,
                 "search_range": search_range,
-                "db_message": db_message
+                "db_message": db_message,
+                "data": result_data
             }, ensure_ascii=False))
 
         else:
@@ -115,4 +118,5 @@ if __name__ == '__main__':
     if keyword:
         search_keyword(keyword, search_range)
     else:
-        print(json.dumps({"status": "error", "message": "키워드를 전달받지 못했습니다."}))
+        # search_keyword("두바이초콜릿", 90)
+        print(json.dumps({"status": "error", "message": "naver 에러: 키워드를 전달받지 못했습니다."}))

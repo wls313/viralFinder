@@ -10,7 +10,7 @@ import pymysql
 current_dir = os.path.dirname(os.path.realpath(__file__))
 top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
-    sys.path.append(top_level_dir)
+    sys.path.insert(0, top_level_dir)
 
 from key_setting import youtube_api_key, host_ip, user_value, password_value, database_name
 from analyzer import words_extractor, random_forest_interpretation
@@ -235,12 +235,8 @@ def run_search(keyword):
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
 
-    if current_updated >= 7:
-        print(f"해당 키워드의 데이터가 {current_updated}번 업데이트 되었습니다. 충분한 데이터를 얻었기에 바이럴 판독을 시작합니다.")
-        results = random_forest_interpretation.viral_interpretation(keyword)
-        result_json['analysis'] = results
-    else:
-        result_json['analysis'] = f"데이터 수집(업데이트 횟수: {current_updated})"
+    results = random_forest_interpretation.viral_interpretation(keyword)
+    result_json['analysis'] = results
 
     print(json.dumps(result_json, ensure_ascii=False, indent=4))
     return result_json
