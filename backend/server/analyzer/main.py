@@ -23,6 +23,7 @@ from server.config.config import DB_CONFIG
 from server.analyzer.analyzer import analyze_viral_traffic
 from server.analyzer.crawler_service import run_sequential_crawling
 
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -45,37 +46,6 @@ def get_keyword_id(keyword_name: str):
             cursor.execute("SELECT keyword_id FROM keyword WHERE target_keyword = %s;", (keyword_name,))
             row = cursor.fetchone()
             return row[0] if row else None
-    finally:
-        conn.close()
-
-# 추가-구글/네이버 데이터 가져오기
-def get_trend_char(table: str, keyword_id: int):
-    msmt_ago = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
-    conn = pymysql.connect(**DB_CONFIG)
-    try:
-        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
-            if table == 'naver':
-                query = """
-                    select period, relative_ratio as ratio from naver where keyword_id = %s
-                    and search_range = 90
-                    and period >= %s
-                    and created_at = (select max(created_at) from naver where keyword_id = %s and search_range = 90)
-                    order by period asc;
-                """
-                cursor.execute(query, (keyword_id, msmt_ago, keyword_id))
-
-            elif table == 'google':
-                query = """
-                    select period, relative_ratio as ratio from google where keyword_id = %s
-                    and period >= %s and created_at = (select max(created_at) from google where keyword_id = %s and search_range = 90)
-                    order by period asc;
-                """
-                cursor.execute(query, (keyword_id, msmt_ago, keyword_id))
-            return cursor.fetchall()
-
-    except Exception as e:
-        logger.error(f"{table} 트렌드 조회 실패: {e}")
-        return []
     finally:
         conn.close()
 
@@ -158,7 +128,9 @@ def get_trend(keyword: str):
 
     try:
         keyword_id = get_keyword_id(keyword)
-        x_tweets = run_sequential_crawling(keyword)
+
+        results_data = run_sequential_crawling(keyword)
+        x_tweets = results_data.get("x_trends_data", [])
         save_tweets(keyword_id, x_tweets)
 
         fetch_result = fetch_data(keyword)
@@ -170,8 +142,8 @@ def get_trend(keyword: str):
 
         trend_summary = analyze_viral_traffic(trend_df)
 
-        naver_data_list = get_trend_char("naver", keyword_id)
-        google_data_list = get_trend_char("google", keyword_id)
+        naver_data_list = results_data.get("naver_data", [])
+        google_data_list = results_data.get("google_data", [])
 
         response_data = {
             "status": "success",
