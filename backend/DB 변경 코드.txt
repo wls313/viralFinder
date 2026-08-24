@@ -1,0 +1,24 @@
+CREATE TABLE youtube_video (
+	video_id VARCHAR(50) NOT NULL COMMENT "유튜브 영상id",
+	update_count INT NOT NULL DEFAULT 1 COMMENT "업데이트 횟수",
+	record_date DATETIME NOT NULL COMMENT "측정기간",
+	keyword_id INT NOT NULL COMMENT "키워드id",
+	daily_view_count BIGINT DEFAULT 0 COMMENT "일일 조회수",
+	daily_like_count INT DEFAULT 0 COMMENT "일일 좋아요수",
+	daily_comment_count INT DEFAULT 0 COMMENT "일일 총댓글수",
+	PRIMARY KEY (video_id, update_count),
+	FOREIGN KEY (keyword_id) REFERENCES analysis_keyword(keyword_id)
+);
+
+CREATE TABLE video_comment_analysis (
+	analysis_id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT "댓글 고유 번호",
+	record_date DATETIME NOT NULL COMMENT "측정기간",
+	video_id VARCHAR(50) NOT NULL COMMENT "영상id",
+	update_count INT NOT NULL COMMENT "업데이트 횟수,
+	like_count INT DEFAULT 0 COMMENT "좋아요수",
+	caption_name VARCHAR(50) NOT NULL COMMENT "캡션명",
+	content TEXT COMMENT "댓글 내용",
+	is_ad INT COMMENT "광고 여부",
+    	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT "댓글 작성 날짜",
+    FOREIGN KEY (video_id, update_count) REFERENCES youtube_video(video_id, update_count)
+);

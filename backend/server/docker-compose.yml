@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  tt-redis:
+    image: redis:alpine
+    container_name: tt_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: tt_redis_insight
+    ports:
+      - "5540:5540"
+    depends_on:
+      - tt-redis
+    restart: always

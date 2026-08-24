@@ -2,7 +2,7 @@ import os
 import sys
 
 from fastapi import FastAPI
-from server.progress_state import progress
+from progress_state import progress
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from fastapi.concurrency import run_in_threadpool
@@ -13,7 +13,7 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
-from server.crawling.new_youtube_data_abstraction import (
+from crawling.new_youtube_data_abstraction import (
     run_search,
     get_keyword_id
 )

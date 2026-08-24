@@ -13,7 +13,7 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
-from server.key_setting import gemini_api_key
+from key_setting import gemini_api_key
 
 client = genai.Client(api_key=gemini_api_key)
 
