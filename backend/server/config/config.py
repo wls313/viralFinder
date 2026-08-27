@@ -20,8 +20,8 @@ warnings.filterwarnings("ignore", category=UserWarning)
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "1234",
-    "database": "tt",
+    "password": "laplace1234",
+    "database": "viral_finder",
     "charset": "utf8mb4",
 }
 
@@ -30,11 +30,16 @@ user_value = DB_CONFIG["user"]
 password_value = DB_CONFIG["password"]
 database_name = DB_CONFIG["database"]
 
-# 유튜브 api 키
+# Youtube Data API
 youtube_api_key = 'AIzaSyCx-AlOUq3HNhSQkF0y33RX-5uDQcerEvM'
 
-#네이버 테이터 랩
 # Naver Datalab
 naver_client_id = 'Or44GhFkSQ6ld3by3_tx'
 naver_client_secret = '5fgc908_KF'
 naver_openapi_url = "https://openapi.naver.com/v1/datalab/search"
+
+# Gemini (필요없을 시 삭제)
+gemini_api_key = 'AQ.Ab8RN6JYXWKnUfRV_EwiS4TtvgQgeDN3fTM5vOZTg06QVxOP6A'
+
+# Apify-X
+apify_api_key = 'apify_api_bLprc5LGim7klK8P6TwiWVoqcadFfF3y0hjE'

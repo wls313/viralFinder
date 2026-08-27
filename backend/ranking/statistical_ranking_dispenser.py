@@ -11,7 +11,7 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
-from key_setting import host_ip, user_value, password_value, database_name
+from config.config import DB_CONFIG
 from crawling.x_data_abstraction import search_trending_tweets
 from crawling.new_youtube_data_abstraction import search_recommend_videos
 
@@ -24,8 +24,8 @@ app.add_middleware(
 )
 
 def get_db_connection():
-    return pymysql.connect(host=host_ip, user=user_value, password=password_value, database=database_name,
-                           charset='utf8mb4')
+    return pymysql.connect(host=DB_CONFIG["host"], user=DB_CONFIG["user"], password=DB_CONFIG["password"],
+                           database=DB_CONFIG["database"], charset=DB_CONFIG["charset"])
 
 # 언급량 통계
 @app.get("/get_mention_volume_ranking")
