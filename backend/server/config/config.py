@@ -20,8 +20,8 @@ warnings.filterwarnings("ignore", category=UserWarning)
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "laplace1234",
-    "database": "viral_finder",
+    "password": "1234",
+    "database": "tt",
     "charset": "utf8mb4",
 }
 
@@ -29,6 +29,8 @@ host_ip = DB_CONFIG["host"]
 user_value = DB_CONFIG["user"]
 password_value = DB_CONFIG["password"]
 database_name = DB_CONFIG["database"]
+
+DB_URL = f"mysql+pymysql://{user_value}:{password_value}@{host_ip}/{database_name}?charset=utf8mb4"
 
 # Youtube Data API
 youtube_api_key = 'AIzaSyCx-AlOUq3HNhSQkF0y33RX-5uDQcerEvM'

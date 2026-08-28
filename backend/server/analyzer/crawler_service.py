@@ -63,12 +63,19 @@ def run_sequential_crawling(keyword: str) -> dict:
     logging.info(f"[3/3] X(Twitter) 수집 시작: {keyword}")
     x_tweets = []
     try:
-        x_tweets = search_x(keyword)
-        if x_tweets is None:
+        raw_res = search_x(keyword)
+
+        if isinstance(raw_res, list):
+            x_tweets = raw_res
+        elif isinstance(raw_res, dict):
+            x_tweets = raw_res.get("x_trends_data", raw_res.get("data", raw_res.get("tweets", [])))
+        else:
             x_tweets = []
+
         logging.info(f"[3/3] X(Twitter) 수집 완료 ({len(x_tweets)}건)")
     except Exception as e:
         logging.error(f"[3/3] X(Twitter) 수집 실패: {e}")
+        x_tweets = []
 
     return {
         "naver_data": naver_data,

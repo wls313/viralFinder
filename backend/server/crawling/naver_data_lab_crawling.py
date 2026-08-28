@@ -12,7 +12,7 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
-from config.config import DB_CONFIG, naver_client_id, naver_client_secret, naver_openapi_url
+from config.config import DB_CONFIG, DB_URL, naver_client_id, naver_client_secret, naver_openapi_url
 
 def search_keyword(keyword, search_range):
     client_id = naver_client_id
@@ -22,10 +22,19 @@ def search_keyword(keyword, search_range):
     now_time = datetime.now(kor_time)
     created_time = now_time.strftime('%Y-%m-%d %H:%M:%S')
 
-    measurement_time = now_time - timedelta(days=search_range)
+#수정
+    yesterday = now_time - timedelta(days=1)
+    end_date = yesterday.strftime('%Y-%m-%d')
+    measurement_time = yesterday - timedelta(days=search_range)
     start_date = measurement_time.strftime('%Y-%m-%d')
-    end_date = now_time.strftime('%Y-%m-%d')
     time_unit = "date"
+#여기까지
+
+    #TODO naver데이터는 당일 날짜로 할경우 결산이 끝나지않아 에러가 난다고해서 일시적으로 수정해놨습니다
+    # measurement_time = now_time - timedelta(days=search_range)
+    # start_date = measurement_time.strftime('%Y-%m-%d')
+    # end_date = now_time.strftime('%Y-%m-%d')
+    # time_unit = "date"
 
     url = naver_openapi_url
 
@@ -55,15 +64,16 @@ def search_keyword(keyword, search_range):
 
             df = pd.DataFrame(crawling_data, columns=["키워드", "측정 기간", "상대적 비율"])
 
-            db_url = URL.create(
-                drivername="mysql+pymysql",
-                username=DB_CONFIG["user"],
-                password=DB_CONFIG["password"],
-                host=DB_CONFIG["host"],
-                database=DB_CONFIG["database"],
-                query=DB_CONFIG["charset"]
-            )
-            engine = create_engine(db_url)
+            # db_url = URL.create(
+            #     drivername="mysql+pymysql",
+            #     username=DB_CONFIG["user"],
+            #     password=DB_CONFIG["password"],
+            #     host=DB_CONFIG["host"],
+            #     database=DB_CONFIG["database"],
+
+            #     query=DB_CONFIG["charset"]
+            # )
+            engine = create_engine(DB_URL)
             with engine.begin() as conn:
                 conn.execute(text("INSERT IGNORE INTO keyword (target_keyword) VALUES (:kw)"), {"kw": keyword})
                 keyword_id = conn.execute(text("SELECT keyword_id FROM keyword WHERE target_keyword = :kw"), {"kw": keyword}).fetchone()[0]

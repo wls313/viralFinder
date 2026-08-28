@@ -10,7 +10,7 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
-from key_setting import apify_api_key, host_ip, user_value, password_value, database_name
+from config.config import apify_api_key, host_ip, user_value, password_value, database_name
 
 client = ApifyClient(apify_api_key)
 TWITS_NUM = 5
@@ -61,6 +61,8 @@ def search_x(keyword):
         "end": END_DATE
     }
 
+    results = []
+
     try:
         run = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
         items = list(client.dataset(run.default_dataset_id).iterate_items())
@@ -106,6 +108,17 @@ def search_x(keyword):
                     )
                     cursor.execute(sql_query, values)
 
+                results.append({
+                    "id": tweet_id,
+                    "content": full_text,
+                    "screen_name": screen_name,
+                    "user_id": int(user.get("id", 0)),
+                    "likes": item.get("likeCount", 0),
+                    "retweets": item.get("retweetCount", 0),
+                    "views": item.get("viewCount", 0),
+                    "url": tweet_url
+                })
+
                 conn.commit()
                 print(f"{len(items)}개의 트윗을 저장했습니다!")
 
@@ -117,6 +130,8 @@ def search_x(keyword):
 
     except Exception as e:
         print(f"실행 중 오류가 발생했습니다: {e}")
+
+    return results
 
 def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
     run_input = {
