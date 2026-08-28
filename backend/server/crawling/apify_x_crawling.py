@@ -14,9 +14,8 @@ from config.config import apify_api_key, DB_CONFIG
 
 client = ApifyClient(apify_api_key)
 TWITS_NUM = 5
-START_DATE = (datetime.now() - timedelta(weeks=2)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
-END_DATE = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 SEARCHING_TWEETS_COUNTS = 10
+DEFAULT_SEARCH_RANGE = 1
 
 def get_db_connection():
     return pymysql.connect(host=DB_CONFIG["host"], user=DB_CONFIG["user"], password=DB_CONFIG["password"], database=DB_CONFIG["database"],
@@ -40,8 +39,10 @@ def get_keyword_id(keyword):
     finally:
         conn.close()
 
-def search_x(keyword):
+def search_x(keyword, search_range):
     keyword_id = get_keyword_id(keyword)
+    START_DATE = (datetime.now() - timedelta(weeks=search_range)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    END_DATE = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
     run_input = {
         "searchTerms": [
@@ -188,8 +189,14 @@ def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
 
 
 def run_x_search():
+    '''
     keyword = input("검색할 키워드를 입력하세요: ")
-    search_x(keyword)
+    search_range = input("검색할 기간(week)를 입력하세요: ")
+    '''
+    keyword = sys.argv[1] if len(sys.argv) > 1 else "버터쿠키"
+    search_range = int(sys.argv[2] if len(sys.argv) > 2 else 1)
+
+    search_x(keyword, search_range)
 
     print(f"{keyword}에 대한 X 데이터 수집을 완료했습니다.")
 
