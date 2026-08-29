@@ -12,7 +12,12 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.insert(0, top_level_dir)
 
-from key_setting import youtube_api_key, host_ip, user_value, password_value, database_name
+from config.config import youtube_api_key, DB_CONFIG
+host_ip = DB_CONFIG["host"]
+user_value = DB_CONFIG["user"]
+password_value = DB_CONFIG["password"]
+database_name = DB_CONFIG["database"]
+
 from analyzer import words_extractor, random_forest_interpretation
 
 # 테스트용 옵션

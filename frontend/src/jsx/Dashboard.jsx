@@ -27,7 +27,7 @@ function Dashboard({ keyword, result }) {
         <div className="left-content">
           <TrendChart result={result}/>
 
-          <TopContent result={result} />
+          <TopContent />
 
           {/* <div className="bottom-grid">
             <Timeline />

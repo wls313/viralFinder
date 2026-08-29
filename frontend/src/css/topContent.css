@@ -35,6 +35,25 @@
   padding: 18px;
 }
 
+.content-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.content-card-link:hover {
+  border-color: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.12);
+}
+
+.content-link-hint {
+  color: #4f46e5;
+  font-weight: 600;
+}
+
 .content-card-header {
   display: flex;
   align-items: center;

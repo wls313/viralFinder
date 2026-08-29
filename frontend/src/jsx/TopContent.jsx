@@ -1,24 +1,30 @@
+import { useEffect, useState } from "react";
+import { getRecommendedVideo, getRecommendedTweet } from "../api/rankingApi";
 import '../css/topContent.css';
 
-// TODO(백엔드): 아직 "조회수 최고 유튜브 영상 / X 게시물"을 반환하는
-// API가 없습니다. 백엔드에서 아래 형태로 result에 필드를 추가해주면
-// 그대로 연결됩니다.
-//   result.top_youtube = { url, content, createdAt }
-//   result.top_x       = { url, content, createdAt }
-// 지금은 더미 데이터로 화면만 미리 구성해뒀습니다.
+// 백엔드 랭킹 API가 반환하는 필드: {type, url, full_text, created_at}
 const DUMMY_YOUTUBE = {
   url: "https://www.youtube.com/watch?v=dummy",
-  content: "버터쿠키 만드는 법 - 초간단 레시피 브이로그",
-  createdAt: "2026-07-28",
+  full_text: "버터쿠키 만드는 법 - 초간단 레시피 브이로그",
+  created_at: "2026-07-28",
 };
 
 const DUMMY_X = {
   url: "https://x.com/dummyuser/status/000000",
-  content: "요즘 다들 버터쿠키 만들어 먹던데 진짜 맛있어요 ㅠㅠ",
-  createdAt: "2026-07-30",
+  full_text: "요즘 다들 버터쿠키 만들어 먹던데 진짜 맛있어요 ㅠㅠ",
+  created_at: "2026-07-30",
 };
 
-function ContentCard({ platform, data, isDummy }) {
+function ContentCard({ platform, data, isDummy, loading }) {
+  if (loading) {
+    return (
+      <div className="content-card">
+        <h4>{platform}</h4>
+        <p className="content-empty">불러오는 중...</p>
+      </div>
+    );
+  }
+
   if (!data) {
     return (
       <div className="content-card">
@@ -29,45 +35,80 @@ function ContentCard({ platform, data, isDummy }) {
   }
 
   return (
-    <div className="content-card">
+    <a
+      className="content-card content-card-link"
+      href={data.url}
+      target="_blank"
+      rel="noreferrer"
+    >
       <div className="content-card-header">
         <h4>{platform}</h4>
         {isDummy && <span className="dummy-badge">예시 데이터</span>}
       </div>
 
-      <p className="content-text">{data.content}</p>
+      <p className="content-text">{data.full_text}</p>
 
       <div className="content-meta">
-        <span>{data.createdAt}</span>
-        <a href={data.url} target="_blank" rel="noreferrer">
-          원본 보기 →
-        </a>
+        <span>{data.created_at}</span>
+        <span className="content-link-hint">원본 보기 →</span>
       </div>
-    </div>
+    </a>
   );
 }
 
-function TopContent({ result }) {
-  // 실제 백엔드 데이터가 있으면 그걸 쓰고, 없으면 더미로 화면 형태만 보여줌
-  const youtube = result?.top_youtube || DUMMY_YOUTUBE;
-  const x = result?.top_x || DUMMY_X;
+function TopContent() {
+  const [youtube, setYoutube] = useState(null);
+  const [x, setX] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [youtubeIsDummy, setYoutubeIsDummy] = useState(false);
+  const [xIsDummy, setXIsDummy] = useState(false);
+
+  useEffect(() => {
+    let ignore = false;
+
+    (async () => {
+      const [videoRes, tweetRes] = await Promise.allSettled([
+        getRecommendedVideo(),
+        getRecommendedTweet(),
+      ]);
+
+      if (ignore) return;
+
+      if (videoRes.status === "fulfilled" && videoRes.value?.data?.length > 0) {
+        setYoutube(videoRes.value.data[0]);
+      } else {
+        if (videoRes.status === "rejected") {
+          console.error("get_recommended_video 호출 실패:", videoRes.reason);
+        }
+        setYoutube(DUMMY_YOUTUBE);
+        setYoutubeIsDummy(true);
+      }
+
+      if (tweetRes.status === "fulfilled" && tweetRes.value?.data?.length > 0) {
+        setX(tweetRes.value.data[0]);
+      } else {
+        if (tweetRes.status === "rejected") {
+          console.error("get_recommended_tweet 호출 실패:", tweetRes.reason);
+        }
+        setX(DUMMY_X);
+        setXIsDummy(true);
+      }
+
+      setLoading(false);
+    })();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <div className="top-content">
       <h3>조회수 최고 콘텐츠</h3>
 
       <div className="top-content-grid">
-        <ContentCard
-          platform="유튜브"
-          data={youtube}
-          isDummy={!result?.top_youtube}
-        />
-
-        <ContentCard
-          platform="X (트위터)"
-          data={x}
-          isDummy={!result?.top_x}
-        />
+        <ContentCard platform="유튜브" data={youtube} isDummy={youtubeIsDummy} loading={loading} />
+        <ContentCard platform="X (트위터)" data={x} isDummy={xIsDummy} loading={loading} />
       </div>
     </div>
   );

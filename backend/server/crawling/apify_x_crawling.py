@@ -64,7 +64,7 @@ def search_x(keyword, search_range):
 
     try:
         run = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
-        items = list(client.dataset(run.default_dataset_id).iterate_items())
+        items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
 
         conn = get_db_connection()
         try:
@@ -140,7 +140,7 @@ def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
     try:
         run = client.actor("61RPP7dywgiy0JPD0").start(run_input=run_input)
         client.run(run["id"]).wait_for_finish()
-        items = list(client.dataset(run.default_dataset_id).iterate_items())
+        items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
 
         conn = get_db_connection()
         try:

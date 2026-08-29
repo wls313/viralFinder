@@ -10,7 +10,11 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
-from key_setting import apify_api_key, host_ip, user_value, password_value, database_name
+from config.config import apify_api_key, DB_CONFIG
+host_ip = DB_CONFIG["host"]
+user_value = DB_CONFIG["user"]
+password_value = DB_CONFIG["password"]
+database_name = DB_CONFIG["database"]
 
 client = ApifyClient(apify_api_key)
 TWITS_NUM = 5
@@ -139,7 +143,7 @@ def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
     try:
         run = client.actor("61RPP7dywgiy0JPD0").start(run_input=run_input)
         client.run(run["id"]).wait_for_finish()
-        items = list(client.dataset(run.default_dataset_id).iterate_items())
+        items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
 
         conn = get_db_connection()
         try:
