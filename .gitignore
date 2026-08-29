@@ -1,1 +1,3 @@
 /backend/venv
+backend/server/config/config.py
+backend/server/key_setting.py
