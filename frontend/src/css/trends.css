@@ -163,6 +163,16 @@ td {
   border-top: 1px solid #f1f5f9;
 }
 
+th:last-child, td:last-child {
+  text-align: center;
+}
+
+.table-empty {
+  text-align: center;
+  padding: 40px 0;
+  color: #9ca3af;
+}
+
 tbody tr:hover {
   background: #fafbff;
 }
