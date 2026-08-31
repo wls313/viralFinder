@@ -1,5 +1,4 @@
 from config.config import *
-
 # Youtube Data API KEY
 youtube_api_key = 'AIzaSyDiyHQPSE7dSKPXDkY5MOhi0CseNv9RLR4'
 
@@ -20,4 +19,4 @@ naver_client_secret = '5fgc908_KF'
 naver_openapi_url = "https://openapi.naver.com/v1/datalab/search"
 
 # apify-X
-apify_api_key = ('apify_api_bLprc5LGm7klK8P6TwiWVoqcadFfF3y0hjE')
+apify_api_key = 'apify_api_bLprc5LGim7klK8P6TwiWVoqcadFfF3y0hjE'

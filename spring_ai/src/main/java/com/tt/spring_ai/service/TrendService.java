@@ -39,12 +39,10 @@ public class TrendService {
             throw new RuntimeException("트렌드 데이터를 수집하지 못했습니다.");
         }
 
-        // 데이터 추출 (기존 코드 유지 및 신규 변수 추가)
         double naverRatio = (pythonData.trends() != null) ? pythonData.trends().latest_naver_ratio() : 0.0;
         double googleRatio = (pythonData.trends() != null) ? pythonData.trends().latest_google_ratio() : 0.0;
         int twitterCount = (pythonData.twitter_trends() != null) ? pythonData.twitter_trends().size() : 0;
 
-        // 새로 추가된 통계 예측 데이터
         double shortTermAvg = (pythonData.trends() != null) ? pythonData.trends().short_term_avg() : 0.0;
         double longTermAvg = (pythonData.trends() != null) ? pythonData.trends().long_term_avg() : 0.0;
         String mathPrediction = (pythonData.trends() != null) ? pythonData.trends().math_prediction() : "STAY";
