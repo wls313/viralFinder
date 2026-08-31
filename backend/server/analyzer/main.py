@@ -23,6 +23,7 @@ from server.config.config import DB_CONFIG
 from server.analyzer.analyzer import analyze_viral_traffic
 from server.analyzer.crawler_service import run_sequential_crawling
 
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -48,7 +49,6 @@ def get_keyword_id(keyword_name: str):
     finally:
         conn.close()
 
-
 def save_tweets(keyword_id: int, tweets: list):
     if not tweets or not keyword_id:
         return
@@ -73,6 +73,7 @@ def save_tweets(keyword_id: int, tweets: list):
                     tweet.get("user_id", 0),
                     tweet.get("likes", 0),
                     tweet.get("retweets", 0),
+
                     views,
                     datetime.now()
                 ))
@@ -128,7 +129,17 @@ def get_trend(keyword: str):
 
     try:
         keyword_id = get_keyword_id(keyword)
-        x_tweets = run_sequential_crawling(keyword)
+
+        results_data = run_sequential_crawling(keyword)
+
+        raw_tweets = results_data.get("x_trends_data", []) if isinstance(results_data, dict) else results_data
+        if isinstance(raw_tweets, list):
+            x_tweets = raw_tweets
+        elif isinstance(raw_tweets, dict):
+            x_tweets = raw_tweets.get("data", raw_tweets.get("tweets", []))
+        else:
+            x_tweets = []
+
         save_tweets(keyword_id, x_tweets)
 
         fetch_result = fetch_data(keyword)
@@ -136,9 +147,19 @@ def get_trend(keyword: str):
         db_keyword_id = fetch_result[2] if isinstance(fetch_result, tuple) and len(fetch_result) > 2 else keyword_id
 
         if trend_df is None or (isinstance(trend_df, pd.DataFrame) and trend_df.empty):
-            raise HTTPException(status_code=404, detail="트렌드 데이터를 찾을 수 없습니다.")
+            trend_summary = {
+                "latest_naver_ratio": 0.0,
+                "latest_google_ratio": 0.0,
+                "short_term_avg": 0.0,
+                "long_term_avg": 0.0,
+                "math_prediction": "INSUFFICIENT_DATA"
+            }
+        else:
+            trend_summary = analyze_viral_traffic(trend_df)
+        # -----------------------------------------------------------------
 
-        trend_summary = analyze_viral_traffic(trend_df)
+        naver_data_list = results_data.get("naver_data", [])
+        google_data_list = results_data.get("google_data", [])
 
         response_data = {
             "status": "success",
@@ -146,7 +167,9 @@ def get_trend(keyword: str):
             "keyword_name": keyword,
             "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "trends": trend_summary,
-            "twitter_trends": x_tweets
+            "twitter_trends": x_tweets,
+            "naver_trend": naver_data_list,
+            "google_trend": google_data_list
         }
 
         rd.setex(keyword, timedelta(hours=CACHE_EXPIRE_HOURS), json.dumps(response_data, ensure_ascii=False))

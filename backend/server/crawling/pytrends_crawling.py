@@ -13,8 +13,7 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
-from config.config import host_ip, user_value, password_value, database_name
-from key_setting import DB_CONFIG
+from config.config import DB_CONFIG
 
 
 def search_keyword(keyword, search_range, max_retries=3):
@@ -55,15 +54,13 @@ def search_keyword(keyword, search_range, max_retries=3):
 
             db_url = URL.create(
                 drivername="mysql+pymysql",
-                username=user_value,
-                password=password_value,
-                host=host_ip,
-                database=database_name,
-                query={"charset": "utf8mb4"}
+                username=DB_CONFIG["user"],
+                password=DB_CONFIG["password"],
+                host=DB_CONFIG["host"],
+                database=DB_CONFIG["database"],
+                query={"charset" : DB_CONFIG["charset"]}
             )
-
             engine = create_engine(db_url)
-
             with engine.begin() as conn:
                 conn.execute(text("INSERT IGNORE INTO keyword (target_keyword) VALUES (:kw)"), {"kw": keyword})
                 keyword_id = conn.execute(text("SELECT keyword_id FROM keyword WHERE target_keyword = :kw"), {"kw": keyword}).fetchone()[0]
@@ -122,4 +119,8 @@ if __name__ == '__main__':
     keyword = sys.argv[1] if len(sys.argv) > 1 else ""
     search_range = int(sys.argv[2]) if len(sys.argv) > 2 else 90
 
-    search_keyword(keyword, search_range)
+    if keyword:
+        search_keyword(keyword, search_range)
+    else:
+        search_keyword("아아", 90)
+        # print(json.dumps({"status": "error", "message": "google 에러: 키워드를 전달받지 못했습니다."}))

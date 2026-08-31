@@ -1,33 +1,44 @@
 import pymysql
 import pandas as pd
-from .config import DB_CONFIG
+from server.config.config import DB_CONFIG
 
-def get_keyword_id(conn, keyword_name):
-    with conn.cursor() as cursor:
-        sql = "SELECT keyword_id FROM keyword WHERE target_keyword = %s;"
-        cursor.execute(sql, (keyword_name,))
-        result = cursor.fetchone()
-        return result[0] if result else None
 
-def fetch_data(keyword_name_or_id):
+def get_keyword_id(keyword_name: str):
+    """키워드 이름을 받아 keyword_id를 반환 (없으면 INSERT)"""
     conn = pymysql.connect(**DB_CONFIG)
     try:
-        if str(keyword_name_or_id).isdigit():
-            keyword_id = int(keyword_name_or_id)
-        else:
-            keyword_id = get_db_keyword_id = get_keyword_id(conn, keyword_name_or_id)
+        with conn.cursor() as cursor:
+            cursor.execute("INSERT IGNORE INTO keyword (target_keyword) VALUES (%s);", (keyword_name,))
+            conn.commit()
+            cursor.execute("SELECT keyword_id FROM keyword WHERE target_keyword = %s;", (keyword_name,))
+            row = cursor.fetchone()
+            return row[0] if row else None
+    finally:
+        conn.close()
 
-        if not keyword_id:
-            return pd.DataFrame(), pd.DataFrame(), None
 
+def fetch_data(keyword_name_or_id):
+    """트렌드 시계열 데이터 및 비디오 데이터 조회 (LEFT JOIN 적용)"""
+    if str(keyword_name_or_id).isdigit():
+        keyword_id = int(keyword_name_or_id)
+    else:
+        keyword_id = get_keyword_id(str(keyword_name_or_id))
+
+    if not keyword_id:
+        return pd.DataFrame(), pd.DataFrame(), None
+
+    conn = pymysql.connect(**DB_CONFIG)
+    try:
+        # LEFT JOIN 적용하여 구글 데이터 누락 시에도 네이버 데이터 정상 반환
         trend_query = """
                       SELECT
                           n.period,
                           n.relative_ratio AS weight_naver,
-                          g.relative_ratio AS weight_google
+                          IFNULL(g.relative_ratio, 0.0) AS weight_google
                       FROM naver n
-                               JOIN google g ON n.keyword_id = g.keyword_id AND n.period = g.period
-                      WHERE n.keyword_id = %s;
+                               LEFT JOIN google g ON n.keyword_id = g.keyword_id AND n.period = g.period
+                      WHERE n.keyword_id = %s
+                      ORDER BY n.period ASC;
                       """
 
         video_query = """

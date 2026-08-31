@@ -12,8 +12,7 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.insert(0, top_level_dir)
 
-from key_setting import youtube_api_key, host_ip, user_value, password_value, database_name
-from analyzer import words_extractor, random_forest_interpretation
+from config.config import youtube_api_key, DB_CONFIG
 
 # 테스트용 옵션
 pd.set_option('display.width', None)
@@ -25,7 +24,7 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 # 설정값
 MAX_VIDEOS = 150
 WEAK = 7
-DEFAULT_KEYWORD = "단소살인마"
+DEFAULT_KEYWORD = "아아"
 SEARCHING_RECOMMEND_VIDEO_COUNTS = 10
 
 # 시간
@@ -34,8 +33,8 @@ measurement_time = (now_time - datetime.timedelta(days=WEAK))
 measurement_time_iso = measurement_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 def get_db_connection():
-    return pymysql.connect(host=host_ip, user=user_value, password=password_value, database=database_name,
-                           charset='utf8mb4')
+    return pymysql.connect(host=DB_CONFIG["host"], user=DB_CONFIG["user"], password=DB_CONFIG["password"], database=DB_CONFIG["database"],
+                           charset=DB_CONFIG["charset"])
 
 # 키워드 ID 조회 및 Insert
 def get_keyword_id(keyword):
@@ -235,11 +234,6 @@ def run_search(keyword):
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
 
-    results = random_forest_interpretation.viral_interpretation(keyword)
-    result_json['analysis'] = results
-
-    print(json.dumps(result_json, ensure_ascii=False, indent=4))
-    return result_json
 
 def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
     try:

@@ -1,97 +1,98 @@
 use tt;
 
--- 1. 키워드 마스터
+-- 키워드 마스터
 CREATE TABLE keyword (
                          keyword_id INT AUTO_INCREMENT PRIMARY KEY,
                          target_keyword VARCHAR(100) NOT NULL UNIQUE COMMENT '분석 대상 키워드',
                          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. 블랙리스트 (독립 테이블)
-CREATE TABLE blacklist (
-                           blacklist_id INT AUTO_INCREMENT PRIMARY KEY,
-                           caption_name VARCHAR(100) NOT NULL UNIQUE COMMENT '차단할 채널/작성자'
+-- 구글 트렌드
+create table google
+(
+    trend_id       bigint auto_increment
+        primary key,
+    keyword_id     int                                not null,
+    period date not null comment '측정 날짜',
+    relative_ratio decimal(5, 2)                      not null comment '상대적 비율 (0~100)',
+    created_at     datetime default CURRENT_TIMESTAMP null,
+    search_range   int                                not null comment '검색 기간',
+    constraint uq_google
+        unique (keyword_id, period),
+    constraint google_ibfk_1
+        foreign key (keyword_id) references keyword (keyword_id)
+            on delete cascade
 );
 
--- 3. 구글 트렌드
-CREATE TABLE google (
-                        trend_id       BIGINT AUTO_INCREMENT PRIMARY KEY,
-                        keyword_id     INT NOT NULL,
-                        'period'         DATE NOT NULL COMMENT '측정 날짜',
-                        relative_ratio DECIMAL(5, 2) NOT NULL COMMENT '상대적 비율 (0~100)',
-                        created_at     DATETIME DEFAULT CURRENT_TIMESTAMP NULL,
-                        search_range   INT NOT NULL COMMENT '검색 기간',
-                        CONSTRAINT uq_google UNIQUE (keyword_id, period),
-                        CONSTRAINT google_ibfk_1 FOREIGN KEY (keyword_id) REFERENCES keyword (keyword_id) ON DELETE CASCADE
+-- 네이버 데이터랩
+CREATE TABLE naver
+(
+    trend_id       BIGINT AUTO_INCREMENT PRIMARY KEY,
+    keyword_id     INT NOT NULL,
+    search_range   INT NOT NULL COMMENT '검색 기간',
+    period         DATE NOT NULL COMMENT '측정 날짜',
+    relative_ratio DECIMAL(5, 2) NOT NULL COMMENT '상대적 비율 (0~100)',
+    CONSTRAINT uq_naver
+        UNIQUE (keyword_id, search_range, period),
+    CONSTRAINT naver_ibfk_1
+        FOREIGN KEY (keyword_id) REFERENCES keyword (keyword_id)
+            ON DELETE CASCADE
 );
 
--- 4. 네이버 데이터랩
-CREATE TABLE naver (
-                       trend_id       BIGINT AUTO_INCREMENT PRIMARY KEY,
-                       keyword_id     INT NOT NULL,
-                       search_range   INT NOT NULL COMMENT '검색 기간',
-                       'period'         DATE NOT NULL COMMENT '측정 날짜',
-                       relative_ratio DECIMAL(5, 2) NOT NULL COMMENT '상대적 비율 (0~100)',
-                       CONSTRAINT uq_naver UNIQUE (keyword_id, search_range, period),
-                       CONSTRAINT naver_ibfk_1 FOREIGN KEY (keyword_id) REFERENCES keyword (keyword_id) ON DELETE CASCADE
+# youtube(title, url 추가)
+create table youtube
+(
+    video_id            varchar(50)      not null,
+    update_count        int    default 1 not null comment '업데이트 회차',
+    keyword_id          int              not null,
+    record_date         datetime         not null comment '수집 시점',
+    daily_view_count    bigint default 0 null,
+    daily_like_count    int    default 0 null,
+    daily_comment_count int    default 0 null,
+    title               varchar(180)     null,
+    url                 varchar(256)     null,
+    primary key (video_id, update_count),
+    constraint youtube_ibfk_1
+        foreign key (keyword_id) references keyword (keyword_id)
+            on delete cascade
 );
 
--- 5. 유튜브 영상 정보
-CREATE TABLE youtube (
-                         video_id            VARCHAR(50) NOT NULL,
-                         update_count        INT DEFAULT 1 NOT NULL COMMENT '업데이트 회차',
-                         keyword_id          INT NOT NULL,
-                         record_date         DATETIME NOT NULL COMMENT '수집 시점',
-                         daily_view_count    BIGINT DEFAULT 0 NULL,
-                         daily_like_count    INT DEFAULT 0 NULL,
-                         daily_comment_count INT DEFAULT 0 NULL,
-                         title               VARCHAR(180) NULL,
-                         url                 VARCHAR(256) NULL,
-                         PRIMARY KEY (video_id, update_count),
-                         CONSTRAINT youtube_ibfk_1 FOREIGN KEY (keyword_id) REFERENCES keyword (keyword_id) ON DELETE CASCADE
+create index keyword_id
+    on youtube (keyword_id);
+
+
+# x_tweet(url 추가)
+create table x_tweet
+(
+    tweet_id       varchar(50)  not null
+        primary key,
+    keyword_id     int          not null,
+    full_text      text         null,
+    created_at     datetime     null,
+    screen_name    varchar(50)  null,
+    user_id        bigint       not null,
+    favorite_count int          null,
+    retweet_count  int          null,
+    reply_count    int          null,
+    quote_count    int          null,
+    view_count     int          null,
+    url            varchar(255) null,
+    constraint x_tweet_ibfk_1
+        foreign key (keyword_id) references keyword (keyword_id)
+            on delete cascade
 );
 
-CREATE INDEX keyword_id ON youtube (keyword_id);
+create index keyword_id
+    on x_tweet (keyword_id);
 
--- 6. 유튜브 댓글 분석 결과
-CREATE TABLE youtube_comments (
-                                  analysis_id  BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                  video_id     VARCHAR(50) NOT NULL,
-                                  update_count INT NOT NULL,
-                                  keyword_id   INT NOT NULL,
-                                  caption_name VARCHAR(50) NOT NULL COMMENT '댓글 작성자',
-                                  content      TEXT COMMENT '댓글 내용',
-                                  is_ad        INT DEFAULT 0 COMMENT '광고 여부 (1:광고, 0:일반)',
-                                  like_count   INT DEFAULT 0,
-                                  record_date  DATETIME NOT NULL COMMENT '수집 시점',
-                                  CONSTRAINT youtube_comments_ibfk_1 FOREIGN KEY (video_id, update_count) REFERENCES youtube (video_id, update_count) ON DELETE CASCADE
-);
 
--- 7. X(Twitter) 트윗 데이터
-CREATE TABLE x_tweet (
-                         tweet_id       VARCHAR(50) NOT NULL PRIMARY KEY,
-                         keyword_id     INT NOT NULL,
-                         full_text      TEXT NULL,
-                         created_at     DATETIME NULL,
-                         screen_name    VARCHAR(50) NULL,
-                         user_id        BIGINT NOT NULL,
-                         favorite_count INT NULL,
-                         retweet_count  INT NULL,
-                         reply_count    INT NULL,
-                         quote_count    INT NULL,
-                         view_count     INT NULL,
-                         url            VARCHAR(255) NULL,
-                         CONSTRAINT x_tweet_ibfk_1 FOREIGN KEY (keyword_id) REFERENCES keyword (keyword_id) ON DELETE CASCADE
-);
 
-CREATE INDEX keyword_id ON x_tweet (keyword_id);
-
--- 8. 추천 영상 및 트윗 저장 DB
-CREATE TABLE recommend (
-                           recommed_id    INT AUTO_INCREMENT PRIMARY KEY COMMENT '식별자용 id',
-                           type           VARCHAR(10) NOT NULL COMMENT '데이터 유형',
-                           url            VARCHAR(500) NOT NULL UNIQUE COMMENT 'URL',
-                           content        TEXT NOT NULL COMMENT 'x: 트윗 내용, youtube: 영상 제목',
-                           published_date DATETIME COMMENT 'x: 작성 일자, youtube: 업로드 일자',
-                           saved_at       DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'DB에 저장된 일자'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+# recommend(추천 영상 및 트윗 저장 DB)
+create table recommend (
+    recommed_id int auto_increment primary key comment '식별자용 id',
+    type varchar(10) not null comment '데이터 유형',
+    url varchar(500) not null unique comment 'URL',
+    content text not null comment 'x: 트윗 내용, youtube: 영상 제목',
+    published_date datetime comment 'x: 작성 일자, youtube: 업로드 일자',
+    saved_at datetime default current_timestamp comment 'DB에 저장된 일자'
+) engine=InnoDB default CHARSET=utf8mb4 collate=utf8mb4_unicode_ci;

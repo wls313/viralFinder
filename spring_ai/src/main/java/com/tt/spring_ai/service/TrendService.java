@@ -18,8 +18,7 @@ public class TrendService {
 
     public TrendService(ChatClient.Builder chatClientBuilder) {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout((int) Duration.ofSeconds(5).toMillis());
-        factory.setReadTimeout((int) Duration.ofSeconds(15).toMillis());
+        factory.setReadTimeout((int) Duration.ofSeconds(180).toMillis());
 
         this.restClient = RestClient.builder()
                 .baseUrl("http://localhost:8000")
@@ -39,24 +38,31 @@ public class TrendService {
             throw new RuntimeException("트렌드 데이터를 수집하지 못했습니다.");
         }
 
-        double naverRatio = (pythonData.trends() != null) ? pythonData.trends().latest_naver_ratio() : 0.0;
-        double googleRatio = (pythonData.trends() != null) ? pythonData.trends().latest_google_ratio() : 0.0;
-        int twitterCount = (pythonData.twitter_trends() != null) ? pythonData.twitter_trends().size() : 0;
+        double naverRatio = (pythonData.trends() != null && pythonData.trends().latestNaverRatio() != null)
+                ? pythonData.trends().latestNaverRatio() : 0.0;
 
-        double shortTermAvg = (pythonData.trends() != null) ? pythonData.trends().short_term_avg() : 0.0;
-        double longTermAvg = (pythonData.trends() != null) ? pythonData.trends().long_term_avg() : 0.0;
-        String mathPrediction = (pythonData.trends() != null) ? pythonData.trends().math_prediction() : "STAY";
+        double googleRatio = (pythonData.trends() != null && pythonData.trends().latestGoogleRatio() != null)
+                ? pythonData.trends().latestGoogleRatio() : 0.0;
+
+        int twitterCount = (pythonData.twitterTrends() != null)
+                ? pythonData.twitterTrends().size() : 0;
+
+        double shortTermAvg = (pythonData.trends() != null && pythonData.trends().shortTermAvg() != null)
+                ? pythonData.trends().shortTermAvg() : 0.0;
+
+        double longTermAvg = (pythonData.trends() != null && pythonData.trends().longTermAvg() != null)
+                ? pythonData.trends().longTermAvg() : 0.0;
 
         BeanOutputConverter<TrendDto> converter =
                 new BeanOutputConverter<>(TrendDto.class);
 
         String prompt = String.format("""
-            당신은 데이터 시계열 패턴을 분석하여 '트렌드의 남은 수명'을 예측하고, '제2의 유행 아이템'을 발굴하는 트렌드 애널리스트입니다.
-            주어진 데이터 지표를 바탕으로 '%s'의 현재 트렌드 수명 단계와 차세대 추천 아이템을 분석하세요.
+            당신은 데이터 시계열 패턴을 분석하여 '트렌드의 남은 수명'을 예측하는 트렌드 애널리스트입니다.
+            주어진 데이터 지표를 바탕으로 '%s'의 현재 트렌드 수명 단계와 상세 분석을 작성하세요.
             
             [데이터 요약]
             - 현재 네이버/구글 검색 지수: %.1f / %.1f
-            - 최근 확산 중인 X(트위터) 주요 언급량: %d건
+            - 최근 확산 중인 X(트위터) 주요 언급 샘플: %d건
             - 네이버 검색 지수 단기 평균(최근 3일): %.1f
             - 네이버 검색 지수 장기 평균(최근 14일): %.1f
             
@@ -70,19 +76,33 @@ public class TrendService {
             2. analysisReason (수명 및 지속 기간 예측):
                - 주어진 수치(단기/장기 평균 등)를 반드시 인용하여 현재 이 아이템이 트렌드 수명 주기 중 어느 단계인지 설명하세요.
                - 앞으로 이 유행이 어느 정도(예: 단기적, 수개월 지속 등) 더 유지될 수 있을지 타당한 근거를 들어 예측하세요.
-               
-            3. recommendedItems (제2의 발굴 아이템):
-               - '%s'가 초기(도입기)에 그렸던 상승 그래프 패턴과 유사하게, **현재 막 주목받기 시작한 동종 업계/유사 카테고리의 신흥 아이템 2가지**를 발굴해서 추천하세요.
-               - 이미 정점을 찍은 유명한 아이템은 제외하고, 이제 막 그래프가 꿈틀대는 '얼리 어답터' 성향의 아이템이어야 합니다.
+
+            [출력 주의사항]
+            - 마크다운 헤더(###), 백틱(```), 설명 문장, 인사말 등 부가 텍스트를 일절 출력하지 마십시오.
+            - 오직 유효한 단일 JSON 객체({ ... }) 형식으로만 출력하십시오.
             
             %s
-            """, keyword, naverRatio, googleRatio, twitterCount, shortTermAvg, longTermAvg, keyword, converter.getFormat());
+            """, keyword, naverRatio, googleRatio, twitterCount, shortTermAvg, longTermAvg, converter.getFormat());
 
         String aiResponseText = chatClient.prompt()
                 .user(prompt)
                 .call()
                 .content();
 
-        return converter.convert(aiResponseText);
+        System.out.println("=== AI 응답 원문 ===");
+        System.out.println(aiResponseText);
+        System.out.println("===================");
+
+        String cleanJson = aiResponseText;
+        if (cleanJson != null) {
+            int startIndex = cleanJson.indexOf("{");
+            int endIndex = cleanJson.lastIndexOf("}");
+            if (startIndex != -1 && endIndex != -1 && endIndex >= startIndex) {
+                cleanJson = cleanJson.substring(startIndex, endIndex + 1);
+            }
+        }
+
+        // 3. 파싱 및 반환
+        return converter.convert(cleanJson);
     }
 }
