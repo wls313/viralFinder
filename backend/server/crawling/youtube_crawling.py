@@ -14,12 +14,6 @@ if top_level_dir not in sys.path:
 
 from config.config import youtube_api_key, DB_CONFIG
 
-# 그래프(TrendChart)용 네이버/구글 트렌드 데이터 수집
-from crawling.naver_data_lab_crawling import search_keyword as crawl_naver_trend
-from crawling.pytrends_crawling import search_keyword as crawl_google_trend
-from crawling.apify_x_crawling import search_x as crawl_x_trend
-from config.database import fetch_data
-
 # 테스트용 옵션
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
@@ -30,11 +24,8 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 # 설정값
 MAX_VIDEOS = 150
 WEAK = 7
-DEFAULT_KEYWORD = "여아"
+DEFAULT_KEYWORD = "아아"
 SEARCHING_RECOMMEND_VIDEO_COUNTS = 10
-# 네이버/구글 트렌드 조회 기간(일). /search가 아직 프론트의 period 프리셋을
-# 안 받고 있어서 우선 고정값 사용.
-TREND_SEARCH_RANGE_DEFAULT = 7
 
 # 시간
 now_time = datetime.datetime.now(datetime.timezone.utc)
@@ -67,6 +58,7 @@ def count_videos(keyword):
     print("오늘 업로드된 총 영상 수를 집계합니다...")
 
     try:
+        # youtube data api는 검색 시 기본적으로 제목 설명 태그를 모두 포함함
         response = youtube.search().list(
             q=f'"{keyword}"',
             part='id',
@@ -212,72 +204,6 @@ def video_upload_to_db(data_list, keyword_id):
         conn.close()
 
 
-# 네이버/구글 트렌드를 수집하고, 프론트 TrendChart가 기대하는
-# [{period, ratio}, ...] 형태로 가공해서 반환
-def get_trend_chart_data(keyword, search_range=TREND_SEARCH_RANGE_DEFAULT):
-    try:
-        crawl_naver_trend(keyword, search_range)
-    except Exception as e:
-        print(f"오류-네이버 트렌드 수집 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    try:
-        crawl_google_trend(keyword, search_range)
-    except Exception as e:
-        print(f"오류-구글 트렌드 수집 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    try:
-        crawl_x_trend(keyword, search_range)
-    except Exception as e:
-        print(f"오류-X 트윗 수집 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    try:
-        trend_df, _video_df, keyword_id = fetch_data(keyword)
-    except Exception as e:
-        print(f"오류-트렌드 데이터 조회 실패: {e}")
-        return [], [], []
-
-    naver_trend = []
-    google_trend = []
-
-    if trend_df is not None and not trend_df.empty:
-        naver_trend = [
-            {"period": row["period"].strftime("%Y-%m-%d"), "ratio": float(row["weight_naver"])}
-            for _, row in trend_df.iterrows()
-        ]
-        google_trend = [
-            {"period": row["period"].strftime("%Y-%m-%d"), "ratio": float(row["weight_google"])}
-            for _, row in trend_df.iterrows()
-        ]
-
-    x_trend = []
-    try:
-        if keyword_id:
-            conn = get_db_connection()
-            try:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        SELECT DATE(created_at) AS period, COUNT(*) AS tweet_count
-                        FROM x_tweet
-                        WHERE keyword_id = %s
-                          AND created_at >= DATE_SUB(CURDATE(), INTERVAL %s DAY)
-                        GROUP BY DATE(created_at)
-                        ORDER BY period
-                        """,
-                        (keyword_id, search_range),
-                    )
-                    rows = cursor.fetchall()
-                    x_trend = [
-                        {"period": row[0].strftime("%Y-%m-%d"), "ratio": int(row[1])}
-                        for row in rows
-                    ]
-            finally:
-                conn.close()
-    except Exception as e:
-        print(f"오류-X 트렌드 집계 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    return naver_trend, google_trend, x_trend
-
 # main
 def run_search(keyword):
     record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -299,22 +225,14 @@ def run_search(keyword):
     videos_data = video_stats(target_ids, record_date, keyword_id)
     current_updated = video_upload_to_db(videos_data, keyword_id)
 
-    print("네이버/구글/X 트렌드 데이터를 수집하는 중...")
-    naver_trend, google_trend, x_trend = get_trend_chart_data(keyword)
-
     result_json = {
         "status": "success",
         "keyword": keyword,
         "update_count": current_updated,
-        "analysis": None,
-        "naver_trend": naver_trend,
-        "google_trend": google_trend,
-        "x_trend": x_trend
+        "analysis": None
     }
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
-
-    return result_json
 
 
 def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):

@@ -61,7 +61,7 @@ def search_keyword(keyword, search_range):
                 password=DB_CONFIG["password"],
                 host=DB_CONFIG["host"],
                 database=DB_CONFIG["database"],
-                query={"charset": DB_CONFIG["charset"]}
+                query=DB_CONFIG["charset"]
             )
             engine = create_engine(db_url)
             with engine.begin() as conn:

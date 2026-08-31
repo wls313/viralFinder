@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "1234",
+    "password": "laplace1234",
     "database": "viral_finder",
     "charset": "utf8mb4",
 }
