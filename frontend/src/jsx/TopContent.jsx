@@ -56,7 +56,7 @@ function ContentCard({ platform, data, isDummy, loading }) {
   );
 }
 
-function TopContent() {
+function TopContent({keyword}) {
   const [youtube, setYoutube] = useState(null);
   const [x, setX] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -66,10 +66,11 @@ function TopContent() {
   useEffect(() => {
     let ignore = false;
 
+
     (async () => {
       const [videoRes, tweetRes] = await Promise.allSettled([
-        getRecommendedVideo(),
-        getRecommendedTweet(),
+        getRecommendedVideo(keyword),
+        getRecommendedTweet(keyword),
       ]);
 
       if (ignore) return;

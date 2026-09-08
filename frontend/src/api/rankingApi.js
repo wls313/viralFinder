@@ -18,17 +18,16 @@ export const getMentionVolumeRanking = async () => {
   return response.data;
 };
  
-// 조회수 최고 유튜브 영상 (국내 인기 급상승 영상)
-// -> {status, count, data: [{type: "youtube", url, full_text, created_at}]}
-export const getRecommendedVideo = async () => {
-  const response = await axios.get(`${RANKING_API_URL}/get_recommended_video`);
+export const getRecommendedVideo = async (keyword) => {
+  const response = await axios.get(`${RANKING_API_URL}/get_recommended_video`, {
+    params: { keyword },
+  });
   return response.data;
 };
- 
-// 조회수 최고 X(트위터) 게시물
-// -> {status, count, data: [{type: "tweet", url, full_text, created_at}]}
-export const getRecommendedTweet = async () => {
-  const response = await axios.get(`${RANKING_API_URL}/get_recommended_tweet`);
+
+export const getRecommendedTweet = async (keyword) => {
+  const response = await axios.get(`${RANKING_API_URL}/get_recommended_tweet`, {
+    params: { keyword },
+  });
   return response.data;
 };
- 

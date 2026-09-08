@@ -5,6 +5,7 @@ import json
 from googleapiclient.discovery import build
 import pandas as pd
 import pymysql
+from datetime import datetime, timezone, timedelta
 
 # 상위(server) 폴더 경로
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -13,12 +14,6 @@ if top_level_dir not in sys.path:
     sys.path.insert(0, top_level_dir)
 
 from config.config import youtube_api_key, DB_CONFIG
-
-# 그래프(TrendChart)용 네이버/구글 트렌드 데이터 수집
-from crawling.naver_data_lab_crawling import search_keyword as crawl_naver_trend
-from crawling.pytrends_crawling import search_keyword as crawl_google_trend
-from crawling.apify_x_crawling import search_x as crawl_x_trend
-from config.database import fetch_data
 
 # 테스트용 옵션
 pd.set_option('display.width', None)
@@ -30,15 +25,12 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 # 설정값
 MAX_VIDEOS = 150
 WEAK = 7
-DEFAULT_KEYWORD = "여아"
-SEARCHING_RECOMMEND_VIDEO_COUNTS = 10
-# 네이버/구글 트렌드 조회 기간(일). /search가 아직 프론트의 period 프리셋을
-# 안 받고 있어서 우선 고정값 사용.
-TREND_SEARCH_RANGE_DEFAULT = 7
+DEFAULT_KEYWORD = "슬랙스"
+SEARCHING_RECOMMEND_VIDEO_COUNTS = 1
 
 # 시간
-now_time = datetime.datetime.now(datetime.timezone.utc)
-measurement_time = (now_time - datetime.timedelta(days=WEAK))
+now_time = datetime.now(timezone.utc)
+measurement_time = (now_time - timedelta(days=WEAK))
 measurement_time_iso = measurement_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 def get_db_connection():
@@ -67,6 +59,7 @@ def count_videos(keyword):
     print("오늘 업로드된 총 영상 수를 집계합니다...")
 
     try:
+        # youtube data api는 검색 시 기본적으로 제목 설명 태그를 모두 포함함
         response = youtube.search().list(
             q=f'"{keyword}"',
             part='id',
@@ -212,75 +205,9 @@ def video_upload_to_db(data_list, keyword_id):
         conn.close()
 
 
-# 네이버/구글 트렌드를 수집하고, 프론트 TrendChart가 기대하는
-# [{period, ratio}, ...] 형태로 가공해서 반환
-def get_trend_chart_data(keyword, search_range=TREND_SEARCH_RANGE_DEFAULT):
-    try:
-        crawl_naver_trend(keyword, search_range)
-    except Exception as e:
-        print(f"오류-네이버 트렌드 수집 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    try:
-        crawl_google_trend(keyword, search_range)
-    except Exception as e:
-        print(f"오류-구글 트렌드 수집 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    try:
-        crawl_x_trend(keyword, search_range)
-    except Exception as e:
-        print(f"오류-X 트윗 수집 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    try:
-        trend_df, _video_df, keyword_id = fetch_data(keyword)
-    except Exception as e:
-        print(f"오류-트렌드 데이터 조회 실패: {e}")
-        return [], [], []
-
-    naver_trend = []
-    google_trend = []
-
-    if trend_df is not None and not trend_df.empty:
-        naver_trend = [
-            {"period": row["period"].strftime("%Y-%m-%d"), "ratio": float(row["weight_naver"])}
-            for _, row in trend_df.iterrows()
-        ]
-        google_trend = [
-            {"period": row["period"].strftime("%Y-%m-%d"), "ratio": float(row["weight_google"])}
-            for _, row in trend_df.iterrows()
-        ]
-
-    x_trend = []
-    try:
-        if keyword_id:
-            conn = get_db_connection()
-            try:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        SELECT DATE(created_at) AS period, COUNT(*) AS tweet_count
-                        FROM x_tweet
-                        WHERE keyword_id = %s
-                          AND created_at >= DATE_SUB(CURDATE(), INTERVAL %s DAY)
-                        GROUP BY DATE(created_at)
-                        ORDER BY period
-                        """,
-                        (keyword_id, search_range),
-                    )
-                    rows = cursor.fetchall()
-                    x_trend = [
-                        {"period": row[0].strftime("%Y-%m-%d"), "ratio": int(row[1])}
-                        for row in rows
-                    ]
-            finally:
-                conn.close()
-    except Exception as e:
-        print(f"오류-X 트렌드 집계 실패 (그래프 데이터 일부 누락될 수 있음): {e}")
-
-    return naver_trend, google_trend, x_trend
-
 # main
 def run_search(keyword):
-    record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    record_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     today_video_count = count_videos(keyword)
     print(f"측정 완료! {keyword}에 대해 오늘 하루동안 올라온 영상은 {today_video_count}개 입니다.")
@@ -299,42 +226,52 @@ def run_search(keyword):
     videos_data = video_stats(target_ids, record_date, keyword_id)
     current_updated = video_upload_to_db(videos_data, keyword_id)
 
-    print("네이버/구글/X 트렌드 데이터를 수집하는 중...")
-    naver_trend, google_trend, x_trend = get_trend_chart_data(keyword)
-
     result_json = {
         "status": "success",
         "keyword": keyword,
         "update_count": current_updated,
-        "analysis": None,
-        "naver_trend": naver_trend,
-        "google_trend": google_trend,
-        "x_trend": x_trend
+        "analysis": None
     }
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
 
     return result_json
 
-
-def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
+def search_recommend_videos(keyword, video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
     try:
-        request = youtube.videos().list(
+        search_request = youtube.search().list(
             part='snippet',
-            chart="mostPopular",
+            q=keyword,
+            type='video',
+            order='viewCount', # 가장 조회수가 많은 영상을 가져옴.
             regionCode="KR",
             maxResults=video_count
         )
-        response = request.execute()
+        search_response = search_request.execute()
     except Exception as e:
         print(f"추천 영상을 탐색하던 중 에러 발생: {e}")
         return []
 
-    items = response.get('items', [])
-    if not items:
+    search_items = search_response.get('items', [])
+    if not search_items:
         print("수집된 추천 영상이 없습니다.")
         return []
 
+    video_ids = [item.get('id', {}).get('videoId') for item in search_items if item.get('id', {}).get('videoId')]
+    if not video_ids:
+        return []
+
+    try:
+        videos_request = youtube.videos().list(
+            part='snippet, status, statistics, contentDetails',
+            id = ','.join(video_ids)
+        )
+        vidoes_response = videos_request.execute()
+    except Exception as e:
+        print(f"추천 영상의 정보를 가져오는 중 에러 발생: {e}")
+        return []
+
+    filtered_items = vidoes_response.get('items', [])
     results = []
     conn = get_db_connection()
 
@@ -345,7 +282,20 @@ def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
                     on duplicate key update content = VALUES(content)
             """
 
-            for item in items:
+            for item in filtered_items:
+                status = item['status']
+                content_details = item.get('contentDetails', {})
+
+                if status.get('privacyStatus') != 'public' or status.get('uploadStatus') != 'processed':
+                    continue
+
+                if status.get('embeddable') is False:
+                    continue
+
+                content_rating = content_details.get('contentRating', {})
+                if content_rating and (content_rating.get('ytRating') == 'ytAgeRestricted'):
+                    continue
+
                 video_id = item.get('id')
                 snippet = item.get('snippet', {})
 
@@ -355,7 +305,7 @@ def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
                 raw_time = snippet.get('publishedAt')
                 if raw_time:
                     try:
-                        created_at = datetime.datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
+                        created_at = datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
                         created_at_str = created_at.strftime('%Y-%m-%d %H:%M:%S')
                     except Exception as e:
                         created_at_str = None
