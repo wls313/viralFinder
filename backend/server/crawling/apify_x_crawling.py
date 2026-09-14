@@ -10,17 +10,17 @@ if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
 from config.database import get_keyword_id
-from config.config import apify_api_key, DB_CONFIG
+from config.config import apify_api_key, host_ip, user_value, password_value, database_name
 
 client = ApifyClient(apify_api_key)
-TWITS_NUM = 5
+TWITS_NUM = 100
 START_DATE = (datetime.now() - timedelta(weeks=2)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
 END_DATE = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
-SEARCHING_TWEETS_COUNTS = 10
+SEARCHING_TWEETS_COUNTS = 1
 
 def get_db_connection():
-    return pymysql.connect(host=DB_CONFIG["host"], user=DB_CONFIG["user"], password=DB_CONFIG["password"], database=DB_CONFIG["database"],
-                           charset=DB_CONFIG["charset"])
+    return pymysql.connect(host=host_ip, user=user_value, password=password_value, database=database_name,
+                           charset='utf8mb4')
 
 # 키워드 ID 조회 및 Insert
 def get_keyword_id(keyword):
@@ -60,6 +60,8 @@ def search_x(keyword):
         "start": START_DATE,
         "end": END_DATE
     }
+
+    results = []
 
     try:
         run = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
@@ -106,6 +108,17 @@ def search_x(keyword):
                     )
                     cursor.execute(sql_query, values)
 
+                results.append({
+                    "id": tweet_id,
+                    "content": full_text,
+                    "screen_name": screen_name,
+                    "user_id": int(user.get("id", 0)),
+                    "likes": item.get("likeCount", 0),
+                    "retweets": item.get("retweetCount", 0),
+                    "views": item.get("viewCount", 0),
+                    "url": tweet_url
+                })
+
                 conn.commit()
                 print(f"{len(items)}개의 트윗을 저장했습니다!")
 
@@ -118,14 +131,15 @@ def search_x(keyword):
     except Exception as e:
         print(f"실행 중 오류가 발생했습니다: {e}")
 
-def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
+    return results
+
+def search_trending_tweets(keyword, tweet_count=SEARCHING_TWEETS_COUNTS):
     run_input = {
         "searchTerms": [
-            "lang:ko min_likes:1500"
-            # 테스트 해보고 제대로 서칭이 안되면 "lang:ko min_faves:1500"으로 시도해볼 것
+            f'"{keyword}" OR "#{keyword}"'
         ],
         "maxItems": tweet_count,
-        "sort": "Latest",
+        "sort": "Top",
         "tweetLanguage": "ko",
         "customMapFunction": "(object) => { return {...object} }",
         "proxyConfig": {
@@ -137,8 +151,7 @@ def search_trending_tweets(tweet_count=SEARCHING_TWEETS_COUNTS):
     results=[]
 
     try:
-        run = client.actor("61RPP7dywgiy0JPD0").start(run_input=run_input)
-        client.run(run["id"]).wait_for_finish()
+        run = client.actor("61RPP7dywgiy0JPD0").call(run_input=run_input)
         items = list(client.dataset(run.default_dataset_id).iterate_items())
 
         conn = get_db_connection()

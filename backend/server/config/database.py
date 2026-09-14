@@ -1,6 +1,13 @@
+import os, sys
 import pymysql
 import pandas as pd
-from server.config.config import DB_CONFIG
+
+current_dir = os.path.dirname(os.path.realpath(__file__))
+top_level_dir = os.path.dirname(current_dir)
+if top_level_dir not in sys.path:
+    sys.path.append(top_level_dir)
+
+from config.config import DB_CONFIG
 
 
 def get_keyword_id(keyword_name: str):

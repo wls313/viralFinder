@@ -12,10 +12,10 @@ try:
     from server.crawling.x_data_abstraction import search_x
 except ImportError:
     sys.path.append(os.path.join(SERVER_ROOT, "crawling"))
-    from x_data_abstraction import search_x
+    from crawling.apify_x_crawling import search_x
 
 
-def run_sequential_crawling(keyword: str) -> dict:
+def run_sequential_crawling(keyword: str, period: str) -> dict:
     naver_data = []
     google_data = []
 
@@ -24,7 +24,7 @@ def run_sequential_crawling(keyword: str) -> dict:
     try:
         naver_script = os.path.join(SERVER_ROOT, "crawling", "naver_data_lab_crawling.py")
         result = subprocess.run(
-            [sys.executable, naver_script, keyword],
+            [sys.executable, naver_script, keyword, str(period)], # 임시로 90일
             capture_output=True,
             text=True,
             encoding='utf-8',
@@ -44,7 +44,7 @@ def run_sequential_crawling(keyword: str) -> dict:
     try:
         google_script = os.path.join(SERVER_ROOT, "crawling", "pytrends_crawling.py")
         result = subprocess.run(
-            [sys.executable, google_script, keyword],
+            [sys.executable, google_script, keyword, str(period)],
             capture_output=True,
             text=True,
             encoding='utf-8',
