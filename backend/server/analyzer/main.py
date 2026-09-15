@@ -40,7 +40,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-rd = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
+rd = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True, protocol=2)
 
 CACHE_EXPIRE_HOURS = 6
 LOCK_TIMEOUT = 180
