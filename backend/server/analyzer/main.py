@@ -1,15 +1,12 @@
 import os
 import sys
-import json
-import time
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel
 import pandas as pd
-import redis
 import pymysql
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +23,7 @@ from server.config.config import DB_CONFIG
 from server.analyzer.analyzer import analyze_viral_traffic
 from server.analyzer.crawler_service import run_sequential_crawling
 
-from crawling.youtube_crawling import (run_search, get_keyword_id)
+from crawling.youtube_crawling import (get_keyword_id)
 from progress_state import progress
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -39,14 +36,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
-rd = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
-
-CACHE_EXPIRE_HOURS = 6
-LOCK_TIMEOUT = 180
-LOCK_WAIT_LIMIT = 120
-LOCK_WAIT_INTERVAL = 2
-
 
 def get_keyword_id(keyword_name: str):
     conn = pymysql.connect(**DB_CONFIG)
@@ -68,7 +57,7 @@ def save_tweets(keyword_id: int, tweets: list):
     try:
         with conn.cursor() as cursor:
             query = """
-                    INSERT IGNORE INTO x_tweet 
+                    INSERT IGNORE INTO x_tweet
                 (tweet_id, keyword_id, full_text, screen_name, user_id, favorite_count, retweet_count, view_count, created_at)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s); \
                     """
@@ -96,32 +85,6 @@ def save_tweets(keyword_id: int, tweets: list):
         conn.close()
 
 
-def get_cached(keyword: str, period: str):
-    cache_keyword = f"python:trend_data:{keyword}:{period}"
-    cached = rd.get(cache_keyword)
-    if not cached:
-        return None
-
-    data = json.loads(cached)
-    updated_at = datetime.strptime(data["updated_at"], "%Y-%m-%d %H:%M:%S")
-    now = datetime.now()
-
-    if now.date() == updated_at.date() and (now - updated_at) <= timedelta(hours=CACHE_EXPIRE_HOURS):
-        return data
-    return None
-
-
-def wait_for_cache(keyword: str, period: str):
-    cache_keyword = f"python:trend_data:{keyword}:{period}"
-    elapsed = 0
-    while elapsed < LOCK_WAIT_LIMIT:
-        time.sleep(LOCK_WAIT_INTERVAL)
-        elapsed += LOCK_WAIT_INTERVAL
-        cached = rd.get(cache_keyword)
-        if cached:
-            return json.loads(cached)
-    raise HTTPException(status_code=530, detail="수집 작업 대기 시간이 초과되었습니다.")
-
 class KeywordRequest(BaseModel):
     keyword: str
 
@@ -134,18 +97,6 @@ def get_trend(keyword: str, period: str):
     keyword = keyword.strip()
     if not keyword:
         raise HTTPException(status_code=400, detail="키워드를 입력해주세요.")
-
-    cache_keyword = f"python:trend_data:{keyword}:{period}"
-    cached = rd.get(cache_keyword)
-    if cached:
-        return cached
-
-    lock_key = f"lock:analysis:{keyword}:{period}"
-    acquired = rd.set(lock_key, "locked", nx=True, ex=LOCK_TIMEOUT)
-
-    if not acquired:
-        logger.info(f"'{keyword}' 선행 작업 대기")
-        return wait_for_cache(keyword)
 
     try:
         keyword_id = get_keyword_id(keyword)
@@ -190,8 +141,6 @@ def get_trend(keyword: str, period: str):
             "google_trend": google_data_list
         }
 
-        cache_keyword = f"python:trend_data:{keyword}:{period}"
-        rd.setex(cache_keyword, timedelta(hours=CACHE_EXPIRE_HOURS), json.dumps(response_data, ensure_ascii=False))
         return response_data
 
     except HTTPException:
@@ -199,8 +148,6 @@ def get_trend(keyword: str, period: str):
     except Exception as e:
         logger.error(f"분석 파이프라인 오류: {e}")
         raise HTTPException(status_code=500, detail=f"서버 에러: {e}")
-    finally:
-        rd.delete(lock_key)
 
 
 if __name__ == "__main__":
