@@ -7,6 +7,11 @@ import subprocess
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SERVER_ROOT = os.path.dirname(CURRENT_DIR)
 
+# 자식 프로세스가 로케일(CP949)이 아닌 UTF-8로 stdout을 쓰도록 강제
+CHILD_ENV = os.environ.copy()
+CHILD_ENV["PYTHONUTF8"] = "1"
+CHILD_ENV["PYTHONIOENCODING"] = "utf-8"
+
 # X 크롤링 모듈 로드
 try:
     from server.crawling.x_data_abstraction import search_x
@@ -24,18 +29,24 @@ def run_sequential_crawling(keyword: str, period: str) -> dict:
     try:
         naver_script = os.path.join(SERVER_ROOT, "crawling", "naver_data_lab_crawling.py")
         result = subprocess.run(
-            [sys.executable, naver_script, keyword, str(period)], # 임시로 90일
+            [sys.executable, naver_script, keyword, str(period)],
             capture_output=True,
             text=True,
             encoding='utf-8',
+            errors='replace',   # 혹시 모를 잔여 디코딩 오류 방지용 안전장치
             cwd=SERVER_ROOT,
-            timeout=60
+            timeout=60,
+            env=CHILD_ENV,      # 추가
         )
         if result.returncode == 0 and result.stdout.strip():
             output_data = json.loads(result.stdout.strip())
             if output_data.get("status") == "success":
                 naver_data = output_data.get("data", [])
                 logging.info("[1/3] 네이버 수집 완료")
+            else:
+                logging.error(f"[1/3] 네이버 API 응답 실패: {output_data.get('message')}")
+        else:
+            logging.error(f"[1/3] 네이버 서브프로세스 실패 (stderr): {result.stderr}")
     except Exception as e:
         logging.error(f"[1/3] 네이버 수집 실패 (스킵 후 다음 진행): {e}")
 
@@ -48,14 +59,20 @@ def run_sequential_crawling(keyword: str, period: str) -> dict:
             capture_output=True,
             text=True,
             encoding='utf-8',
+            errors='replace',
             cwd=SERVER_ROOT,
-            timeout=120
+            timeout=120,
+            env=CHILD_ENV,      # 추가
         )
         if result.returncode == 0 and result.stdout.strip():
             output_data = json.loads(result.stdout.strip())
             if output_data.get("status") == "success":
                 google_data = output_data.get("data", [])
                 logging.info("[2/3] 구글 수집 완료")
+            else:
+                logging.error(f"[2/3] 구글 API 응답 실패: {output_data.get('message')}")
+        else:
+            logging.error(f"[2/3] 구글 서브프로세스 실패 (stderr): {result.stderr}")
     except Exception as e:
         logging.error(f"[2/3] 구글 수집 실패 (스킵 후 다음 진행): {e}")
 
