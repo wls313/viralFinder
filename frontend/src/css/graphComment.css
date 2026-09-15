@@ -1,0 +1,32 @@
+.graph-comment-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.graph-comment-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.graph-comment-text {
+  margin: 0;
+  font-size: 14px;
+  color: #334155;
+}
+
+.graph-comment-loading {
+  margin: 0;
+  font-size: 14px;
+  color: #94a3b8;
+}

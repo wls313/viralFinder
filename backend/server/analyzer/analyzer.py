@@ -14,6 +14,7 @@ def analyze_viral_traffic(trend_df: pd.DataFrame):
     if 'weight_naver' in trend_df.columns and len(trend_df) >= 3:
         short_term_avg = trend_df['weight_naver'].tail(3).mean()
 
+
         tail_count = 14 if len(trend_df) >= 14 else len(trend_df)
         long_term_avg = trend_df['weight_naver'].tail(tail_count).mean()
 

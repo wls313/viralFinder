@@ -1,5 +1,16 @@
 import os
 import sys
+import json
+import time
+import logging
+from datetime import datetime, timedelta
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.concurrency import run_in_threadpool
+from pydantic import BaseModel
+import pandas as pd
+import redis
+import pymysql
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SERVER_ROOT = os.path.dirname(CURRENT_DIR)
@@ -9,25 +20,25 @@ for p in [BACKEND_ROOT, SERVER_ROOT]:
     if p not in sys.path:
         sys.path.insert(0, p)
 
-import json
-import time
-import logging
-from datetime import datetime, timedelta
-from fastapi import FastAPI, HTTPException
-import pandas as pd
-import redis
-import pymysql
 
 from server.config.database import fetch_data
 from server.config.config import DB_CONFIG
 from server.analyzer.analyzer import analyze_viral_traffic
 from server.analyzer.crawler_service import run_sequential_crawling
 
+from crawling.youtube_crawling import (run_search, get_keyword_id)
+from progress_state import progress
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Trend Tracker Python Crawler Service")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 rd = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
 
@@ -85,8 +96,9 @@ def save_tweets(keyword_id: int, tweets: list):
         conn.close()
 
 
-def get_cached(keyword: str):
-    cached = rd.get(keyword)
+def get_cached(keyword: str, period: str):
+    cache_keyword = f"python:trend_data:{keyword}:{period}"
+    cached = rd.get(cache_keyword)
     if not cached:
         return None
 
@@ -99,28 +111,36 @@ def get_cached(keyword: str):
     return None
 
 
-def wait_for_cache(keyword: str):
+def wait_for_cache(keyword: str, period: str):
+    cache_keyword = f"python:trend_data:{keyword}:{period}"
     elapsed = 0
     while elapsed < LOCK_WAIT_LIMIT:
         time.sleep(LOCK_WAIT_INTERVAL)
         elapsed += LOCK_WAIT_INTERVAL
-        cached = rd.get(keyword)
+        cached = rd.get(cache_keyword)
         if cached:
             return json.loads(cached)
     raise HTTPException(status_code=530, detail="수집 작업 대기 시간이 초과되었습니다.")
 
+class KeywordRequest(BaseModel):
+    keyword: str
+
+@app.get("/progress")
+async def get_progress():
+    return progress
 
 @app.get("/api/analysis/{keyword}")
-def get_trend(keyword: str):
+def get_trend(keyword: str, period: str):
     keyword = keyword.strip()
     if not keyword:
         raise HTTPException(status_code=400, detail="키워드를 입력해주세요.")
 
-    cached = get_cached(keyword)
+    cache_keyword = f"python:trend_data:{keyword}:{period}"
+    cached = rd.get(cache_keyword)
     if cached:
         return cached
 
-    lock_key = f"lock:analysis:{keyword}"
+    lock_key = f"lock:analysis:{keyword}:{period}"
     acquired = rd.set(lock_key, "locked", nx=True, ex=LOCK_TIMEOUT)
 
     if not acquired:
@@ -129,9 +149,7 @@ def get_trend(keyword: str):
 
     try:
         keyword_id = get_keyword_id(keyword)
-
-        results_data = run_sequential_crawling(keyword)
-
+        results_data = run_sequential_crawling(keyword, period)
         raw_tweets = results_data.get("x_trends_data", []) if isinstance(results_data, dict) else results_data
         if isinstance(raw_tweets, list):
             x_tweets = raw_tweets
@@ -172,7 +190,8 @@ def get_trend(keyword: str):
             "google_trend": google_data_list
         }
 
-        rd.setex(keyword, timedelta(hours=CACHE_EXPIRE_HOURS), json.dumps(response_data, ensure_ascii=False))
+        cache_keyword = f"python:trend_data:{keyword}:{period}"
+        rd.setex(cache_keyword, timedelta(hours=CACHE_EXPIRE_HOURS), json.dumps(response_data, ensure_ascii=False))
         return response_data
 
     except HTTPException:

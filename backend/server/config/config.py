@@ -33,11 +33,11 @@ database_name = DB_CONFIG["database"]
 DB_URL = f"mysql+pymysql://{user_value}:{password_value}@{host_ip}/{database_name}?charset=utf8mb4"
 
 # Youtube Data API
+# youtube_api_key = ''
 youtube_api_key = 'AIzaSyCx-AlOUq3HNhSQkF0y33RX-5uDQcerEvM'
-
 # Naver Datalab
 naver_client_id = 'Or44GhFkSQ6ld3by3_tx'
-naver_client_secret = '5fgc908_KF'
+naver_client_secret = ''
 naver_openapi_url = "https://openapi.naver.com/v1/datalab/search"
 
 # Gemini (필요없을 시 삭제)

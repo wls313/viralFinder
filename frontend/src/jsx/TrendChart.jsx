@@ -11,20 +11,19 @@ import {
 
 import '../css/chart.css';
 
-// X(트위터) 데이터: 아직 백엔드에 X API 연동이 안 되어 있어서
-// result.x_trend가 없거나 빈 배열일 수 있음. 그 경우 그래프에서
-// 해당 라인은 그냥 표시되지 않음(에러 없이 안전하게 처리).
 function TrendChart({result}) {
-  const naverData = 
+  console.log("result: ", result)
+
+  const naverData =
     result?.naver_trend?.map((item) => ({
       date: item.period.slice(5),
-      count: item.ratio,
+      count: item.relative_ratio,
     })) || [];
 
   const googleData =
   result?.google_trend?.map(item => ({
     date: item.period.slice(5),
-    count: item.ratio
+    count: item.relative_ratio
   })) || [];
 
   const xData =
@@ -32,6 +31,9 @@ function TrendChart({result}) {
       date: item.period.slice(5),
       count: item.ratio
     })) || [];
+
+    console.log("naverData: ", naverData)
+    console.log("googleData: ", googleData)
 
   const mergeData = [];
 
