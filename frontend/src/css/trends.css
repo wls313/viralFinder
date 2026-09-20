@@ -136,8 +136,14 @@ body {
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
+  min-width: 560px;
   border-collapse: collapse;
 }
 
@@ -155,6 +161,16 @@ th {
 td {
   padding: 18px 16px;
   border-top: 1px solid #f1f5f9;
+}
+
+th:last-child, td:last-child {
+  text-align: center;
+}
+
+.table-empty {
+  text-align: center;
+  padding: 40px 0;
+  color: #9ca3af;
 }
 
 tbody tr:hover {
@@ -176,6 +192,7 @@ tbody tr:hover {
 .keyword-cell {
   font-weight: 600;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .up {

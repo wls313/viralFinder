@@ -5,6 +5,7 @@ import json
 from googleapiclient.discovery import build
 import pandas as pd
 import pymysql
+from datetime import datetime, timezone, timedelta
 
 # 상위(server) 폴더 경로
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -24,12 +25,12 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 # 설정값
 MAX_VIDEOS = 150
 WEAK = 7
-DEFAULT_KEYWORD = "아아"
-SEARCHING_RECOMMEND_VIDEO_COUNTS = 10
+DEFAULT_KEYWORD = "슬랙스"
+SEARCHING_RECOMMEND_VIDEO_COUNTS = 1
 
 # 시간
-now_time = datetime.datetime.now(datetime.timezone.utc)
-measurement_time = (now_time - datetime.timedelta(days=WEAK))
+now_time = datetime.now(timezone.utc)
+measurement_time = (now_time - timedelta(days=WEAK))
 measurement_time_iso = measurement_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 def get_db_connection():
@@ -206,7 +207,7 @@ def video_upload_to_db(data_list, keyword_id):
 
 # main
 def run_search(keyword):
-    record_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    record_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     today_video_count = count_videos(keyword)
     print(f"측정 완료! {keyword}에 대해 오늘 하루동안 올라온 영상은 {today_video_count}개 입니다.")
@@ -234,25 +235,43 @@ def run_search(keyword):
 
     print(f"작업 완료! [{record_date}] 데이터 저장 성공\n")
 
+    return result_json
 
-def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
+def search_recommend_videos(keyword, video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
     try:
-        request = youtube.videos().list(
+        search_request = youtube.search().list(
             part='snippet',
-            chart="mostPopular",
+            q=keyword,
+            type='video',
+            order='viewCount', # 가장 조회수가 많은 영상을 가져옴.
             regionCode="KR",
             maxResults=video_count
         )
-        response = request.execute()
+        search_response = search_request.execute()
     except Exception as e:
         print(f"추천 영상을 탐색하던 중 에러 발생: {e}")
         return []
 
-    items = response.get('items', [])
-    if not items:
+    search_items = search_response.get('items', [])
+    if not search_items:
         print("수집된 추천 영상이 없습니다.")
         return []
 
+    video_ids = [item.get('id', {}).get('videoId') for item in search_items if item.get('id', {}).get('videoId')]
+    if not video_ids:
+        return []
+
+    try:
+        videos_request = youtube.videos().list(
+            part='snippet, status, statistics, contentDetails',
+            id = ','.join(video_ids)
+        )
+        vidoes_response = videos_request.execute()
+    except Exception as e:
+        print(f"추천 영상의 정보를 가져오는 중 에러 발생: {e}")
+        return []
+
+    filtered_items = vidoes_response.get('items', [])
     results = []
     conn = get_db_connection()
 
@@ -263,7 +282,20 @@ def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
                     on duplicate key update content = VALUES(content)
             """
 
-            for item in items:
+            for item in filtered_items:
+                status = item['status']
+                content_details = item.get('contentDetails', {})
+
+                if status.get('privacyStatus') != 'public' or status.get('uploadStatus') != 'processed':
+                    continue
+
+                if status.get('embeddable') is False:
+                    continue
+
+                content_rating = content_details.get('contentRating', {})
+                if content_rating and (content_rating.get('ytRating') == 'ytAgeRestricted'):
+                    continue
+
                 video_id = item.get('id')
                 snippet = item.get('snippet', {})
 
@@ -273,7 +305,7 @@ def search_recommend_videos(video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
                 raw_time = snippet.get('publishedAt')
                 if raw_time:
                     try:
-                        created_at = datetime.datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
+                        created_at = datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
                         created_at_str = created_at.strftime('%Y-%m-%d %H:%M:%S')
                     except Exception as e:
                         created_at_str = None

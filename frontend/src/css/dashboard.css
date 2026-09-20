@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   height: 80vh;
 }
 
@@ -28,8 +29,10 @@
 .keyword-list button {
   border: none;
   background: white;
+
   padding: 12px 18px;
   border-radius: 999px;
+
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
@@ -37,39 +40,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+
+  margin-bottom: 30px;
 }
 
 .dashboard-top h2 {
-  font-size: 34px;
-  font-weight: 700;
+  font-size: 36px;
 }
 
 .compare-btn {
   border: none;
   background: #4f46e5;
   color: white;
+
   padding: 12px 18px;
   border-radius: 12px;
 }
 
 .dashboard-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 32px;
-    padding: 20px 24px 0;
+  display: flex;
+  gap: 24px;
 }
 
 .left-content {
   flex: 1;
-
-  display: flex;
-  flex-direction: column;
 }
 
 .bottom-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+
   margin-top: 24px;
 }

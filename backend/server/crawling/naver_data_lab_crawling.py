@@ -22,13 +22,11 @@ def search_keyword(keyword, search_range):
     now_time = datetime.now(kor_time)
     created_time = now_time.strftime('%Y-%m-%d %H:%M:%S')
 
-#수정
     yesterday = now_time - timedelta(days=1)
     end_date = yesterday.strftime('%Y-%m-%d')
     measurement_time = yesterday - timedelta(days=search_range)
     start_date = measurement_time.strftime('%Y-%m-%d')
     time_unit = "date"
-#여기까지
 
     #TODO naver데이터는 당일 날짜로 할경우 결산이 끝나지않아 에러가 난다고해서 일시적으로 수정해놨습니다
     # measurement_time = now_time - timedelta(days=search_range)

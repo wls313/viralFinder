@@ -1,7 +1,7 @@
 import pymysql, os, sys
+import uvicorn
 
 from fastapi import FastAPI, HTTPException
-from progress_state import progress
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from fastapi.concurrency import run_in_threadpool
@@ -11,9 +11,10 @@ top_level_dir = os.path.dirname(current_dir)
 if top_level_dir not in sys.path:
     sys.path.append(top_level_dir)
 
+from progress_state import progress
 from config.config import DB_CONFIG
-from crawling.x_data_abstraction import search_trending_tweets
-from crawling.new_youtube_data_abstraction import search_recommend_videos
+from crawling.apify_x_crawling import search_trending_tweets
+from crawling.youtube_crawling import search_recommend_videos
 
 app = FastAPI()
 app.add_middleware(
@@ -27,7 +28,7 @@ def get_db_connection():
     return pymysql.connect(host=DB_CONFIG["host"], user=DB_CONFIG["user"], password=DB_CONFIG["password"],
                            database=DB_CONFIG["database"], charset=DB_CONFIG["charset"])
 
-# 언급량 통계
+# X 언급량 통계
 @app.get("/get_mention_volume_ranking")
 def get_mention_volume_ranking():
     conn = get_db_connection()
@@ -85,11 +86,11 @@ def get_search_volume_ranking():
     finally:
         conn.close()
 
-# 추천 영상
+# 키워드에 대한 최고 조회수 영상
 @app.get("/get_recommended_video")
-async def get_recommended_video():
+async def get_recommended_video(keyword: str):
     try:
-        videos = await run_in_threadpool(search_recommend_videos)
+        videos = await run_in_threadpool(search_recommend_videos, keyword)
 
         if not videos:
             return {
@@ -107,11 +108,11 @@ async def get_recommended_video():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"추천 영상을 수집하는 중 오류 발생: {str(e)}")
 
-# 추천 트윗
+# 키워드에 대한 최고 조회수 트윗
 @app.get("/get_recommended_tweet")
-async def get_recommended_tweet():
+async def get_recommended_tweet(keyword: str):
     try:
-        tweets = await run_in_threadpool(search_trending_tweets)
+        tweets = await run_in_threadpool(search_trending_tweets, keyword)
 
         if not tweets:
             return {
@@ -129,3 +130,6 @@ async def get_recommended_tweet():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"추천 트윗을 수집하는 중 오류 발생: {str(e)}")
+
+if __name__ == "__main__":
+    uvicorn.run("statistical_ranking_dispenser:app", host="0.0.0.0", port=8001, reload=True)
