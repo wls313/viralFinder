@@ -1,7 +1,7 @@
 package com.tt.spring_ai.controller;
 
-import com.tt.spring_ai.dto.TrendDto;
-import com.tt.spring_ai.service.TrendService;
+import com.tt.spring_ai.dto.TrendAnalysisResult;
+import com.tt.spring_ai.service.TrendAnalysisService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class TrendController {
 
-    private final TrendService trendService;
+    private final TrendAnalysisService trendAnalysisService;
 
-    public TrendController(TrendService trendService) {
-        this.trendService = trendService;
+    public TrendController(TrendAnalysisService trendAnalysisService) {
+        this.trendAnalysisService = trendAnalysisService;
     }
 
     @GetMapping("/recommend")
-    public ResponseEntity<TrendDto> trendRecommend(@RequestParam String keyword) {
-        TrendDto result = trendService.trendRecommend(keyword);
+    public ResponseEntity<TrendAnalysisResult> trendRecommend(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1w") String period) {
+        TrendAnalysisResult result = trendAnalysisService.analyze(keyword, period);
         return ResponseEntity.ok(result);
     }
 }

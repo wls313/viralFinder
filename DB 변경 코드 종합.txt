@@ -96,3 +96,60 @@ create table recommend (
     published_date datetime comment 'x: 작성 일자, youtube: 업로드 일자',
     saved_at datetime default current_timestamp comment 'DB에 저장된 일자'
 ) engine=InnoDB default CHARSET=utf8mb4 collate=utf8mb4_unicode_ci;
+
+create table trend_case
+(
+    case_id              int auto_increment primary key,
+    keyword              varchar(100)   not null comment '사례 키워드 (실시간 추적용 keyword 테이블과 무관)',
+    period_start         date           not null comment '감지 시작일',
+    period_end           date           not null comment '관측 종료일 (보통 피크 + 28일 이상)',
+
+    -- [{"day":0,"ratio":12.0}, ...] : day=감지 시작일로부터 경과일, ratio=케이스 내 자체 정규화(0~100) 값
+    series_json          json           not null comment '정규화된 전체 시계열',
+
+    days_to_peak         int            not null comment '시작~피크까지 걸린 일수',
+    peak_ratio           decimal(5, 2)  not null,
+    ratio_28d_after_peak decimal(5, 2)  not null comment '피크 대비 28일 후 잔존 비율(%) - outcome 라벨 산정 기준',
+    volatility           decimal(6, 3)  not null,
+
+    outcome              varchar(20)    not null comment 'SUSTAINED / FADED / REIGNITED',
+    summary_text         varchar(500)   not null comment 'LLM 프롬프트에 그대로 넣을 한글 요약',
+
+    created_at           datetime default current_timestamp
+) engine = InnoDB default charset = utf8mb4 collate = utf8mb4_unicode_ci;
+
+create table trend_analysis
+(
+    analysis_id          bigint auto_increment primary key,
+    keyword_id           int            not null,
+    keyword_name         varchar(100)   not null,
+    analyzed_at          datetime       not null default current_timestamp,
+
+    -- 입력 스냅샷 (규칙기반 판정 근거)
+    latest_naver_ratio   decimal(5, 2),
+    latest_google_ratio  decimal(5, 2),
+    naver_short_term_avg decimal(5, 2),
+    naver_long_term_avg  decimal(5, 2),
+    math_prediction      varchar(20) comment 'UP / DOWN / STAY / INSUFFICIENT_DATA (규칙기반, analyzer.py 산출)',
+
+    matched_case_ids     json comment '참고한 trend_case.case_id 목록',
+
+    -- LLM 결과
+    trend_status         varchar(20)    not null comment 'RISING / PEAKING / DECLINING / INSUFFICIENT_DATA',
+    analysis_reason      text,
+    recommended_items    json,
+
+    model_name           varchar(50),
+    prompt_version       varchar(20),
+
+    -- 사후 검증용 (나중에 배치나 수동으로 채움)
+    actual_outcome        varchar(20),
+    verified_at            datetime,
+
+    constraint trend_analysis_ibfk_1
+        foreign key (keyword_id) references keyword (keyword_id)
+            on delete cascade
+) engine = InnoDB default charset = utf8mb4 collate = utf8mb4_unicode_ci;
+
+create index keyword_id
+    on trend_analysis (keyword_id);
