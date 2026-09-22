@@ -51,7 +51,6 @@ public class TrendAnalysis {
     @Column(name = "matched_case_ids", columnDefinition = "JSON")
     private String matchedCaseIds;
 
-    // ---- LLM 결과 ----
     @Column(name = "trend_status", nullable = false, length = 20)
     private String trendStatus;
 
@@ -68,7 +67,6 @@ public class TrendAnalysis {
     @Column(name = "prompt_version", length = 20)
     private String promptVersion;
 
-    // ---- 사후 검증용 (나중에 배치나 수동으로 채움) ----
     @Column(name = "actual_outcome", length = 20)
     private String actualOutcome;
 
