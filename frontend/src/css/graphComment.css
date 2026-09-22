@@ -1,12 +1,20 @@
+/* 기본 카드 스타일 */
 .graph-comment-card {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
   margin: 16px 0;
   border-radius: 12px;
-  background: #f8fafc;
+  background: #ffffff;
   border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.graph-comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .graph-comment-badge {
@@ -19,14 +27,85 @@
   white-space: nowrap;
 }
 
+.dummy-badge {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
 .graph-comment-text {
   margin: 0;
   font-size: 14px;
+  line-height: 1.6;
   color: #334155;
+  width: 100%;
 }
 
 .graph-comment-loading {
   margin: 0;
   font-size: 14px;
   color: #94a3b8;
+}
+
+/* 유사 사례 섹션 수정 부분 */
+.similar-cases-section {
+  border-top: 1px solid #f1f5f9; /* 구분선 색상을 밝은 배경에 맞게 변경 */
+  padding-top: 16px;
+  width: 100%;
+}
+
+.similar-cases-title {
+  margin: 0 0 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b; /* 어두운 색상으로 변경하여 가독성 확보 */
+}
+
+/* 유사 사례 카드 그리드 */
+.similar-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.similar-case-card {
+  background: #f8fafc; /* 카드 배경을 살짝 대비되는 밝은 회색으로 변경 */
+  border: 1px solid #e2e8f0; /* 테두리 선명하게 수정 */
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.similar-case-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.similar-case-keyword {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0f172a; /* 키워드 글씨 색상을 짙은 검은색/슬레이트 톤으로 변경 */
+}
+
+.similar-case-outcome {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.similar-case-summary {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #475569; /* 요약 텍스트 선명한 어두운 회색으로 변경 */
+  margin: 0;
 }
