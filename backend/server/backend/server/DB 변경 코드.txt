@@ -1,0 +1,61 @@
+-- 1. 키워드 마스터
+CREATE TABLE keyword (
+    keyword_id INT AUTO_INCREMENT PRIMARY KEY,
+    target_keyword VARCHAR(100) NOT NULL UNIQUE COMMENT '분석 대상 키워드',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. 블랙리스트 (독립 테이블)
+CREATE TABLE blacklist (
+    blacklist_id INT AUTO_INCREMENT PRIMARY KEY,
+    caption_name VARCHAR(100) NOT NULL UNIQUE COMMENT '차단할 채널/작성자'
+);
+
+-- 3. 구글 트렌드 (통합 및 초간결화)
+CREATE TABLE google (
+    trend_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    keyword_id INT NOT NULL,
+    period DATE NOT NULL COMMENT '측정 날짜',
+    relative_ratio DECIMAL(5,2) NOT NULL COMMENT '상대적 비율 (0~100)',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_google (keyword_id, period),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(keyword_id) ON DELETE CASCADE
+);
+
+-- 4. 네이버 데이터랩 (통합 및 초간결화)
+CREATE TABLE naver (
+    trend_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    keyword_id INT NOT NULL,
+    period DATE NOT NULL COMMENT '측정 날짜',
+    relative_ratio DECIMAL(5,2) NOT NULL COMMENT '상대적 비율 (0~100)',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_naver (keyword_id, period),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(keyword_id) ON DELETE CASCADE
+);
+
+-- 5. 유튜브 영상 정보 (youtube로 직관성 통일)
+CREATE TABLE youtube (
+    video_id VARCHAR(50) NOT NULL,
+    update_count INT NOT NULL DEFAULT 1 COMMENT '업데이트 회차',
+    keyword_id INT NOT NULL,
+    record_date DATETIME NOT NULL COMMENT '수집 시점',
+    daily_view_count BIGINT DEFAULT 0,
+    daily_like_count INT DEFAULT 0,
+    daily_comment_count INT DEFAULT 0,
+    PRIMARY KEY (video_id, update_count),
+    FOREIGN KEY (keyword_id) REFERENCES keyword(keyword_id) ON DELETE CASCADE
+);
+
+-- 6. 유튜브 댓글 분석 결과 (youtube_comments로 매핑)
+CREATE TABLE youtube_comments (
+    analysis_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    video_id VARCHAR(50) NOT NULL,
+    update_count INT NOT NULL,
+    keyword_id INT NOT NULL,
+    caption_name VARCHAR(50) NOT NULL COMMENT '댓글 작성자',
+    content TEXT COMMENT '댓글 내용',
+    is_ad INT DEFAULT 0 COMMENT '광고 여부 (1:광고, 0:일반)',
+    like_count INT DEFAULT 0,
+    record_date DATETIME NOT NULL COMMENT '수집 시점',
+    FOREIGN KEY (video_id, update_count) REFERENCES youtube (video_id, update_count) ON DELETE CASCADE
+);
