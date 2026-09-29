@@ -10,6 +10,8 @@ import {
 } from 'recharts';
 
 import '../css/chart.css';
+import { sliceTrendByPeriod, bucketRows } from '../api/dummySearch';
+import PeriodSelector from './PeriodSelector';
 
 // 8월 22일 ~ 9월 21일 (1달 기준, 탕후루 급등-급락 트렌드) 더미데이터
 const DUMMY_TREND_DATA = [
@@ -31,56 +33,50 @@ const DUMMY_TREND_DATA = [
   { date: '09-21', naver: 4, google: 5, x: 0 }, // 마지막 날짜 (9월 21일)
 ];
 
-function TrendChart({ result }) {
-  console.log("result: ", result);
+function TrendChart({ result, period = "1w", setPeriod }) {
+  // 선택한 기간(7/30/90일)만 사용. period가 바뀌면 차트 데이터도 함께 바뀜.
+  const naverSeries = sliceTrendByPeriod(result?.naver_trend, period);
+  const googleSeries = sliceTrendByPeriod(result?.google_trend, period);
+  const xSeries = sliceTrendByPeriod(
+    result?.x_trend?.map((item) => ({ period: item.period, relative_ratio: item.ratio })),
+    period
+  );
 
-  const naverData =
-    result?.naver_trend?.map((item) => ({
-      date: item.period.slice(5),
-      count: item.relative_ratio,
-    })) || [];
+  // 연도가 바뀌는 구간에서도 정렬이 깨지지 않도록 전체 날짜(YYYY-MM-DD)를 키로 병합하고,
+  // 화면에는 MM-DD만 표시한다.
+  const mergeMap = new Map();
 
-  const googleData =
-    result?.google_trend?.map((item) => ({
-      date: item.period.slice(5),
-      count: item.relative_ratio,
-    })) || [];
-
-  const xData =
-    result?.x_trend?.map((item) => ({
-      date: item.period.slice(5),
-      count: item.ratio,
-    })) || [];
-
-  const mergeData = [];
-
-  const mergeInto = (data, key) => {
-    data.forEach((item) => {
-      const existing = mergeData.find((d) => d.date === item.date);
-
-      if (existing) {
-        existing[key] = item.count;
-      } else {
-        mergeData.push({
-          date: item.date,
-          naver: null,
-          google: null,
-          x: null,
-          [key]: item.count,
-        });
-      }
+  const mergeInto = (series, key) => {
+    series.forEach((item) => {
+      const fullDate = String(item.period);
+      const existing = mergeMap.get(fullDate) || {
+        fullDate,
+        date: fullDate.slice(5),
+        naver: null,
+        google: null,
+        x: null,
+      };
+      existing[key] = item.relative_ratio;
+      mergeMap.set(fullDate, existing);
     });
   };
 
-  mergeInto(naverData, "naver");
-  mergeInto(googleData, "google");
-  mergeInto(xData, "x");
+  mergeInto(naverSeries, "naver");
+  mergeInto(googleSeries, "google");
+  mergeInto(xSeries, "x");
 
-  mergeData.sort((a, b) => a.date.localeCompare(b.date));
+  const dailyData = Array.from(mergeMap.values()).sort((a, b) =>
+    a.fullDate.localeCompare(b.fullDate)
+  );
 
-  // 전달받은 데이터가 없으면 1달 기준 더미데이터 사용
-  const chartData = mergeData.length > 0 ? mergeData : DUMMY_TREND_DATA;
-  const isDummy = mergeData.length === 0;
+  // 7일=하루 단위, 30일=3일 단위, 90일=10일 단위 평균으로 묶어서 표시
+  const mergeData = bucketRows(dailyData, period);
+
+  // 검색 결과 자체가 없을 때(검색 전 상태)만 예시 데이터 사용.
+  // 검색 결과가 있는데 시계열이 비어 있으면 빈 차트 + 안내 문구를 보여줌.
+  const isDummy = !result;
+  const chartData = isDummy ? DUMMY_TREND_DATA : mergeData;
+  const isEmpty = !isDummy && mergeData.length === 0;
 
   return (
     <div className="chart-card">
@@ -100,18 +96,43 @@ function TrendChart({ result }) {
             예시 데이터 (탕후루)
           </span>
         )}
+        {result?._dummy && (
+          <span
+            style={{
+              backgroundColor: '#f3f4f6',
+              color: '#6b7280',
+              fontSize: '11px',
+              fontWeight: 500,
+              padding: '3px 8px',
+              borderRadius: '6px',
+            }}
+          >
+            더미 데이터
+          </span>
+        )}
+
+        {setPeriod && (
+          <div style={{ marginLeft: 'auto' }}>
+            <PeriodSelector period={period} setPeriod={setPeriod} />
+          </div>
+        )}
       </div>
 
       <div className="chart-wrapper">
+        {isEmpty && <p>선택한 기간에 표시할 데이터가 없습니다.</p>}
         <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={chartData}>
+          <LineChart key={period} data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
 
             <XAxis dataKey="date" />
 
             <YAxis />
 
-            <Tooltip />
+            <Tooltip
+              labelFormatter={(label, payload) =>
+                payload?.[0]?.payload?.rangeLabel || label
+              }
+            />
 
             <Legend />
 

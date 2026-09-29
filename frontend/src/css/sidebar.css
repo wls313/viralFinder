@@ -121,3 +121,98 @@
   font-size: 18px;
   flex-shrink: 0;
 }
+
+/* ===== 하단 더미 데이터 토글 ===== */
+.sidebar-bottom {
+  padding-top: 16px;
+  border-top: 1px solid #1f2937;
+}
+
+.dummy-toggle {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: transparent;
+  color: #9ca3af;
+  border: none;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  font-size: 14px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.dummy-toggle:hover {
+  background: #1f2937;
+  color: white;
+}
+
+.dummy-toggle.on {
+  color: white;
+}
+
+.dummy-toggle-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.dummy-toggle.on .dummy-toggle-icon {
+  opacity: 1;
+}
+
+.dummy-toggle-label {
+  flex: 1;
+}
+
+.dummy-toggle-switch {
+  position: relative;
+  flex-shrink: 0;
+
+  width: 36px;
+  height: 20px;
+
+  background: #374151;
+  border-radius: 999px;
+
+  transition: background 0.2s ease;
+}
+
+.dummy-toggle.on .dummy-toggle-switch {
+  background: #4f46e5;
+}
+
+.dummy-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+
+  width: 16px;
+  height: 16px;
+
+  background: white;
+  border-radius: 50%;
+
+  transition: transform 0.2s ease;
+}
+
+.dummy-toggle.on .dummy-toggle-knob {
+  transform: translateX(16px);
+}
+
+/* 접힌 상태: 아이콘만 표시, ON이면 아이콘 배경 강조 */
+.sidebar.collapsed .dummy-toggle {
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.sidebar.collapsed .dummy-toggle.on {
+  background: #4f46e5;
+}

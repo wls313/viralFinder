@@ -1,0 +1,7884 @@
+{
+  "results": [
+    {
+      "keyword": "마라탕",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 1,
+      "keyword_name": "마라탕",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 91.0,
+        "latest_google_ratio": 80.1,
+        "short_term_avg": 93.9,
+        "long_term_avg": 98.5,
+        "math_prediction": "STAY"
+      },
+      "twitter_trends": [
+        {
+          "id": "1000000",
+          "content": "오늘도 마라탕 검색하다 하루 다 감ㅋㅋ",
+          "screen_name": "dummy_user_10",
+          "user_id": 1010,
+          "likes": 37,
+          "retweets": 13,
+          "views": 1731
+        },
+        {
+          "id": "1000001",
+          "content": "마라탕 유행 벌써 끝난 거 아니냐는 말 나오던데",
+          "screen_name": "dummy_user_11",
+          "user_id": 1011,
+          "likes": 128,
+          "retweets": 42,
+          "views": 2708
+        },
+        {
+          "id": "1000002",
+          "content": "친구가 마라탕 추천해줘서 해봤는데 생각보다 괜찮음",
+          "screen_name": "dummy_user_12",
+          "user_id": 1012,
+          "likes": 219,
+          "retweets": 71,
+          "views": 3685
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 10.6
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 11.5
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 14.0
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 11.6
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 12.3
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 13.1
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 11.2
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 13.6
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 14.9
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 16.4
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 12.8
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 14.7
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 14.1
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 19.2
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 19.2
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 16.2
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 22.7
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 23.5
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 22.7
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 23.5
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 21.8
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 22.2
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 26.5
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 25.0
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 27.1
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 28.8
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 29.0
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 33.2
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 34.7
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 38.7
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 38.5
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 41.0
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 42.0
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 44.9
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 45.6
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 46.6
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 52.9
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 55.0
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 56.2
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 57.6
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 57.4
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 59.1
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 61.7
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 62.7
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 69.1
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 69.2
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 74.1
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 73.6
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 79.3
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 80.9
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 78.0
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 81.4
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 87.7
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 92.1
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 90.6
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 90.5
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 95.6
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 98.2
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 96.7
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 97.1
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 99.0
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 95.4
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 94.9
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 95.9
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 92.8
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 87.6
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 91.0
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 9.9
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 12.2
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 13.5
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 8.4
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 12.5
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 12.4
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 12.4
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 8.1
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 11.4
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 14.7
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 11.3
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 13.8
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 13.0
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 17.8
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 19.3
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 15.6
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 21.2
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 14.5
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 21.4
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 22.8
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 17.9
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 23.4
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 23.3
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 27.6
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 22.8
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 26.7
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 30.7
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 30.1
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 28.9
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 28.5
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 36.9
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 34.7
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 40.5
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 35.3
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 42.4
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 44.2
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 46.9
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 41.5
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 46.2
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 45.6
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 53.1
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 51.9
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 58.8
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 56.1
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 61.4
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 64.2
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 61.2
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 65.8
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 71.0
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 69.6
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 70.2
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 71.4
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 77.5
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 74.6
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 79.8
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 81.2
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 82.9
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 81.1
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 86.9
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 90.5
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 88.6
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 94.4
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 92.9
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 91.4
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 90.3
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 97.0
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 94.4
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 95.9
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 98.0
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 99.0
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 95.7
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 93.7
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 99.9
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 92.4
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 96.1
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 96.4
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 93.4
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 95.1
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 95.9
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 91.8
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 89.0
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 85.1
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 82.8
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 80.9
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 80.1
+        }
+      ],
+      "ai_comment": {
+        "comment": "마라탕의 검색량은 큰 변동 없이 일정 수준을 유지하고 있습니다. 단기·장기 평균 차이가 작아 급격한 확산이나 소멸 신호는 뚜렷하지 않습니다.",
+        "probability": "MEDIUM",
+        "similarCases": [
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          },
+          {
+            "caseId": 3,
+            "keyword": "요아정",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 171.9
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "두바이초콜릿",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 2,
+      "keyword_name": "두바이초콜릿",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 8.5,
+        "latest_google_ratio": 9.3,
+        "short_term_avg": 9.0,
+        "long_term_avg": 8.1,
+        "math_prediction": "STAY"
+      },
+      "twitter_trends": [
+        {
+          "id": "2000000",
+          "content": "두바이초콜릿 유행 벌써 끝난 거 아니냐는 말 나오던데",
+          "screen_name": "dummy_user_20",
+          "user_id": 1020,
+          "likes": 74,
+          "retweets": 26,
+          "views": 2462
+        },
+        {
+          "id": "2000001",
+          "content": "친구가 두바이초콜릿 추천해줘서 해봤는데 생각보다 괜찮음",
+          "screen_name": "dummy_user_21",
+          "user_id": 1021,
+          "likes": 165,
+          "retweets": 55,
+          "views": 3439
+        },
+        {
+          "id": "2000002",
+          "content": "두바이초콜릿 관련 영상 알고리즘에 계속 뜬다",
+          "screen_name": "dummy_user_22",
+          "user_id": 1022,
+          "likes": 256,
+          "retweets": 84,
+          "views": 4416
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 31.1
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 29.2
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 31.8
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 41.3
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 40.3
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 44.1
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 51.6
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 54.4
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 62.3
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 63.2
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 72.4
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 73.4
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 79.9
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 86.5
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 89.4
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 95.0
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 97.4
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 96.8
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 99.1
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 95.0
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 89.0
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 88.9
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 80.5
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 78.6
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 74.8
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 68.1
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 60.2
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 59.6
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 54.0
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 46.6
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 41.5
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 40.4
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 33.7
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 35.5
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 29.8
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 27.0
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 23.7
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 22.9
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 22.3
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 16.8
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 15.6
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 15.5
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 12.6
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 13.3
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 12.1
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 10.8
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 11.6
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 10.2
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 7.2
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 12.3
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 8.1
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 8.4
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 8.0
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 11.1
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 11.1
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 7.6
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 5.7
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 10.5
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 6.1
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 7.1
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 7.0
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 7.2
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 5.2
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 8.2
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 9.8
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 8.9
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 9.2
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 5.3
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 7.5
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 10.5
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 7.8
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 10.1
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 8.0
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 8.1
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 8.5
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 25.8
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 26.3
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 28.9
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 32.2
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 35.2
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 34.4
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 42.6
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 42.2
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 45.2
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 47.6
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 55.3
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 56.8
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 62.2
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 69.2
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 74.9
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 78.8
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 77.4
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 80.8
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 85.7
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 91.1
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 95.8
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 97.5
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 98.1
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 98.8
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 95.8
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 95.1
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 92.8
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 93.5
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 88.4
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 83.7
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 80.3
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 75.0
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 75.5
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 69.2
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 66.2
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 62.3
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 53.8
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 48.1
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 45.2
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 46.3
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 41.5
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 34.9
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 34.5
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 27.9
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 29.2
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 20.5
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 23.4
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 23.2
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 16.9
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 15.6
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 11.6
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 11.5
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 10.2
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 9.7
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 7.1
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 9.1
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 7.8
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 6.1
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 11.7
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 6.4
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 8.0
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 10.9
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 9.6
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 11.3
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 10.4
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 3.8
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 9.1
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 5.9
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 5.8
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 9.4
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 9.2
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 6.0
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 6.1
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 5.4
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 10.8
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 8.1
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 5.3
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 7.5
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 3.7
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 5.4
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 7.2
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 11.1
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 10.2
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 7.6
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 9.3
+        }
+      ],
+      "ai_comment": {
+        "comment": "두바이초콜릿의 검색량은 큰 변동 없이 일정 수준을 유지하고 있습니다. 단기·장기 평균 차이가 작아 급격한 확산이나 소멸 신호는 뚜렷하지 않습니다.",
+        "probability": "MEDIUM",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 3,
+            "keyword": "요아정",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 171.9
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "요아정",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 3,
+      "keyword_name": "요아정",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 5.1,
+        "latest_google_ratio": 4.4,
+        "short_term_avg": 8.0,
+        "long_term_avg": 7.8,
+        "math_prediction": "STAY"
+      },
+      "twitter_trends": [
+        {
+          "id": "3000000",
+          "content": "친구가 요아정 추천해줘서 해봤는데 생각보다 괜찮음",
+          "screen_name": "dummy_user_30",
+          "user_id": 1030,
+          "likes": 111,
+          "retweets": 39,
+          "views": 3193
+        },
+        {
+          "id": "3000001",
+          "content": "요아정 관련 영상 알고리즘에 계속 뜬다",
+          "screen_name": "dummy_user_31",
+          "user_id": 1031,
+          "likes": 202,
+          "retweets": 68,
+          "views": 4170
+        },
+        {
+          "id": "3000002",
+          "content": "요아정 요즘 진짜 많이 보이던데 다들 먹어봤어요?",
+          "screen_name": "dummy_user_32",
+          "user_id": 1032,
+          "likes": 293,
+          "retweets": 97,
+          "views": 5147
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 40.9
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 47.0
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 54.2
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 57.5
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 66.5
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 74.7
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 81.6
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 83.6
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 92.4
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 97.4
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 98.8
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 84.3
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 78.5
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 69.9
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 65.6
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 59.4
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 50.8
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 45.5
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 36.6
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 31.1
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 32.2
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 24.1
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 20.3
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 21.5
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 18.2
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 12.5
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 12.1
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 10.4
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 9.6
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 7.2
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 9.7
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 8.0
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 8.2
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 6.7
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 6.0
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 5.5
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 10.4
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 9.6
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 8.4
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 5.8
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 5.9
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 5.7
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 6.9
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 5.4
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 6.7
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 8.9
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 7.7
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 7.8
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 7.1
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 8.2
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 9.7
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 6.8
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 5.4
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 7.9
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 7.3
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 9.7
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 5.7
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 10.2
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 5.1
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 7.7
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 6.9
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 10.3
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 9.2
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 6.0
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 8.0
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 8.7
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 5.2
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 5.5
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 8.6
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 9.4
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 7.8
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 7.5
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 8.0
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 6.6
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 10.3
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 10.8
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 7.9
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 5.1
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 34.4
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 36.4
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 34.8
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 45.3
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 46.2
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 54.7
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 63.8
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 65.7
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 76.2
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 80.0
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 83.8
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 89.0
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 92.5
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 93.5
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 96.4
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 98.1
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 88.9
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 84.5
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 82.1
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 71.4
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 69.0
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 60.9
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 58.1
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 53.3
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 46.3
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 36.4
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 36.0
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 29.0
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 28.3
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 21.9
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 22.4
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 20.6
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 17.2
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 15.6
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 14.1
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 11.3
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 7.1
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 12.9
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 8.2
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 4.3
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 7.3
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 7.0
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 5.1
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 11.1
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 4.2
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 10.5
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 7.7
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 4.7
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 6.1
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 6.8
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 4.2
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 9.3
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 8.4
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 11.1
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 9.8
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 9.5
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 11.2
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 10.7
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 8.4
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 7.5
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 7.4
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 9.7
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 10.6
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 9.8
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 9.9
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 3.4
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 6.6
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 3.9
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 7.9
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 7.8
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 7.7
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 10.1
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 5.0
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 9.0
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 7.9
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 4.9
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 11.0
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 3.6
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 6.9
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 7.5
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 8.0
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 11.1
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 7.6
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 10.3
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 5.6
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 7.1
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 4.4
+        }
+      ],
+      "ai_comment": {
+        "comment": "요아정의 검색량은 큰 변동 없이 일정 수준을 유지하고 있습니다. 단기·장기 평균 차이가 작아 급격한 확산이나 소멸 신호는 뚜렷하지 않습니다.",
+        "probability": "MEDIUM",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "탕후루",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 4,
+      "keyword_name": "탕후루",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 5.4,
+        "latest_google_ratio": 9.2,
+        "short_term_avg": 8.0,
+        "long_term_avg": 7.7,
+        "math_prediction": "STAY"
+      },
+      "twitter_trends": [
+        {
+          "id": "4000000",
+          "content": "탕후루 관련 영상 알고리즘에 계속 뜬다",
+          "screen_name": "dummy_user_40",
+          "user_id": 1040,
+          "likes": 148,
+          "retweets": 52,
+          "views": 3924
+        },
+        {
+          "id": "4000001",
+          "content": "탕후루 요즘 진짜 많이 보이던데 다들 먹어봤어요?",
+          "screen_name": "dummy_user_41",
+          "user_id": 1041,
+          "likes": 239,
+          "retweets": 81,
+          "views": 4901
+        },
+        {
+          "id": "4000002",
+          "content": "오늘도 탕후루 검색하다 하루 다 감ㅋㅋ",
+          "screen_name": "dummy_user_42",
+          "user_id": 1042,
+          "likes": 330,
+          "retweets": 110,
+          "views": 5878
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 61.4
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 69.7
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 79.2
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 82.3
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 89.3
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 94.0
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 99.4
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 90.8
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 81.8
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 73.0
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 70.0
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 61.2
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 50.8
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 43.7
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 37.5
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 37.0
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 26.9
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 25.7
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 24.1
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 15.5
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 15.1
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 13.7
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 14.8
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 9.2
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 8.8
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 8.1
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 6.4
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 9.8
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 10.4
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 7.9
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 5.4
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 9.4
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 9.5
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 9.0
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 7.0
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 8.8
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 8.5
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 8.2
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 6.4
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 7.7
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 9.8
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 9.1
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 7.1
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 9.9
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 5.3
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 5.9
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 6.3
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 5.1
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 9.5
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 8.9
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 11.0
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 7.1
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 5.7
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 7.0
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 8.6
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 5.4
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 7.6
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 5.3
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 8.7
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 5.7
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 6.1
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 8.9
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 8.7
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 6.8
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 8.9
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 6.6
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 5.0
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 6.6
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 9.1
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 8.8
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 6.7
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 10.8
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 6.6
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 5.4
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 57.7
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 59.3
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 59.2
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 67.3
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 67.7
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 77.8
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 82.5
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 86.3
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 93.9
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 96.0
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 96.4
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 95.7
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 92.0
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 81.4
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 81.3
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 70.0
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 65.2
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 56.4
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 53.8
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 44.0
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 37.9
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 35.0
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 29.2
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 25.7
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 21.8
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 20.1
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 19.1
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 17.5
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 12.8
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 11.8
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 10.5
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 7.8
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 10.8
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 5.1
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 11.3
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 7.4
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 9.5
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 8.9
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 4.0
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 6.7
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 6.3
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 4.2
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 9.1
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 6.5
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 8.5
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 3.5
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 10.7
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 6.5
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 9.9
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 9.3
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 3.9
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 9.2
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 8.9
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 9.6
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 9.4
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 5.3
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 7.9
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 10.9
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 5.1
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 6.9
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 7.7
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 9.3
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 8.3
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 10.0
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 3.4
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 7.4
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 4.0
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 10.1
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 7.8
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 5.2
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 9.6
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 4.9
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 6.0
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 10.2
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 8.6
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 9.5
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 3.8
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 5.4
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 9.6
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 10.9
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 6.0
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 5.5
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 7.9
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 6.6
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 7.5
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 9.2
+        }
+      ],
+      "ai_comment": {
+        "comment": "탕후루의 검색량은 큰 변동 없이 일정 수준을 유지하고 있습니다. 단기·장기 평균 차이가 작아 급격한 확산이나 소멸 신호는 뚜렷하지 않습니다.",
+        "probability": "MEDIUM",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "성수맛집",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 5,
+      "keyword_name": "성수맛집",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 84.7,
+        "latest_google_ratio": 88.7,
+        "short_term_avg": 89.4,
+        "long_term_avg": 84.4,
+        "math_prediction": "UP"
+      },
+      "twitter_trends": [
+        {
+          "id": "5000000",
+          "content": "성수맛집 요즘 진짜 많이 보이던데 다들 먹어봤어요?",
+          "screen_name": "dummy_user_50",
+          "user_id": 1050,
+          "likes": 185,
+          "retweets": 65,
+          "views": 4655
+        },
+        {
+          "id": "5000001",
+          "content": "오늘도 성수맛집 검색하다 하루 다 감ㅋㅋ",
+          "screen_name": "dummy_user_51",
+          "user_id": 1051,
+          "likes": 276,
+          "retweets": 94,
+          "views": 5632
+        },
+        {
+          "id": "5000002",
+          "content": "성수맛집 유행 벌써 끝난 거 아니냐는 말 나오던데",
+          "screen_name": "dummy_user_52",
+          "user_id": 1052,
+          "likes": 367,
+          "retweets": 3,
+          "views": 6609
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 79.5
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 89.3
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 84.5
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 94.4
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 95.1
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 92.7
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 94.0
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 97.7
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 97.1
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 95.4
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 93.1
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 92.0
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 93.0
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 88.5
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 87.4
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 83.8
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 76.5
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 75.9
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 77.9
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 74.9
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 75.8
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 67.8
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 68.5
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 70.3
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 72.3
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 67.9
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 73.5
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 71.5
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 72.1
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 78.2
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 74.1
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 83.2
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 80.1
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 82.8
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 83.7
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 88.1
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 93.3
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 89.7
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 94.1
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 94.3
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 93.8
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 92.7
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 97.7
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 94.6
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 94.6
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 88.7
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 93.1
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 84.1
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 83.4
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 77.8
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 75.4
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 71.9
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 73.1
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 71.9
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 71.2
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 70.3
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 70.6
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 67.0
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 68.3
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 72.2
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 72.6
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 71.6
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 74.2
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 82.4
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 83.0
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 84.5
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 83.7
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 86.4
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 91.0
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 94.0
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 90.1
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 97.0
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 93.1
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 94.6
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 96.1
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 99.1
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 93.6
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 94.3
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 89.0
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 93.4
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 85.4
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 85.7
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 84.7
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 78.9
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 84.2
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 78.3
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 90.6
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 83.7
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 89.1
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 94.9
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 98.1
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 97.3
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 95.9
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 91.8
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 96.8
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 91.6
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 89.4
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 82.1
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 87.0
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 83.2
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 83.4
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 78.9
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 82.7
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 77.8
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 75.6
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 68.6
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 70.0
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 75.9
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 68.0
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 65.6
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 68.8
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 66.6
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 76.4
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 75.9
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 72.1
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 83.0
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 79.1
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 79.7
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 89.1
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 82.1
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 85.4
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 89.4
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 96.7
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 91.8
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 91.0
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 92.4
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 93.7
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 97.8
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 98.1
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 96.4
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 86.8
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 88.9
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 83.2
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 88.4
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 80.8
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 86.8
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 82.7
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 81.5
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 72.7
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 78.8
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 75.3
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 66.1
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 76.1
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 65.1
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 76.2
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 68.0
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 68.5
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 73.2
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 68.6
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 79.4
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 81.5
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 75.1
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 85.1
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 87.2
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 89.7
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 94.0
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 98.9
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 91.4
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 98.3
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 94.6
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 92.7
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 95.4
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 89.2
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 87.8
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 88.7
+        }
+      ],
+      "ai_comment": {
+        "comment": "성수맛집의 검색량은 최근 단기 평균이 장기 평균을 웃돌며 상승 흐름을 보이고 있습니다. 네이버와 구글 모두 증가세라 관심이 확산되는 초기~중기 단계로 판단됩니다.",
+        "probability": "HIGH",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "쇼츠챌린지",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 6,
+      "keyword_name": "쇼츠챌린지",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 13.5,
+        "latest_google_ratio": 16.9,
+        "short_term_avg": 22.9,
+        "long_term_avg": 46.5,
+        "math_prediction": "DOWN"
+      },
+      "twitter_trends": [
+        {
+          "id": "6000000",
+          "content": "오늘도 쇼츠챌린지 검색하다 하루 다 감ㅋㅋ",
+          "screen_name": "dummy_user_60",
+          "user_id": 1060,
+          "likes": 222,
+          "retweets": 78,
+          "views": 5386
+        },
+        {
+          "id": "6000001",
+          "content": "쇼츠챌린지 유행 벌써 끝난 거 아니냐는 말 나오던데",
+          "screen_name": "dummy_user_61",
+          "user_id": 1061,
+          "likes": 313,
+          "retweets": 107,
+          "views": 6363
+        },
+        {
+          "id": "6000002",
+          "content": "친구가 쇼츠챌린지 추천해줘서 해봤는데 생각보다 괜찮음",
+          "screen_name": "dummy_user_62",
+          "user_id": 1062,
+          "likes": 404,
+          "retweets": 16,
+          "views": 7340
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 12.5
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 14.7
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 13.6
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 15.0
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 14.2
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 18.5
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 17.9
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 20.9
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 25.1
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 27.0
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 33.1
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 39.2
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 53.1
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 59.9
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 73.2
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 82.7
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 94.7
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 98.4
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 99.9
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 97.1
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 92.3
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 83.5
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 68.7
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 60.2
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 48.5
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 39.1
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 33.4
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 23.3
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 20.1
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 18.5
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 15.8
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 14.8
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 13.8
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 17.9
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 18.2
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 17.9
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 18.0
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 16.8
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 18.0
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 21.4
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 23.4
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 29.9
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 39.9
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 49.3
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 61.7
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 72.7
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 80.8
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 94.3
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 97.6
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 99.9
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 96.9
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 90.6
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 84.7
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 74.0
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 57.7
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 51.2
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 41.1
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 33.5
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 24.5
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 24.1
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 19.6
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 17.3
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 14.1
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 17.2
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 16.1
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 18.7
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 25.3
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 26.9
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 36.3
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 42.0
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 50.7
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 63.6
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 73.7
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 84.1
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 95.4
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 97.8
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 97.6
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 89.1
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 76.6
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 65.3
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 57.5
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 48.2
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 38.7
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 30.2
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 21.7
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 22.1
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 15.7
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 18.5
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 13.5
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 11.8
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 16.0
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 12.0
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 16.8
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 16.0
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 14.2
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 16.7
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 16.9
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 13.6
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 20.1
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 24.2
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 28.2
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 38.0
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 45.1
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 52.1
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 62.0
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 72.5
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 88.7
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 95.5
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 99.2
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 98.1
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 85.0
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 77.8
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 63.1
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 56.0
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 45.8
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 37.3
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 26.6
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 20.2
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 18.8
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 19.6
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 16.6
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 17.9
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 14.7
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 14.3
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 18.9
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 12.7
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 13.8
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 18.3
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 20.6
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 22.0
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 27.6
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 32.9
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 43.1
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 55.0
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 65.6
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 75.4
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 84.3
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 96.8
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 97.5
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 98.9
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 90.3
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 78.1
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 70.1
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 57.4
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 49.7
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 38.1
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 30.1
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 28.7
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 21.0
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 17.6
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 21.0
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 20.7
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 14.2
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 14.4
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 23.5
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 27.2
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 27.8
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 33.6
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 46.1
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 58.7
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 63.6
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 76.9
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 88.8
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 92.3
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 97.9
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 93.7
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 83.7
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 72.2
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 63.6
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 50.3
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 39.8
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 31.6
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 27.3
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 21.6
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 21.9
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 16.9
+        }
+      ],
+      "ai_comment": {
+        "comment": "쇼츠챌린지의 검색량은 정점을 지난 뒤 꾸준히 하락하고 있습니다. 단기 평균이 장기 평균보다 낮아 관심이 식어가는 쇠퇴 단계로 판단됩니다.",
+        "probability": "LOW",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "먹방",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 7,
+      "keyword_name": "먹방",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 90.3,
+        "latest_google_ratio": 87.2,
+        "short_term_avg": 86.4,
+        "long_term_avg": 88.1,
+        "math_prediction": "STAY"
+      },
+      "twitter_trends": [
+        {
+          "id": "7000000",
+          "content": "먹방 유행 벌써 끝난 거 아니냐는 말 나오던데",
+          "screen_name": "dummy_user_70",
+          "user_id": 1070,
+          "likes": 259,
+          "retweets": 91,
+          "views": 6117
+        },
+        {
+          "id": "7000001",
+          "content": "친구가 먹방 추천해줘서 해봤는데 생각보다 괜찮음",
+          "screen_name": "dummy_user_71",
+          "user_id": 1071,
+          "likes": 350,
+          "retweets": 0,
+          "views": 7094
+        },
+        {
+          "id": "7000002",
+          "content": "먹방 관련 영상 알고리즘에 계속 뜬다",
+          "screen_name": "dummy_user_72",
+          "user_id": 1072,
+          "likes": 441,
+          "retweets": 29,
+          "views": 8071
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 92.7
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 90.1
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 90.2
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 95.5
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 91.0
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 94.3
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 95.6
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 96.5
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 93.5
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 97.5
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 96.6
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 99.4
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 93.1
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 93.7
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 98.2
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 95.4
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 97.2
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 91.6
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 91.8
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 89.3
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 93.7
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 91.0
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 87.6
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 86.6
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 84.9
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 85.1
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 85.4
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 86.8
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 81.7
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 87.9
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 85.9
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 86.9
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 81.5
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 84.7
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 82.3
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 88.2
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 84.5
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 87.8
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 91.2
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 90.5
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 88.1
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 95.1
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 89.3
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 96.0
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 97.7
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 96.7
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 98.7
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 96.1
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 94.2
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 96.4
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 98.5
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 98.7
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 95.7
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 99.7
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 92.6
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 95.6
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 91.6
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 93.3
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 97.4
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 89.9
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 95.6
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 94.2
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 88.3
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 89.1
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 83.8
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 84.7
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 82.5
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 87.7
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 87.8
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 87.6
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 84.8
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 80.9
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 84.3
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 87.2
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 82.2
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 82.7
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 84.0
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 91.1
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 85.8
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 88.7
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 90.3
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 93.6
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 85.3
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 92.2
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 90.4
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 96.0
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 92.2
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 91.6
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 88.5
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 92.9
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 99.2
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 92.2
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 98.5
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 91.9
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 95.9
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 93.7
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 91.8
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 93.3
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 96.0
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 94.9
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 90.4
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 87.4
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 85.3
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 94.4
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 89.2
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 87.9
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 86.3
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 82.0
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 82.7
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 90.1
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 83.0
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 84.1
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 88.2
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 84.1
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 79.3
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 77.9
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 79.1
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 78.6
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 79.7
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 79.8
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 82.2
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 84.4
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 84.1
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 84.6
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 84.8
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 93.7
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 86.6
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 91.8
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 90.0
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 92.5
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 87.2
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 98.8
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 97.9
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 89.2
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 92.2
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 99.6
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 97.9
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 95.7
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 98.5
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 90.4
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 97.0
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 90.1
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 90.8
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 97.4
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 90.1
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 91.6
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 91.9
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 88.6
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 91.9
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 92.6
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 87.5
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 84.5
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 88.8
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 82.0
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 79.0
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 87.7
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 80.4
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 78.1
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 84.8
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 77.5
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 85.2
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 80.2
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 87.4
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 85.5
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 81.9
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 81.9
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 82.3
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 87.2
+        }
+      ],
+      "ai_comment": {
+        "comment": "먹방의 검색량은 큰 변동 없이 일정 수준을 유지하고 있습니다. 단기·장기 평균 차이가 작아 급격한 확산이나 소멸 신호는 뚜렷하지 않습니다.",
+        "probability": "MEDIUM",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "서울날씨",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 8,
+      "keyword_name": "서울날씨",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 84.0,
+        "latest_google_ratio": 84.6,
+        "short_term_avg": 82.8,
+        "long_term_avg": 79.9,
+        "math_prediction": "STAY"
+      },
+      "twitter_trends": [
+        {
+          "id": "8000000",
+          "content": "친구가 서울날씨 추천해줘서 해봤는데 생각보다 괜찮음",
+          "screen_name": "dummy_user_80",
+          "user_id": 1080,
+          "likes": 296,
+          "retweets": 104,
+          "views": 6848
+        },
+        {
+          "id": "8000001",
+          "content": "서울날씨 관련 영상 알고리즘에 계속 뜬다",
+          "screen_name": "dummy_user_81",
+          "user_id": 1081,
+          "likes": 387,
+          "retweets": 13,
+          "views": 7825
+        },
+        {
+          "id": "8000002",
+          "content": "서울날씨 요즘 진짜 많이 보이던데 다들 먹어봤어요?",
+          "screen_name": "dummy_user_82",
+          "user_id": 1082,
+          "likes": 478,
+          "retweets": 42,
+          "views": 8802
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 42.4
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 60.3
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 75.7
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 50.1
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 51.3
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 76.0
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 64.5
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 46.6
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 63.9
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 77.2
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 46.7
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 52.3
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 74.6
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 60.9
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 49.0
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 67.8
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 71.5
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 49.9
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 61.5
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 76.0
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 64.4
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 48.5
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 77.1
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 72.3
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 54.3
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 66.5
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 84.7
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 62.3
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 56.6
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 79.9
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 71.0
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 52.3
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 66.1
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 81.9
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 61.2
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 56.5
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 80.3
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 71.8
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 53.3
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 69.7
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 57.7
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 57.3
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 84.6
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 71.3
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 54.0
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 76.7
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 88.7
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 60.4
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 60.2
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 73.1
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 56.5
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 80.1
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 85.1
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 60.8
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 68.9
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 89.6
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 74.5
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 58.9
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 82.9
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 87.4
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 66.0
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 73.7
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 76.1
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 59.4
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 85.5
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 84.8
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 63.1
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 77.6
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 70.4
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 62.5
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 88.9
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 83.4
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 65.2
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 77.4
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 98.8
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 74.7
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 70.9
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 93.2
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 86.6
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 63.6
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 82.9
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 76.9
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 74.4
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 98.0
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 84.0
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 45.3
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 44.8
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 45.1
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 73.3
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 70.2
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 42.8
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 60.0
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 72.6
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 63.1
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 51.1
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 68.9
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 67.8
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 53.4
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 66.0
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 80.8
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 56.4
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 55.6
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 80.6
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 66.4
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 52.5
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 64.3
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 83.9
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 52.1
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 58.9
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 77.0
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 75.4
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 56.5
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 71.3
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 78.7
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 54.9
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 63.6
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 85.5
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 73.7
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 57.1
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 72.6
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 84.5
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 53.1
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 63.7
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 65.3
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 56.2
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 81.1
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 80.5
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 56.9
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 70.1
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 93.2
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 66.4
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 53.2
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 85.3
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 83.3
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 55.1
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 76.8
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 87.4
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 71.8
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 58.3
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 92.1
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 83.5
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 57.9
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 79.4
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 90.1
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 66.0
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 64.0
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 95.3
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 79.9
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 65.8
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 79.7
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 98.7
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 70.1
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 66.9
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 96.3
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 84.3
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 59.3
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 87.6
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 98.3
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 74.7
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 77.1
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 96.2
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 80.2
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 70.1
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 89.3
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 90.8
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 70.8
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 71.2
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 79.8
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 71.2
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 93.2
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 91.1
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 70.6
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 84.6
+        }
+      ],
+      "ai_comment": {
+        "comment": "서울날씨의 검색량은 큰 변동 없이 일정 수준을 유지하고 있습니다. 단기·장기 평균 차이가 작아 급격한 확산이나 소멸 신호는 뚜렷하지 않습니다.",
+        "probability": "MEDIUM",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "카페라떼",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 9,
+      "keyword_name": "카페라떼",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 83.6,
+        "latest_google_ratio": 83.5,
+        "short_term_avg": 78.0,
+        "long_term_avg": 84.0,
+        "math_prediction": "DOWN"
+      },
+      "twitter_trends": [
+        {
+          "id": "9000000",
+          "content": "카페라떼 관련 영상 알고리즘에 계속 뜬다",
+          "screen_name": "dummy_user_90",
+          "user_id": 1090,
+          "likes": 333,
+          "retweets": 117,
+          "views": 7579
+        },
+        {
+          "id": "9000001",
+          "content": "카페라떼 요즘 진짜 많이 보이던데 다들 먹어봤어요?",
+          "screen_name": "dummy_user_91",
+          "user_id": 1091,
+          "likes": 424,
+          "retweets": 26,
+          "views": 8556
+        },
+        {
+          "id": "9000002",
+          "content": "오늘도 카페라떼 검색하다 하루 다 감ㅋㅋ",
+          "screen_name": "dummy_user_92",
+          "user_id": 1092,
+          "likes": 15,
+          "retweets": 55,
+          "views": 9533
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 85.5
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 86.3
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 88.8
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 98.6
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 94.1
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 95.7
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 97.9
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 95.0
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 96.9
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 89.6
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 86.0
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 85.1
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 78.4
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 83.2
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 76.0
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 75.1
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 78.0
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 73.2
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 79.9
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 83.9
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 81.3
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 90.5
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 88.9
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 94.3
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 93.4
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 94.5
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 94.3
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 93.3
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 93.3
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 90.0
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 85.8
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 86.9
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 78.0
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 74.7
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 80.8
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 72.7
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 79.6
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 78.9
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 84.8
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 86.9
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 83.2
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 85.8
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 92.9
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 98.4
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 92.0
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 96.2
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 92.2
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 93.4
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 88.4
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 89.3
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 88.6
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 82.4
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 85.6
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 75.4
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 75.1
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 74.2
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 75.1
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 79.1
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 76.0
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 81.3
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 86.0
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 80.4
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 91.0
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 91.2
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 95.8
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 95.2
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 92.7
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 92.9
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 92.4
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 90.7
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 88.1
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 86.0
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 86.9
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 86.0
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 83.7
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 82.0
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 73.0
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 79.6
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 73.0
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 72.7
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 76.5
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 81.8
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 78.9
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 83.6
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 90.4
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 76.9
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 80.2
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 94.8
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 92.1
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 93.9
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 98.2
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 97.8
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 95.0
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 88.5
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 83.0
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 85.2
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 81.7
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 80.4
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 78.6
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 72.1
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 75.6
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 75.0
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 78.0
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 74.1
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 76.2
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 80.8
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 90.9
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 85.4
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 88.5
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 99.3
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 95.4
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 94.3
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 86.0
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 89.8
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 87.6
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 85.8
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 80.0
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 80.2
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 71.0
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 79.7
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 68.6
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 74.5
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 77.4
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 76.0
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 84.1
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 73.9
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 85.6
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 84.7
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 86.7
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 90.0
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 97.8
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 86.9
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 92.2
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 92.2
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 87.6
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 94.6
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 89.6
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 80.8
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 81.9
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 82.1
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 71.2
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 71.9
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 75.2
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 77.3
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 68.0
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 68.2
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 75.4
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 80.6
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 86.1
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 83.2
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 92.4
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 86.0
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 89.1
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 87.1
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 93.2
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 93.3
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 88.0
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 90.0
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 89.3
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 78.7
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 84.5
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 72.5
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 79.1
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 68.9
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 71.9
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 76.9
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 80.6
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 70.6
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 82.8
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 83.5
+        }
+      ],
+      "ai_comment": {
+        "comment": "카페라떼의 검색량은 정점을 지난 뒤 꾸준히 하락하고 있습니다. 단기 평균이 장기 평균보다 낮아 관심이 식어가는 쇠퇴 단계로 판단됩니다.",
+        "probability": "LOW",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    },
+    {
+      "keyword": "아이폰17",
+      "period": "90",
+      "status": "success",
+      "keyword_id": 10,
+      "keyword_name": "아이폰17",
+      "updated_at": "2026-09-20 12:00:00",
+      "trends": {
+        "latest_naver_ratio": 100.0,
+        "latest_google_ratio": 97.9,
+        "short_term_avg": 96.5,
+        "long_term_avg": 76.2,
+        "math_prediction": "UP"
+      },
+      "twitter_trends": [
+        {
+          "id": "10000000",
+          "content": "아이폰17 요즘 진짜 많이 보이던데 다들 먹어봤어요?",
+          "screen_name": "dummy_user_100",
+          "user_id": 1100,
+          "likes": 370,
+          "retweets": 10,
+          "views": 8310
+        },
+        {
+          "id": "10000001",
+          "content": "오늘도 아이폰17 검색하다 하루 다 감ㅋㅋ",
+          "screen_name": "dummy_user_101",
+          "user_id": 1101,
+          "likes": 461,
+          "retweets": 39,
+          "views": 9287
+        },
+        {
+          "id": "10000002",
+          "content": "아이폰17 유행 벌써 끝난 거 아니냐는 말 나오던데",
+          "screen_name": "dummy_user_102",
+          "user_id": 1102,
+          "likes": 52,
+          "retweets": 68,
+          "views": 10264
+        }
+      ],
+      "naver_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 3.2
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 2.6
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 0.3
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 0.9
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 0.1
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 3.0
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 3.8
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 2.1
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 1.6
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 1.0
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 2.2
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 2.8
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 0.4
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 1.1
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 2.3
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 5.8
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 5.5
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 4.8
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 2.9
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 6.2
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 7.0
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 6.8
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 2.6
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 4.3
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 3.6
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 5.5
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 8.8
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 6.9
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 6.4
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 6.0
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 6.5
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 11.9
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 13.5
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 14.0
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 9.1
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 11.9
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 12.1
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 15.4
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 15.0
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 18.2
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 19.3
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 22.1
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 22.9
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 24.4
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 23.2
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 31.0
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 29.4
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 34.4
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 32.9
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 33.4
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 41.7
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 40.6
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 40.8
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 48.5
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 50.7
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 47.7
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 55.8
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 52.8
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 55.3
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 57.9
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 65.3
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 65.9
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 67.9
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 71.3
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 70.8
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 71.5
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 73.8
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 76.9
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 81.4
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 79.8
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 81.5
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 84.4
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 84.7
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 86.6
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 88.7
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 90.0
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 92.8
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 97.4
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 97.4
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 94.1
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 95.6
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 98.3
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 100.0
+        }
+      ],
+      "google_trend": [
+        {
+          "period": "2026-06-23",
+          "relative_ratio": 3.3
+        },
+        {
+          "period": "2026-06-24",
+          "relative_ratio": 4.5
+        },
+        {
+          "period": "2026-06-25",
+          "relative_ratio": 1.3
+        },
+        {
+          "period": "2026-06-26",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-06-27",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-06-28",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-06-29",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-06-30",
+          "relative_ratio": 3.5
+        },
+        {
+          "period": "2026-07-01",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-02",
+          "relative_ratio": 4.8
+        },
+        {
+          "period": "2026-07-03",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-04",
+          "relative_ratio": 0.8
+        },
+        {
+          "period": "2026-07-05",
+          "relative_ratio": 1.0
+        },
+        {
+          "period": "2026-07-06",
+          "relative_ratio": 1.8
+        },
+        {
+          "period": "2026-07-07",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-08",
+          "relative_ratio": 4.4
+        },
+        {
+          "period": "2026-07-09",
+          "relative_ratio": 0.9
+        },
+        {
+          "period": "2026-07-10",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-11",
+          "relative_ratio": 1.1
+        },
+        {
+          "period": "2026-07-12",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-13",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-14",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-15",
+          "relative_ratio": 1.6
+        },
+        {
+          "period": "2026-07-16",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-17",
+          "relative_ratio": 2.1
+        },
+        {
+          "period": "2026-07-18",
+          "relative_ratio": 3.3
+        },
+        {
+          "period": "2026-07-19",
+          "relative_ratio": 3.8
+        },
+        {
+          "period": "2026-07-20",
+          "relative_ratio": 1.9
+        },
+        {
+          "period": "2026-07-21",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-22",
+          "relative_ratio": 4.3
+        },
+        {
+          "period": "2026-07-23",
+          "relative_ratio": 0.0
+        },
+        {
+          "period": "2026-07-24",
+          "relative_ratio": 3.7
+        },
+        {
+          "period": "2026-07-25",
+          "relative_ratio": 0.8
+        },
+        {
+          "period": "2026-07-26",
+          "relative_ratio": 4.0
+        },
+        {
+          "period": "2026-07-27",
+          "relative_ratio": 11.0
+        },
+        {
+          "period": "2026-07-28",
+          "relative_ratio": 2.4
+        },
+        {
+          "period": "2026-07-29",
+          "relative_ratio": 9.3
+        },
+        {
+          "period": "2026-07-30",
+          "relative_ratio": 4.7
+        },
+        {
+          "period": "2026-07-31",
+          "relative_ratio": 6.7
+        },
+        {
+          "period": "2026-08-01",
+          "relative_ratio": 9.7
+        },
+        {
+          "period": "2026-08-02",
+          "relative_ratio": 6.5
+        },
+        {
+          "period": "2026-08-03",
+          "relative_ratio": 9.3
+        },
+        {
+          "period": "2026-08-04",
+          "relative_ratio": 10.8
+        },
+        {
+          "period": "2026-08-05",
+          "relative_ratio": 9.4
+        },
+        {
+          "period": "2026-08-06",
+          "relative_ratio": 18.0
+        },
+        {
+          "period": "2026-08-07",
+          "relative_ratio": 13.0
+        },
+        {
+          "period": "2026-08-08",
+          "relative_ratio": 16.4
+        },
+        {
+          "period": "2026-08-09",
+          "relative_ratio": 18.4
+        },
+        {
+          "period": "2026-08-10",
+          "relative_ratio": 21.8
+        },
+        {
+          "period": "2026-08-11",
+          "relative_ratio": 21.0
+        },
+        {
+          "period": "2026-08-12",
+          "relative_ratio": 17.0
+        },
+        {
+          "period": "2026-08-13",
+          "relative_ratio": 28.0
+        },
+        {
+          "period": "2026-08-14",
+          "relative_ratio": 29.6
+        },
+        {
+          "period": "2026-08-15",
+          "relative_ratio": 29.3
+        },
+        {
+          "period": "2026-08-16",
+          "relative_ratio": 24.7
+        },
+        {
+          "period": "2026-08-17",
+          "relative_ratio": 33.0
+        },
+        {
+          "period": "2026-08-18",
+          "relative_ratio": 29.2
+        },
+        {
+          "period": "2026-08-19",
+          "relative_ratio": 39.9
+        },
+        {
+          "period": "2026-08-20",
+          "relative_ratio": 33.1
+        },
+        {
+          "period": "2026-08-21",
+          "relative_ratio": 37.3
+        },
+        {
+          "period": "2026-08-22",
+          "relative_ratio": 42.3
+        },
+        {
+          "period": "2026-08-23",
+          "relative_ratio": 40.8
+        },
+        {
+          "period": "2026-08-24",
+          "relative_ratio": 48.0
+        },
+        {
+          "period": "2026-08-25",
+          "relative_ratio": 44.7
+        },
+        {
+          "period": "2026-08-26",
+          "relative_ratio": 50.3
+        },
+        {
+          "period": "2026-08-27",
+          "relative_ratio": 56.3
+        },
+        {
+          "period": "2026-08-28",
+          "relative_ratio": 53.0
+        },
+        {
+          "period": "2026-08-29",
+          "relative_ratio": 56.7
+        },
+        {
+          "period": "2026-08-30",
+          "relative_ratio": 63.6
+        },
+        {
+          "period": "2026-08-31",
+          "relative_ratio": 69.3
+        },
+        {
+          "period": "2026-09-01",
+          "relative_ratio": 62.8
+        },
+        {
+          "period": "2026-09-02",
+          "relative_ratio": 69.8
+        },
+        {
+          "period": "2026-09-03",
+          "relative_ratio": 75.2
+        },
+        {
+          "period": "2026-09-04",
+          "relative_ratio": 69.8
+        },
+        {
+          "period": "2026-09-05",
+          "relative_ratio": 74.9
+        },
+        {
+          "period": "2026-09-06",
+          "relative_ratio": 82.9
+        },
+        {
+          "period": "2026-09-07",
+          "relative_ratio": 78.5
+        },
+        {
+          "period": "2026-09-08",
+          "relative_ratio": 84.8
+        },
+        {
+          "period": "2026-09-09",
+          "relative_ratio": 86.0
+        },
+        {
+          "period": "2026-09-10",
+          "relative_ratio": 83.1
+        },
+        {
+          "period": "2026-09-11",
+          "relative_ratio": 84.8
+        },
+        {
+          "period": "2026-09-12",
+          "relative_ratio": 86.3
+        },
+        {
+          "period": "2026-09-13",
+          "relative_ratio": 95.5
+        },
+        {
+          "period": "2026-09-14",
+          "relative_ratio": 95.3
+        },
+        {
+          "period": "2026-09-15",
+          "relative_ratio": 92.7
+        },
+        {
+          "period": "2026-09-16",
+          "relative_ratio": 91.7
+        },
+        {
+          "period": "2026-09-17",
+          "relative_ratio": 100.0
+        },
+        {
+          "period": "2026-09-18",
+          "relative_ratio": 98.9
+        },
+        {
+          "period": "2026-09-19",
+          "relative_ratio": 99.0
+        },
+        {
+          "period": "2026-09-20",
+          "relative_ratio": 97.9
+        }
+      ],
+      "ai_comment": {
+        "comment": "아이폰17의 검색량은 최근 단기 평균이 장기 평균을 웃돌며 상승 흐름을 보이고 있습니다. 네이버와 구글 모두 증가세라 관심이 확산되는 초기~중기 단계로 판단됩니다.",
+        "probability": "HIGH",
+        "similarCases": [
+          {
+            "caseId": 1,
+            "keyword": "마라탕",
+            "outcome": "REIGNITED",
+            "summaryText": "한 차례 하락 후 다시 관심이 살아나 재점화된 사례.",
+            "distance": 157.3
+          },
+          {
+            "caseId": 2,
+            "keyword": "두바이초콜릿",
+            "outcome": "FADED",
+            "summaryText": "빠르게 확산돼 정점을 찍은 뒤 식어, 정점 대비 28일 후 크게 하락한 사례.",
+            "distance": 164.6
+          }
+        ]
+      }
+    }
+  ]
+}

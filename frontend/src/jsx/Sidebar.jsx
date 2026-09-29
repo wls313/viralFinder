@@ -6,7 +6,14 @@ const MENU_ITEMS = [
   { key: "analysis", label: "키워드 분석", icon: "🧠" },
 ];
 
-function Sidebar({ currentPage, setCurrentPage, collapsed, setCollapsed }) {
+function Sidebar({
+  currentPage,
+  setCurrentPage,
+  collapsed,
+  setCollapsed,
+  useDummyData = false,
+  setUseDummyData,
+}) {
   return (
     <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <div>
@@ -41,6 +48,30 @@ function Sidebar({ currentPage, setCurrentPage, collapsed, setCollapsed }) {
           ))}
         </nav>
       </div>
+
+      {setUseDummyData && (
+        <div className="sidebar-bottom">
+          <button
+            type="button"
+            className={`dummy-toggle ${useDummyData ? "on" : ""}`}
+            onClick={() => setUseDummyData((prev) => !prev)}
+            role="switch"
+            aria-checked={useDummyData}
+            title={`더미 데이터 ${useDummyData ? "ON" : "OFF"}`}
+          >
+            <span className="dummy-toggle-icon">🔧</span>
+
+            {!collapsed && (
+              <>
+                <span className="dummy-toggle-label">더미 데이터</span>
+                <span className="dummy-toggle-switch" aria-hidden="true">
+                  <span className="dummy-toggle-knob" />
+                </span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </aside>
   );
 }

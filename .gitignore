@@ -1,3 +1,4 @@
 /backend/venv
 backend/server/key_setting.py
 backend/server/.env
+/backend/server/analyzer/__pycache__

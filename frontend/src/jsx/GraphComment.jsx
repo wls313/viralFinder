@@ -51,41 +51,95 @@ const DUMMY_COMMENT = {
   ],
 };
 
-function GraphComment({ keyword, result, period = "1w" }) {
+// AI 코멘트는 검색 1회당 한 번만 요청한다(기간 버튼을 눌러도 다시 호출하지 않음).
+// Spring AI는 period를 그대로 파이썬 /api/analysis 로 넘기므로 숫자(일수) 문자열로 보낸다.
+const COMMENT_PERIOD = "90";
+
+// 실패 원인을 사용자가 바로 알 수 있도록 문장으로 변환
+const describeError = (err) => {
+  if (err?.code === "ECONNABORTED") {
+    return "AI 분석 응답 시간이 초과되었습니다. (Spring AI / Gemini 응답 지연)";
+  }
+  if (err?.response) {
+    const { status, data } = err.response;
+    const detail =
+      typeof data === "string"
+        ? data
+        : data?.message || data?.detail || data?.error;
+    return `AI 분석 서버 오류 (HTTP ${status})${detail ? `: ${detail}` : ""}`;
+  }
+  if (err?.request) {
+    return "AI 분석 서버(localhost:8080)에 연결할 수 없습니다. Spring AI가 실행 중인지 확인하세요.";
+  }
+  return err?.message || "알 수 없는 오류가 발생했습니다.";
+};
+
+function GraphComment({ keyword, result }) {
   const [comment, setComment] = useState(null);
   const [probability, setProbability] = useState(null);
   const [similarCases, setSimilarCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDummy, setIsDummy] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [noData, setNoData] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let ignore = false;
 
-    const hasTrendData =
-      result?.naver_trend?.length ||
-      result?.google_trend?.length ||
-      result?.x_trend?.length ||
-      result?.twitter_trends?.length;
-
-    if (!hasTrendData) {
-      // 검색 전 상태에서도 예시 데이터를 보여줌
+    const showExample = () => {
       setComment(DUMMY_COMMENT.comment);
       setProbability(DUMMY_COMMENT.probability);
       setSimilarCases(DUMMY_COMMENT.similarCases);
       setIsDummy(true);
       setLoading(false);
+    };
+
+    setErrorMessage(null);
+    setNoData(false);
+
+    // 1) 아직 검색한 적이 없을 때만 예시(탕후루)를 보여준다.
+    if (!result) {
+      showExample();
       return;
     }
 
+    // 2) 더미 데이터 모드: 더미 JSON에 포함된 ai_comment를 그대로 사용 (Spring AI 호출 생략)
+    if (result._dummy && result.ai_comment) {
+      setComment(result.ai_comment.comment);
+      setProbability(result.ai_comment.probability);
+      setSimilarCases(result.ai_comment.similarCases ?? []);
+      setIsDummy(true);
+      setLoading(false);
+      return;
+    }
+
+    // 3) 검색은 했지만 수집된 트렌드 데이터가 없을 때: 예시로 덮지 않고 안내
+    const hasTrendData =
+      result.naver_trend?.length ||
+      result.google_trend?.length ||
+      result.x_trend?.length ||
+      result.twitter_trends?.length;
+
+    if (!hasTrendData) {
+      setNoData(true);
+      setLoading(false);
+      return;
+    }
+
+    // 4) 실제 Spring AI 분석 요청
     (async () => {
       setLoading(true);
 
       try {
-        // min Spring AI: GET /api/trends/recommend?keyword=...&period=1w
+        // Spring AI: GET /api/trends/recommend?keyword=...&period=90
         // Spring AI가 Python 백엔드에서 데이터를 가져오므로 keyword/period만 전달
         const data = await getGraphComment({
           keyword,
-          period: result?.period || period || "1w",
+          period: COMMENT_PERIOD,
+          // 검색할 때마다 바뀌는 updated_at을 키에 넣어, 새 검색이면 새로 분석하고
+          // 같은 검색 결과면(재마운트, StrictMode) 이전 요청을 재사용한다.
+          cacheKey: `${keyword}|${result.updated_at ?? ""}|${retryCount}`,
         });
 
         if (ignore) return;
@@ -116,12 +170,9 @@ function GraphComment({ keyword, result, period = "1w" }) {
       } catch (err) {
         console.error("get_graph_comment 호출 실패:", err);
 
-        if (!ignore) {
-          setComment(DUMMY_COMMENT.comment);
-          setProbability(DUMMY_COMMENT.probability);
-          setSimilarCases(DUMMY_COMMENT.similarCases);
-          setIsDummy(true);
-        }
+        // 실패했을 때 탕후루 예시로 덮으면 실제 분석인 것처럼 오해되므로
+        // 실패 사유와 "다시 시도" 버튼을 보여준다.
+        if (!ignore) setErrorMessage(describeError(err));
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -130,12 +181,38 @@ function GraphComment({ keyword, result, period = "1w" }) {
     return () => {
       ignore = true;
     };
-  }, [keyword, result, period]);
+  }, [keyword, result, retryCount]);
 
   if (loading) {
     return (
       <div className="graph-comment-card">
         <p className="graph-comment-loading">AI가 그래프를 분석하고 있습니다...</p>
+      </div>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div className="graph-comment-card">
+        <p className="graph-comment-error">AI 분석을 불러오지 못했습니다.</p>
+        <p className="graph-comment-error-detail">{errorMessage}</p>
+        <button
+          type="button"
+          className="graph-comment-retry-btn"
+          onClick={() => setRetryCount((n) => n + 1)}
+        >
+          다시 시도
+        </button>
+      </div>
+    );
+  }
+
+  if (noData) {
+    return (
+      <div className="graph-comment-card">
+        <p className="graph-comment-loading">
+          수집된 트렌드 데이터가 없어 AI 분석을 건너뛰었습니다.
+        </p>
       </div>
     );
   }
