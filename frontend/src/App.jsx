@@ -20,37 +20,26 @@ function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   // 검색조건 프리셋: 1주일 / 1달 / 3달 (백엔드에 아직 기간 파라미터가 없어서
   // 우선 프론트에서 값만 보내둠. 백엔드팀에게 period 파라미터 반영 요청 필요)
-  const [period, setPeriod] = useState("1w");
+  const [period, setPeriod] = useState("90");
   // 검색화면(EmptyState)에 보여줄 1~3위 키워드.
   // 실시간 트렌드 API가 아직 없어서 trendsApi의 mock 데이터를 사용 중이고,
   // 백엔드에 실제 트렌드 엔드포인트가 생기면 getTrendsData 구현부만 교체하면
   // 여기는 그대로 동작함.
   const [topKeywords, setTopKeywords] = useState([]);
 
-  useEffect(() => {
-    let ignore = false;
 
-    getTrendsData("all", "growth").then((data) => {
-      if (!ignore) {
-        setTopKeywords(data.slice(0, 3).map((item) => item.keyword));
-      }
-    });
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  const handleSearch = async () => {
-    if (!keyword.trim()) return;
+  const handleSearch = async (directKeyword = null) => {
+    const query = typeof directKeyword === 'string' ? directKeyword : keyword;
+    if (!query.trim()) return;
 
     setLoading(true);
 
     try {
-      const data = await searchKeyword(keyword, period);
+      const data = await searchKeyword(query, period);
 
       setResult(data);
-      setSearchedKeyword(keyword);
+      setSearchedKeyword(query);
+      setKeyword(query)
       setCurrentPage("analysis");
 
     } catch (error) {
@@ -59,6 +48,26 @@ function App() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    let ignore = false;
+
+    getTrendsData("all", "growth", period).then((data) => {
+      if (!ignore) {
+        setTopKeywords(data.slice(0, 3).map((item) => item.keyword));
+      }
+    });
+
+    return () => {
+      ignore = true;
+    };
+  }, [period]);
+
+  useEffect(() => {
+    if (currentPage === "analysis" && searchedKeyword) {
+      handleSearch(searchedKeyword);
+    }
+  }, [period]);
 
   return (
     <div className={`app ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
@@ -79,13 +88,14 @@ function App() {
         />
 
         {currentPage === "trends" ? (
-          <TrendsPage />
+          <TrendsPage period={period} onSearch={handleSearch}/>
         ) : loading ? (
           <LoadingPage />
         ) : currentPage === "analysis" ? (
           <Dashboard
             keyword={searchedKeyword}
             result={result}
+            period={period}
           />
         ) : (
           <EmptyState setKeyword={setKeyword} topKeywords={topKeywords} />

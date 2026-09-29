@@ -1,9 +1,9 @@
 import '../css/header.css';
 
 const PERIOD_PRESETS = [
-  { key: "1w", label: "1주일" },
-  { key: "1m", label: "1달" },
-  { key: "3m", label: "3달" },
+  { key: "7", label: "1주일" },
+  { key: "30", label: "1달" },
+  { key: "90", label: "3달" },
 ];
 
 function Header({

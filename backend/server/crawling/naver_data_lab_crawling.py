@@ -28,12 +28,6 @@ def search_keyword(keyword, search_range):
     start_date = measurement_time.strftime('%Y-%m-%d')
     time_unit = "date"
 
-    #TODO naver데이터는 당일 날짜로 할경우 결산이 끝나지않아 에러가 난다고해서 일시적으로 수정해놨습니다
-    # measurement_time = now_time - timedelta(days=search_range)
-    # start_date = measurement_time.strftime('%Y-%m-%d')
-    # end_date = now_time.strftime('%Y-%m-%d')
-    # time_unit = "date"
-
     url = naver_openapi_url
 
     body = {
@@ -62,15 +56,6 @@ def search_keyword(keyword, search_range):
 
             df = pd.DataFrame(crawling_data, columns=["키워드", "측정 기간", "상대적 비율"])
 
-            # db_url = URL.create(
-            #     drivername="mysql+pymysql",
-            #     username=DB_CONFIG["user"],
-            #     password=DB_CONFIG["password"],
-            #     host=DB_CONFIG["host"],
-            #     database=DB_CONFIG["database"],
-
-            #     query=DB_CONFIG["charset"]
-            # )
             engine = create_engine(DB_URL)
             with engine.begin() as conn:
                 conn.execute(text("INSERT IGNORE INTO keyword (target_keyword) VALUES (:kw)"), {"kw": keyword})
@@ -81,17 +66,74 @@ def search_keyword(keyword, search_range):
             df['search_range'] = search_range
             df['created_at'] = created_time
 
-            try:
-                df[['keyword_id', 'search_range', 'period', 'relative_ratio', 'created_at']].to_sql(
-                    name='naver',
-                    con=engine,
-                    if_exists='append',
-                    index=False
-                )
-                db_message = "데이터베이스에 성공적으로 저장하였습니다."
+            # 90일
+            # z-score
+            df['z_score_90'] = ((df['relative_ratio'] - df['relative_ratio'].mean()) / df['relative_ratio'].std()).fillna(0)
+            # t-score (검색 급상승량 지표)
+            df['t_score_90'] = 50 + df['z_score_90'] * 10
+            # t-score 백분율 (프론트엔드 출력용 검색 급상승량 지표)
+            df['t_score_percentage_90'] = df['t_score_90'].clip(0, 100).round(1)
 
-            except Exception as db_e:
-                db_message = f"데이터베이스 저장 실패 혹은 중복 데이터가 발생했습니다. : {str(db_e)}"
+            t_score_90 = df.iloc[-1]['t_score_90']
+            prev_90 = df.iloc[-2]['t_score_90'] if len(df) > 1 else t_score_90
+            delta_90 = round(t_score_90 - prev_90, 1)
+            pct_90 = df.iloc[-1]['t_score_percentage_90']
+
+            # 30일
+            df_30 = df.tail(30).copy()
+            df_30['z_score_30'] = ((df_30['relative_ratio'] - df_30['relative_ratio'].mean()) / df_30['relative_ratio'].std()).fillna(0)
+            df_30['t_score_30'] = 50 + df_30['z_score_30'] * 10
+            df_30['t_score_percentage_30'] = df_30['t_score_30'].clip(0, 100).round(1)
+
+            t_score_30 = df_30.iloc[-1]['t_score_30']
+            prev_30 = df_30.iloc[-2]['t_score_30'] if len(df_30) > 1 else t_score_30
+            delta_30 = round(t_score_30 - prev_30, 1)
+            pct_30 = df_30.iloc[-1]['t_score_percentage_30']
+
+            # 7일
+            df_7 = df.tail(7).copy()
+            df_7['z_score_7'] = ((df_7['relative_ratio'] - df_7['relative_ratio'].mean()) / df_7['relative_ratio'].std()).fillna(0)
+            df_7['t_score_7'] = 50 + df_7['z_score_7'] * 10
+            df_7['t_score_percentage_7'] = df_7['t_score_7'].clip(0, 100).round(1)
+
+            t_score_7 = df_7.iloc[-1]['t_score_7']
+            prev_7 = df_7.iloc[-2]['t_score_7'] if len(df_7) > 1 else t_score_7
+            delta_7 = round(t_score_7 - prev_7, 1)
+            pct_7 = df_7.iloc[-1]['t_score_percentage_7']
+
+            if int(search_range) == 90:
+                try:
+                    with engine.begin() as conn:
+                        df_insert = df[['keyword_id', 'search_range', 'period', 'relative_ratio', 'z_score_90', 't_score_90', 'created_at']].rename(columns={'z_score_90': 'z_score', 't_score_90': 't_score'})
+                        insert_data = df_insert.to_dict(orient='records')
+
+                        upsert_sql = text("""
+                            INSERT INTO naver (keyword_id, search_range, period, relative_ratio, z_score, t_score, created_at)
+                            VALUES (:keyword_id, :search_range, :period, :relative_ratio, :z_score, :t_score, :created_at)
+                            ON DUPLICATE KEY UPDATE relative_ratio = VALUES(relative_ratio), z_score = VALUES(z_score),t_score = VALUES(t_score), search_range = VALUES(search_range), created_at = VALUES(created_at)
+                        """)
+                        conn.execute(upsert_sql, insert_data)
+
+                        update_keyword_sql = text("""
+                            UPDATE keyword 
+                            SET naver_t_score_90 = :t90, naver_delta_90 = :d90, naver_t_score_30 = :t30, naver_delta_30 = :d30, naver_t_score_7  = :t7,  naver_delta_7  = :d7
+                            WHERE target_keyword = :keyword
+                        """)
+
+                        conn.execute(update_keyword_sql, {
+                            "t90": pct_90, "d90": delta_90,
+                            "t30": pct_30, "d30": delta_30,
+                            "t7":  pct_7,  "d7":  delta_7,
+                            "keyword": keyword
+                        })
+
+                        db_message = "데이터베이스에 성공적으로 추가/업데이트 하였습니다."
+
+                except Exception as db_e:
+                    db_message = f"데이터베이스 저장 실패 혹은 중복 데이터가 발생했습니다. : {str(db_e)}"
+
+            else:
+                db_message = f"90일치 데이터가 아니기에 DB 저장은 건너뜁니다."
 
             result_data = df[['period', 'relative_ratio']].to_dict(orient='records')
 
@@ -125,5 +167,5 @@ if __name__ == '__main__':
     if keyword:
         search_keyword(keyword, search_range)
     else:
-        # search_keyword("아아", 90)
+        # search_keyword("Hello World", 90)
         print(json.dumps({"status": "error", "message": "naver 에러: 키워드를 전달받지 못했습니다."}))

@@ -25,7 +25,7 @@ youtube = build('youtube', 'v3', developerKey=youtube_api_key)
 # 설정값
 MAX_VIDEOS = 150
 WEAK = 7
-DEFAULT_KEYWORD = "슬랙스"
+DEFAULT_KEYWORD = "Hello World"
 SEARCHING_RECOMMEND_VIDEO_COUNTS = 1
 
 # 시간
@@ -237,15 +237,20 @@ def run_search(keyword):
 
     return result_json
 
-def search_recommend_videos(keyword, video_count=SEARCHING_RECOMMEND_VIDEO_COUNTS):
+def search_recommend_videos(keyword, video_count=1, search_range=90):
+    search_days = int(search_range)
+    target_date = datetime.now(timezone.utc) - timedelta(days=search_days)
+    recommend_videos_period = target_date.strftime('%Y-%m-%dT%H:%M:%SZ')
+
     try:
         search_request = youtube.search().list(
             part='snippet',
-            q=keyword,
+            q=f'"{keyword}"',
             type='video',
             order='viewCount', # 가장 조회수가 많은 영상을 가져옴.
             regionCode="KR",
-            maxResults=video_count
+            maxResults=video_count,
+            publishedAfter=recommend_videos_period,
         )
         search_response = search_request.execute()
     except Exception as e:
@@ -266,15 +271,16 @@ def search_recommend_videos(keyword, video_count=SEARCHING_RECOMMEND_VIDEO_COUNT
             part='snippet, status, statistics, contentDetails',
             id = ','.join(video_ids)
         )
-        vidoes_response = videos_request.execute()
+        videos_response = videos_request.execute()
     except Exception as e:
         print(f"추천 영상의 정보를 가져오는 중 에러 발생: {e}")
         return []
 
-    filtered_items = vidoes_response.get('items', [])
+    filtered_items = videos_response.get('items', [])
     results = []
-    conn = get_db_connection()
+    # conn = get_db_connection()
 
+    '''
     try:
         with conn.cursor() as cursor:
             sql_query = """
@@ -328,12 +334,53 @@ def search_recommend_videos(keyword, video_count=SEARCHING_RECOMMEND_VIDEO_COUNT
                 })
             conn.commit()
             print(f"추천 영상을 DB에 저장했습니다")
+        
+    '''
 
+    for item in filtered_items:
+        status = item['status']
+        content_details = item.get('contentDetails', {})
+
+        if status.get('privacyStatus') != 'public' or status.get('uploadStatus') != 'processed':
+            continue
+
+        if status.get('embeddable') is False:
+            continue
+
+        content_rating = content_details.get('contentRating', {})
+        if content_rating and (content_rating.get('ytRating') == 'ytAgeRestricted'):
+            continue
+
+        video_id = item.get('id')
+        snippet = item.get('snippet', {})
+
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
+        title = snippet.get('title', '')
+
+        raw_time = snippet.get('publishedAt')
+        if raw_time:
+            try:
+                created_at = datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
+                created_at_str = created_at.strftime('%Y-%m-%d %H:%M:%S')
+            except Exception as e:
+                created_at_str = None
+        else:
+            created_at_str = None
+
+        results.append({
+            "type": "youtube",
+            "url": video_url,
+            "full_text": title,
+            "created_at": created_at_str
+        })
+
+    '''
     except Exception as e:
         print(f"API로 추천 영상을 서칭하는 중 오류가 발생했습니다: {e}")
         conn.rollback()
     finally:
         conn.close()
+    '''
 
     return results
 

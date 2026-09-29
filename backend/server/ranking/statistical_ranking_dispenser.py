@@ -1,7 +1,7 @@
 import pymysql, os, sys
 import uvicorn
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from fastapi.concurrency import run_in_threadpool
@@ -28,69 +28,125 @@ def get_db_connection():
     return pymysql.connect(host=DB_CONFIG["host"], user=DB_CONFIG["user"], password=DB_CONFIG["password"],
                            database=DB_CONFIG["database"], charset=DB_CONFIG["charset"])
 
-# X 언급량 통계
-@app.get("/get_mention_volume_ranking")
-def get_mention_volume_ranking():
+@app.get("/api/rankings")
+def get_trend_ranking(period: int = Query(7)):
+    if period not in [7, 30, 90]:
+        period = 7
+
     conn = get_db_connection()
     try:
         with conn.cursor(pymysql.cursors.DictCursor) as cursor:
-            sql_query = """
-                    select k.keyword_id, k.target_keyword, count(x.keyword_id) as mention_count from keyword k
-                    join x_tweet x on x.keyword_id = k.keyword_id where x.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
-                    group by k.keyword_id, k.target_keyword order by mention_count desc limit 30; 
-                """
-            cursor.execute(sql_query)
-            results = cursor.fetchall()
+            # 실시간 트렌드 - 통합 급상승 순위
+            cursor.execute(f"""
+                SELECT k.keyword_id, k.target_keyword, 
+                       (IFNULL(k.naver_t_score_{period}, 0) + IFNULL(k.google_t_score_{period}, 0)) / 2 AS score,
+                       (IFNULL(k.naver_delta_{period}, 0) + IFNULL(k.google_delta_{period}, 0)) AS delta,
+                       COUNT(t.tweet_id) AS mention_count
+                FROM keyword k
+                LEFT JOIN x_tweet t ON k.keyword_id = t.keyword_id 
+                                   AND t.created_at >= DATE_SUB(NOW(), INTERVAL {period} DAY)
+                GROUP BY k.keyword_id
+                ORDER BY delta DESC LIMIT 10;
+            """)
+            integrated_surge = cursor.fetchall()
 
-            return {
-                "status": "success",
-                "message": "언급량 랭킹을 성공적으로 불러왔습니다.",
-                "count": len(results),
-                "data": results
+            # 실시간 트렌드 - 통합 언급량 순위
+            cursor.execute(f"""
+                SELECT k.keyword_id, k.target_keyword, 
+                       (IFNULL(k.naver_t_score_{period}, 0) + IFNULL(k.google_t_score_{period}, 0)) / 2 AS score,
+                       (IFNULL(k.naver_delta_{period}, 0) + IFNULL(k.google_delta_{period}, 0)) AS delta,
+                       COUNT(t.tweet_id) AS mention_count
+                FROM keyword k
+                LEFT JOIN x_tweet t ON k.keyword_id = t.keyword_id 
+                                   AND t.created_at >= DATE_SUB(NOW(), INTERVAL {period} DAY)
+                GROUP BY k.keyword_id
+                ORDER BY mention_count DESC LIMIT 10;
+            """)
+            integrated_mention = cursor.fetchall()
+
+            # 실시간 트렌드 - 네이버 급상승 순위
+            cursor.execute(f"""
+                SELECT k.keyword_id, k.target_keyword, 
+                       k.naver_t_score_{period} AS score, 
+                       k.naver_delta_{period} AS delta, 
+                       COUNT(t.tweet_id) AS mention_count
+                FROM keyword k
+                LEFT JOIN x_tweet t ON k.keyword_id = t.keyword_id 
+                                   AND t.created_at >= DATE_SUB(NOW(), INTERVAL {period} DAY)
+                WHERE k.naver_delta_{period} IS NOT NULL
+                GROUP BY k.keyword_id
+                ORDER BY delta DESC LIMIT 10;
+            """)
+            naver_surge = cursor.fetchall()
+
+            # 실시간 트렌드 - 네이버 언급량 순위
+            cursor.execute(f"""
+                SELECT k.keyword_id, k.target_keyword, 
+                       k.naver_t_score_{period} AS score, 
+                       k.naver_delta_{period} AS delta,
+                       COUNT(t.tweet_id) AS mention_count
+                FROM keyword k
+                LEFT JOIN x_tweet t ON k.keyword_id = t.keyword_id 
+                                   AND t.created_at >= DATE_SUB(NOW(), INTERVAL {period} DAY)
+                WHERE k.naver_t_score_{period} IS NOT NULL
+                GROUP BY k.keyword_id
+                ORDER BY mention_count DESC LIMIT 10;
+            """)
+            naver_mention = cursor.fetchall()
+
+            # 실시간 트렌드 - 구글 급상승 순위
+            cursor.execute(f"""
+                SELECT k.keyword_id, k.target_keyword, 
+                       k.google_t_score_{period} AS score, 
+                       k.google_delta_{period} AS delta, 
+                       COUNT(t.tweet_id) AS mention_count
+                FROM keyword k
+                LEFT JOIN x_tweet t ON k.keyword_id = t.keyword_id 
+                                   AND t.created_at >= DATE_SUB(NOW(), INTERVAL {period} DAY)
+                WHERE k.google_delta_{period} IS NOT NULL
+                GROUP BY k.keyword_id
+                ORDER BY delta DESC LIMIT 10;
+            """)
+            google_surge = cursor.fetchall()
+
+            # 실시간 트렌드 - 구글 언급량 순위
+            cursor.execute(f"""
+                SELECT k.keyword_id, k.target_keyword, 
+                       k.google_t_score_{period} AS score, 
+                       k.google_delta_{period} AS delta,
+                       COUNT(t.tweet_id) AS mention_count
+                FROM keyword k
+                LEFT JOIN x_tweet t ON k.keyword_id = t.keyword_id 
+                                   AND t.created_at >= DATE_SUB(NOW(), INTERVAL {period} DAY)
+                WHERE k.google_t_score_{period} IS NOT NULL
+                GROUP BY k.keyword_id
+                ORDER BY mention_count DESC LIMIT 10;
+            """)
+            google_mention = cursor.fetchall()
+
+        return {
+            "status": "success",
+            "data": {
+                "integrated_surge": integrated_surge,
+                "integrated_mention": integrated_mention,
+                "naver_surge": naver_surge,
+                "naver_mention": naver_mention,
+                "google_surge": google_surge,
+                "google_mention": google_mention
             }
+        }
 
     except Exception as e:
-        print(f"언급량 랭킹을 불러오는데 실패했습니다: {e}")
-        raise HTTPException(status_code=500, detail=f"언급량 랭킹 데이터를 가져오는 중 오류 발생: {str(e)}")
-    finally:
-        conn.close()
-
-# 조회수 통계
-@app.get("/get_search_volume_ranking")
-def get_search_volume_ranking():
-    conn = get_db_connection()
-    try:
-        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
-            # 중요: 현재 네이버/구글의 한 달간 상대적 검색량의 합계를 보내는데 이에 대해 피드백이 필요
-            sql_query = """
-                    select k.keyword_id, k.target_keyword, SUM(search_data.relative_ratio) as total_relative_ratio from keyword k
-                    join (select keyword_id, relative_ratio from google where period >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
-                    union all
-                    select keyword_id, relative_ratio from naver where period >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) 
-                    as search_data on k.keyword_id = search_data.keyword_id
-                    group by k.keyword_id, k.target_keyword order by total_relative_ratio desc limit 30;
-                """
-            cursor.execute(sql_query)
-            results = cursor.fetchall()
-
-            return {
-                "status": "success",
-                "message": "검색량 랭킹을 성공적으로 불러왔습니다.",
-                "count": len(results),
-                "data": results
-            }
-
-    except Exception as e:
-        print(f"조회수 랭킹을 불러오는데 실패했습니다: {e}")
-        raise HTTPException(status_code=500, detail=f"조회수 랭킹 데이터를 가져오는 중 오류 발생: {str(e)}")
+        print(f"랭킹 조회 에러: {e}")
+        raise HTTPException(status_code=500, detail="랭킹 데이터를 불러오는데 실패했습니다.")
     finally:
         conn.close()
 
 # 키워드에 대한 최고 조회수 영상
 @app.get("/get_recommended_video")
-async def get_recommended_video(keyword: str):
+async def get_recommended_video(keyword: str, period: int=90):
     try:
-        videos = await run_in_threadpool(search_recommend_videos, keyword)
+        videos = await run_in_threadpool(search_recommend_videos, keyword, 1, period)
 
         if not videos:
             return {
@@ -110,9 +166,9 @@ async def get_recommended_video(keyword: str):
 
 # 키워드에 대한 최고 조회수 트윗
 @app.get("/get_recommended_tweet")
-async def get_recommended_tweet(keyword: str):
+async def get_recommended_tweet(keyword: str, period: int=90):
     try:
-        tweets = await run_in_threadpool(search_trending_tweets, keyword)
+        tweets = await run_in_threadpool(search_trending_tweets,keyword, 1, period)
 
         if not tweets:
             return {

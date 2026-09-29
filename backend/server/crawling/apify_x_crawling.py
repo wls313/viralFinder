@@ -14,8 +14,6 @@ from config.config import apify_api_key, host_ip, user_value, password_value, da
 
 client = ApifyClient(apify_api_key)
 TWITS_NUM = 100
-START_DATE = (datetime.now() - timedelta(weeks=2)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
-END_DATE = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 SEARCHING_TWEETS_COUNTS = 1
 
 def get_db_connection():
@@ -40,8 +38,12 @@ def get_keyword_id(keyword):
     finally:
         conn.close()
 
-def search_x(keyword):
+def search_x(keyword, search_range=90):
     keyword_id = get_keyword_id(keyword)
+    search_days = int(search_range)
+
+    start_date = (datetime.now() - timedelta(days=search_days)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    end_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
     run_input = {
         "searchTerms": [
@@ -57,8 +59,8 @@ def search_x(keyword):
             "useApifyProxy": True,
             "apifyProxyGroups": ["RESIDENTIAL"]
         },
-        "start": START_DATE,
-        "end": END_DATE
+        "start": start_date,
+        "end": end_date
     }
 
     results = []
@@ -68,6 +70,14 @@ def search_x(keyword):
         items = list(client.dataset(run.default_dataset_id).iterate_items())
 
         conn = get_db_connection()
+        cursor = None
+        if search_days == 90:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            if search_days == 90:
+                conn = get_db_connection()
+                cursor = conn.cursor()
+
         try:
             with conn.cursor() as cursor:
                 sql_query = """
@@ -92,35 +102,31 @@ def search_x(keyword):
                     tweet_id = item.get("id")
                     tweet_url = item.get("url") or f"https://x.com/{screen_name}/status/{tweet_id}"
 
-                    values = (
-                        tweet_id,
-                        keyword_id,
-                        item.get("full_text") or item.get("text"),
-                        created_at,
-                        user.get("userName"),
-                        int(user.get("id", 0)),
-                        item.get("likeCount", 0),
-                        item.get("retweetCount", 0),
-                        item.get("replyCount", 0),
-                        item.get("quoteCount", 0),
-                        item.get("viewCount", 0),
-                        tweet_url
-                    )
-                    cursor.execute(sql_query, values)
+                    results.append({
+                        "id": tweet_id,
+                        "content": full_text,
+                        "screen_name": screen_name,
+                        "user_id": int(user.get("id", 0)),
+                        "likes": item.get("likeCount", 0),
+                        "retweets": item.get("retweetCount", 0),
+                        "views": item.get("viewCount", 0),
+                        "url": tweet_url
+                    })
 
-                results.append({
-                    "id": tweet_id,
-                    "content": full_text,
-                    "screen_name": screen_name,
-                    "user_id": int(user.get("id", 0)),
-                    "likes": item.get("likeCount", 0),
-                    "retweets": item.get("retweetCount", 0),
-                    "views": item.get("viewCount", 0),
-                    "url": tweet_url
-                })
+                    if search_days == 90 and cursor:
+                        values = (
+                            tweet_id, keyword_id, full_text, created_at, screen_name,
+                            int(user.get("id", 0)), item.get("likeCount", 0),
+                            item.get("retweetCount", 0), item.get("replyCount", 0),
+                            item.get("quoteCount", 0), item.get("viewCount", 0), tweet_url
+                        )
+                        cursor.execute(sql_query, values)
 
-                conn.commit()
-                print(f"{len(items)}개의 트윗을 저장했습니다!")
+                if search_days == 90 and conn:
+                    conn.commit()
+                    print(f"{len(items)}개의 트윗을 저장했습니다!")
+                else:
+                    print(f"{len(items)}개의 트윗을 크롤링했으며, 저장은 생략합니다!")
 
         except Exception as e:
             print(f"데이터베이스를 저장하는 중 오류가 발생했습니다! : {e}")
@@ -133,7 +139,11 @@ def search_x(keyword):
 
     return results
 
-def search_trending_tweets(keyword, tweet_count=SEARCHING_TWEETS_COUNTS):
+def search_trending_tweets(keyword, tweet_count=SEARCHING_TWEETS_COUNTS, search_range=90):
+    search_days = int(search_range)
+    start_date = (datetime.now() - timedelta(days=search_days)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    end_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
+
     run_input = {
         "searchTerms": [
             f'"{keyword}" OR "#{keyword}"'
@@ -145,7 +155,9 @@ def search_trending_tweets(keyword, tweet_count=SEARCHING_TWEETS_COUNTS):
         "proxyConfig": {
             "useApifyProxy": True,
             "apifyProxyGroups": ["RESIDENTIAL"]
-        }
+        },
+        "start": start_date,
+        "end": end_date
     }
 
     results=[]

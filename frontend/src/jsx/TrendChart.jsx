@@ -11,7 +11,7 @@ import {
 
 import '../css/chart.css';
 
-function TrendChart({result}) {
+function TrendChart({result, period}) {
   console.log("result: ", result)
 
   const naverData =
@@ -68,7 +68,7 @@ function TrendChart({result}) {
   return (
     <div className="chart-card">
       <div className="chart-header">
-        <h3>트렌드 검색량 변화</h3>
+        <h3>트렌드 검색량 변화(검색: 최근 {period}일)</h3>
 
       </div>
 

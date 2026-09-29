@@ -10,7 +10,7 @@ import TopContent from './TopContent';
 import '../css/dashboard.css';
 
 
-function Dashboard({ keyword, result }) {
+function Dashboard({ keyword, result , period}) {
   return (
     <section className="dashboard">
       <div className="dashboard-top">
@@ -25,7 +25,7 @@ function Dashboard({ keyword, result }) {
 
       <div className="dashboard-grid">
         <div className="left-content">
-          <TrendChart result={result}/>
+          <TrendChart result={result} period={period}/>
 
           <TopContent keyword={keyword}/>
 

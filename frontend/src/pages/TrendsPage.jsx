@@ -2,26 +2,33 @@ import { useState, useEffect } from "react";
 import { getTrendsData, isLiveRanking } from "../api/trendsApi";
 import "../css/trends.css";
 
-const PLATFORM_LABEL = { all: "통합", naver: "네이버", youtube: "유튜브", x: "X" };
+const PLATFORM_LABEL = { all: "통합", naver: "네이버", google: "구글"};
 
-function TrendsPage() {
+function TrendsPage({period, onSearch}) {
   const [platform, setPlatform] = useState("all");
   const [rankType, setRankType] = useState("growth");
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(() => {
+    const savedFavorites = localStorage.getItem("myFavorites");
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    localStorage.setItem("myFavorites", JSON.stringify(favorites));
+  }, [favorites]);
+
+  useEffect(() => {
     let ignore = false;
     setLoading(true);
-    getTrendsData(platform, rankType).then((result) => {
+    getTrendsData(platform, rankType, period).then((result) => {
       if (!ignore) {
         setData(result);
         setLoading(false);
       }
     });
     return () => { ignore = true; };
-  }, [platform, rankType]);
+  }, [platform, rankType, period]);
 
   const toggleFavorite = (keyword) => {
     setFavorites(prev =>
@@ -38,10 +45,10 @@ function TrendsPage() {
       <div className="section-header">
         <div>
           <h2>실시간 트렌드</h2>
-          <p>{live ? "네이버 · 구글 · X 기반 실시간 랭킹" : "인기 키워드 (예시 데이터, 백엔드 연동 전)"}</p>
+          <p>{live ? "네이버 · 구글 기반 실시간 랭킹" : "인기 키워드 (예시 데이터, 백엔드 연동 전)"}</p>
         </div>
         <div className="top-tabs">
-          {["all", "naver", "youtube", "x"].map((p) => (
+          {["all", "naver", "google"].map((p) => (
             <button key={p} className={platform === p ? "active" : ""} onClick={() => setPlatform(p)}>
               {PLATFORM_LABEL[p]}
             </button>
@@ -76,7 +83,13 @@ function TrendsPage() {
                     <tr key={item.keyword}>
                       <td><span className="rank-badge">{item.rank}</span></td>
                       <td className="keyword-cell">{item.keyword}</td>
-                      <td className="up">{item.growth != null ? `▲ ${item.growth}` : "-"}</td>
+                      <td className={parseFloat(item.growth) > 0 ? "up" : (parseFloat(item.growth) < 0 ? "down" : "")}>
+                        {item.growth != null && parseFloat(item.growth) !== 0 ? (
+                            parseFloat(item.growth) > 0
+                                ? `▲ ${item.growth}`
+                                : `▼ ${Math.abs(item.growth).toFixed(1)}`
+                        ) : "-"}
+                      </td>
                       <td>{item.count != null ? item.count : "-"}</td>
                       <td>
                         <button className="favorite-btn" onClick={() => toggleFavorite(item.keyword)}>
@@ -97,7 +110,12 @@ function TrendsPage() {
           ) : (
             favorites.map((keyword) => (
               <div className="favorite-item" key={keyword}>
-                <span>{keyword}</span>
+                <span
+                    style={{ cursor: "pointer", transition: "color 0.2s" }}
+                    onMouseEnter={(e) => e.target.style.color = "#007bff"}
+                    onMouseLeave={(e) => e.target.style.color = "inherit"}
+                    onClick={() => onSearch(keyword)}
+                >{keyword}</span>
                 <button className="favorite-remove-btn" onClick={() => toggleFavorite(keyword)}>♥</button>
               </div>
             ))
