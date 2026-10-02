@@ -2,14 +2,12 @@ import pandas as pd
 
 SHORT_WINDOW_DAYS = 3
 LONG_WINDOW_DAYS = 14
-MIN_DAYS_FOR_TREND = 7  # 장기 평균이 이 정도 날짜는 커버해야 판단을 신뢰
+MIN_DAYS_FOR_TREND = 7
 UP_THRESHOLD = 1.05
 DOWN_THRESHOLD = 0.95
 
 
 def _clean_series(df: pd.DataFrame, value_col: str) -> pd.Series:
-    """같은 period에 값이 여러 개면(search_range가 달라 재정규화된 경우 포함)
-    가장 최근에 수집된 값(created_at 기준)을 그 날짜의 대표값으로 사용한다."""
     if value_col not in df.columns or df.empty:
         return pd.Series(dtype=float)
     d = df.sort_values("created_at") if "created_at" in df.columns else df
@@ -18,7 +16,6 @@ def _clean_series(df: pd.DataFrame, value_col: str) -> pd.Series:
 
 
 def _windowed_avg(series: pd.Series, days: int, as_of):
-    """as_of 기준 최근 N일(달력 기준) 구간의 평균과, 실제로 커버된 날짜 수를 반환."""
     if series.empty:
         return None, 0
     start = as_of - pd.Timedelta(days=days - 1)
@@ -29,8 +26,6 @@ def _windowed_avg(series: pd.Series, days: int, as_of):
 
 
 def _momentum(series: pd.Series, as_of):
-    """단기/장기 평균 비교로 UP/DOWN/STAY/INSUFFICIENT_DATA 판정.
-    커버된 날짜 수가 부족하면 STAY가 아니라 명시적으로 INSUFFICIENT_DATA를 반환한다."""
     short_avg, _ = _windowed_avg(series, SHORT_WINDOW_DAYS, as_of)
     long_avg, long_days = _windowed_avg(series, LONG_WINDOW_DAYS, as_of)
 
@@ -56,9 +51,6 @@ def _momentum(series: pd.Series, as_of):
 
 
 def analyze_viral_traffic(trend_df: pd.DataFrame):
-    """네이버/구글 검색지수의 단기-장기 모멘텀을 각각 독립적으로 판정하고,
-    둘을 보수적으로 합성해 math_prediction을 만든다.
-    (유튜브/X 신호는 여기서 다루지 않는다 - 상위 계층 프롬프트에서 별도 신호로 결합할 것)"""
     if trend_df is None or trend_df.empty:
         empty = {"short_term_avg": 0.0, "long_term_avg": 0.0, "prediction": "INSUFFICIENT_DATA"}
         return {
@@ -82,7 +74,7 @@ def analyze_viral_traffic(trend_df: pd.DataFrame):
     elif len(set(preds)) == 1:
         math_prediction = preds[0]
     else:
-        math_prediction = "STAY"  # 네이버/구글 신호가 엇갈리면 단정하지 않고 보수적으로 STAY
+        math_prediction = "STAY"
 
     return {
         "latest_naver_ratio": float(naver_series.iloc[-1]) if not naver_series.empty else 0.0,
