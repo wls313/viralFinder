@@ -5,5 +5,6 @@ import java.util.List;
 public record TrendAnalysisResult(
         TrendDto aiAnalysis,
         String mathPrediction,
-        List<CaseMatchDto> similarCases
+        List<CaseMatchDto> similarCases,
+        ForecastDto forecast
 ) {}

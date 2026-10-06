@@ -125,7 +125,6 @@ create table trend_analysis
     keyword_name         varchar(100)   not null,
     analyzed_at          datetime       not null default current_timestamp,
 
-    -- 입력 스냅샷 (규칙기반 판정 근거)
     latest_naver_ratio   decimal(5, 2),
     latest_google_ratio  decimal(5, 2),
     naver_short_term_avg decimal(5, 2),
@@ -134,7 +133,6 @@ create table trend_analysis
 
     matched_case_ids     json comment '참고한 trend_case.case_id 목록',
 
-    -- LLM 결과
     trend_status         varchar(20)    not null comment 'RISING / PEAKING / DECLINING / INSUFFICIENT_DATA',
     analysis_reason      text,
     recommended_items    json,
@@ -142,7 +140,6 @@ create table trend_analysis
     model_name           varchar(50),
     prompt_version       varchar(20),
 
-    -- 사후 검증용 (나중에 배치나 수동으로 채움)
     actual_outcome        varchar(20),
     verified_at            datetime,
 

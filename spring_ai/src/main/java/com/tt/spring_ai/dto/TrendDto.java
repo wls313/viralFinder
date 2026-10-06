@@ -11,6 +11,7 @@ public record TrendDto(
         RISING,
         PEAKING,
         DECLINING,
+        STEADY,
         INSUFFICIENT_DATA
     }
 }

@@ -1,40 +1,47 @@
 package com.tt.spring_ai.service;
 
 import com.tt.spring_ai.dto.CaseMatchDto;
+import com.tt.spring_ai.dto.ForecastDto;
 import com.tt.spring_ai.dto.PythonTrendDto;
 import com.tt.spring_ai.dto.TrendAnalysisResult;
 import com.tt.spring_ai.dto.TrendDto;
 import com.tt.spring_ai.entity.TrendAnalysis;
 import com.tt.spring_ai.repository.TrendAnalysisRepository;
+import com.tt.spring_ai.service.CaseSimilarityService.CaseWindowMatch;
 import com.tt.spring_ai.util.JsonUtils;
 import com.tt.spring_ai.util.TrendSeriesUtils;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class TrendAnalysisService {
 
-    private static final int TOP_K_CASES = 3;
+    private static final int TOP_K_CASES = 3;        // 화면/프롬프트에 보여줄 유사 사례 수
+    private static final int FORECAST_CASES = 25;    // 예측선 계산에 참고할 유사 사례 수
     private static final String MODEL_NAME = "gemini-2.5-flash";
-    private static final String PROMPT_VERSION = "v2-case-rag";
+    private static final String PROMPT_VERSION = "v3-forecast";
 
     private final PythonAnalysisClient pythonAnalysisClient;
     private final CaseSimilarityService caseSimilarityService;
+    private final ForecastService forecastService;
     private final TrendPromptBuilder promptBuilder;
     private final TrendAnalysisRepository trendAnalysisRepository;
     private final ChatClient chatClient;
 
     public TrendAnalysisService(PythonAnalysisClient pythonAnalysisClient,
                                  CaseSimilarityService caseSimilarityService,
+                                 ForecastService forecastService,
                                  TrendPromptBuilder promptBuilder,
                                  TrendAnalysisRepository trendAnalysisRepository,
                                  ChatClient.Builder chatClientBuilder) {
         this.pythonAnalysisClient = pythonAnalysisClient;
         this.caseSimilarityService = caseSimilarityService;
+        this.forecastService = forecastService;
         this.promptBuilder = promptBuilder;
         this.trendAnalysisRepository = trendAnalysisRepository;
         this.chatClient = chatClientBuilder.build();
@@ -44,9 +51,18 @@ public class TrendAnalysisService {
         PythonTrendDto pythonData = pythonAnalysisClient.fetchAnalysis(keyword, period);
 
         List<Double> querySeries = TrendSeriesUtils.buildQuerySeries(pythonData.naverTrend());
-        List<CaseMatchDto> similarCases = caseSimilarityService.findSimilarCases(querySeries, TOP_K_CASES);
+        List<Double> window = ForecastService.recentWindow(querySeries);
+        LocalDate lastDate = TrendSeriesUtils.lastDate(pythonData.naverTrend());
 
-        String prompt = promptBuilder.build(keyword, pythonData, similarCases, querySeries.size());
+        List<CaseWindowMatch> matches =
+                caseSimilarityService.findBestWindows(window, FORECAST_CASES, ForecastService.FORECAST_DAYS);
+        List<CaseMatchDto> similarCases = matches.isEmpty()
+                ? caseSimilarityService.findSimilarCases(window, TOP_K_CASES)
+                : caseSimilarityService.toDisplay(matches, TOP_K_CASES);
+
+        ForecastDto forecast = forecastService.forecast(window, lastDate, matches);
+
+        String prompt = promptBuilder.build(keyword, pythonData, similarCases, window.size(), forecast);
         TrendDto aiResult = callAiAndParse(prompt);
 
         String mathPrediction = (pythonData.trends() != null && pythonData.trends().mathPrediction() != null)
@@ -54,7 +70,7 @@ public class TrendAnalysisService {
 
         saveAnalysisLog(pythonData, similarCases, aiResult, mathPrediction);
 
-        return new TrendAnalysisResult(aiResult, mathPrediction, similarCases);
+        return new TrendAnalysisResult(aiResult, mathPrediction, similarCases, forecast);
     }
 
     private TrendDto callAiAndParse(String prompt) {
