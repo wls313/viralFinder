@@ -8,10 +8,11 @@ const PROBABILITY_INFO = {
   LOW: { label: "상승 확률 낮음", color: "#ef4444" },
 };
 
-// min Spring AI TrendDto.TrendStatus -> PROBABILITY_INFO 키 매핑
+// feature/min TrendDto.TrendStatus -> PROBABILITY_INFO 키 매핑
 const TREND_STATUS_TO_PROBABILITY = {
   RISING: "HIGH",
   PEAKING: "MEDIUM",
+  STEADY: "MEDIUM", // min 신규 (구버전 STABLE도 대비)
   STABLE: "MEDIUM",
   DECLINING: "LOW",
   INSUFFICIENT_DATA: "LOW",
@@ -22,6 +23,7 @@ const OUTCOME_INFO = {
   FADED: { label: "급락 후 소멸", color: "#ef4444" },
   SUSTAINED: { label: "꾸준히 유지", color: "#22c55e" },
   REIGNITED: { label: "재점화", color: "#f59e0b" },
+  STEADY: { label: "꾸준히 검색", color: "#3b82f6" },
 };
 
 // 백엔드(Spring AI) 미기동/실패 시 보여줄 예시 데이터
@@ -49,12 +51,40 @@ const DUMMY_COMMENT = {
       distance: 215.94822389502443,
     },
   ],
+  // feature/min 예측 예시 (선택)
+  forecast: {
+    steady: false,
+    headline: "앞으로 1~2개월은 관심이 더 줄어들 가능성이 큽니다.",
+    milestones: [
+      { months: 1, percentOfNow: 70, status: "관심 감소" },
+      { months: 2, percentOfNow: 45, status: "관심 감소" },
+      { months: 3, percentOfNow: 30, status: "관심 감소" },
+    ],
+    peakInDays: null,
+    peakTimesNow: null,
+    basedOnCases: 3,
+  },
+};
+
+/** forecast가 없거나 필드명이 달라도 UI가 깨지지 않도록 정규화 */
+const normalizeForecast = (raw) => {
+  if (!raw || typeof raw !== "object") return null;
+  return {
+    steady: Boolean(raw.steady),
+    headline: raw.headline ?? null,
+    milestones: Array.isArray(raw.milestones) ? raw.milestones : [],
+    peakInDays: raw.peakInDays ?? null,
+    peakTimesNow: raw.peakTimesNow ?? null,
+    basedOnCases: raw.basedOnCases ?? null,
+    outcomeShare: raw.outcomeShare ?? null,
+  };
 };
 
 function GraphComment({ keyword, result, period = "1w" }) {
   const [comment, setComment] = useState(null);
   const [probability, setProbability] = useState(null);
   const [similarCases, setSimilarCases] = useState([]);
+  const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isDummy, setIsDummy] = useState(false);
 
@@ -72,6 +102,7 @@ function GraphComment({ keyword, result, period = "1w" }) {
       setComment(DUMMY_COMMENT.comment);
       setProbability(DUMMY_COMMENT.probability);
       setSimilarCases(DUMMY_COMMENT.similarCases);
+      setForecast(normalizeForecast(DUMMY_COMMENT.forecast));
       setIsDummy(true);
       setLoading(false);
       return;
@@ -90,9 +121,8 @@ function GraphComment({ keyword, result, period = "1w" }) {
 
         if (ignore) return;
 
-        // TrendAnalysisResult 구조:
-        // { aiAnalysis: { trendStatus, analysisReason, recommendedItems },
-        //   mathPrediction, similarCases: [{ caseId, keyword, outcome, summaryText, distance }] }
+        // TrendAnalysisResult (feature/min):
+        // { aiAnalysis, mathPrediction, similarCases, forecast }
         const resolvedComment =
           data?.comment ??
           data?.aiAnalysis?.analysisReason ??
@@ -112,6 +142,7 @@ function GraphComment({ keyword, result, period = "1w" }) {
         setComment(resolvedComment);
         setProbability(resolvedProbability);
         setSimilarCases(Array.isArray(cases) ? cases : []);
+        setForecast(normalizeForecast(data?.forecast));
         setIsDummy(false);
       } catch (err) {
         console.error("get_graph_comment 호출 실패:", err);
@@ -120,6 +151,7 @@ function GraphComment({ keyword, result, period = "1w" }) {
           setComment(DUMMY_COMMENT.comment);
           setProbability(DUMMY_COMMENT.probability);
           setSimilarCases(DUMMY_COMMENT.similarCases);
+          setForecast(normalizeForecast(DUMMY_COMMENT.forecast));
           setIsDummy(true);
         }
       } finally {
@@ -156,6 +188,57 @@ function GraphComment({ keyword, result, period = "1w" }) {
       </div>
 
       <p className="graph-comment-text">{comment}</p>
+
+      {/* feature/min: 예측 요약 */}
+      {forecast && (
+        <div className="forecast-section">
+          <h4 className="forecast-title">향후 예측</h4>
+
+          {forecast.headline && (
+            <p className="forecast-headline">{forecast.headline}</p>
+          )}
+
+          {forecast.steady && (
+            <span className="forecast-steady-badge">꾸준한 상품</span>
+          )}
+
+          {forecast.milestones?.length > 0 && (
+            <ul className="forecast-milestones">
+              {forecast.milestones.map((m) => (
+                <li key={m.months}>
+                  <strong>{m.months}개월 뒤</strong>
+                  {m.percentOfNow != null && (
+                    <>
+                      {" "}
+                      · 최근 1주 평균의 약{" "}
+                      {(Number(m.percentOfNow) / 100).toFixed(1)}배
+                    </>
+                  )}
+                  {m.status ? ` (${m.status})` : ""}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {forecast.peakInDays != null && (
+            <p className="forecast-peak">
+              예측 정점: 약 {forecast.peakInDays}일 뒤
+              {forecast.peakTimesNow != null && (
+                <>
+                  , 최근 1주 평균의 약 {Number(forecast.peakTimesNow).toFixed(1)}
+                  배
+                </>
+              )}
+            </p>
+          )}
+
+          {forecast.basedOnCases != null && (
+            <p className="forecast-meta">
+              참고 유사 사례 {forecast.basedOnCases}건 기준
+            </p>
+          )}
+        </div>
+      )}
 
       {/* 서브: 유사 사례 */}
       {similarCases.length > 0 && (
